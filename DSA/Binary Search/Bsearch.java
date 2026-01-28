@@ -1,7 +1,7 @@
 public class Bsearch {
     public static void main(String[] args) {
-        int[] arr = {200, 125, 96, 86, 76, 50, 40};
-        int target = 96;
+        int[] arr = {4,5,6,7,0,1,2};
+        int target = 0;
 
         if (check(arr)) {
             System.out.println(Bsearch(arr, target));
