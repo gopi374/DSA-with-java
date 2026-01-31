@@ -5,6 +5,8 @@ class str{
         s1="user 1";
         str(s1);
         index(s1);
+        length(s1);
+        compare(s1);
 
     }
 
@@ -20,4 +22,16 @@ class str{
         int index=str.indexOf(' ');
         System.out.println(index);
     }
+    //to get the length of string
+    static void length(String str){
+        int index=str.length();
+        System.out.println(index);
+    }
+    // comparing strings
+    static void compare(String str){
+        String str2="gopi"; 
+        boolean com =str.equals(str2);
+        System.out.println(com);
+    }
+
 }
