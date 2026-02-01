@@ -10,5 +10,6 @@ public class SB {
         System.out.println(builder.capacity());
         System.out.println(builder.deleteCharAt(2));// cdeleted
         System.out.println(builder.isEmpty());
+        System.out.println(builder.reverse());
     }
 }
