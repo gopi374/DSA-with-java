@@ -5,11 +5,13 @@ public class SB {
             char a =(char)('a'+i);
             builder.append(a);
         }
+        String str ="b";
         System.out.println(builder.toString());
         System.out.println(builder.substring(1,20));
         System.out.println(builder.capacity());
         System.out.println(builder.deleteCharAt(2));// cdeleted
         System.out.println(builder.isEmpty());
         System.out.println(builder.reverse());
+        System.out.println(builder.replace(0, 26,builder));
     }
 }
