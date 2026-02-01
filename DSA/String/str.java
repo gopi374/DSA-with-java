@@ -7,6 +7,7 @@ class str{
         index(s1);
         length(s1);
         compare(s1);
+        compar(s1);
 
     }
 
@@ -31,7 +32,15 @@ class str{
     static void compare(String str){
         String str2="gopi"; 
         boolean com =str.equals(str2);
+        int comp=str.compareTo(str2);
         System.out.println(com);
+        System.out.println(comp);
+    }
+    //comparing with start and ends
+    static void compar(String str){
+        boolean snew = str.startsWith("gopi");
+        boolean Send = str.endsWith("h");
+        System.out.println(snew);
     }
 
 }
