@@ -6,7 +6,10 @@ public class pattern {
         // pattern2(n);
         // pattern3(n);
         // pattern4(n);
-        pattern5(n);
+        // pattern5(n);
+        // pattern6(n);
+        // pattern7(n);
+        pattern8(n);
     }
 
     static void pattern1(int n) {
@@ -107,6 +110,66 @@ public class pattern {
                 else{
                     System.out.print("   ");
                 }
+            }
+            System.out.println();
+        }
+    }
+
+    static void pattern6(int n) {
+
+                           /*
+        * * * * * 
+            * * * *
+                * * *
+                    * *
+                        * 
+                                   */
+
+        for (int row = 0; row < n; row++) {
+            for (int col = 0; col <row*2; col++) {
+               System.out.print(" ");
+            }
+            for(int col=0;col<n-row;col++){
+                System.out.print("*");
+            }
+            System.out.println();
+        }
+    }
+    static void pattern7(int n) {
+
+                           /*
+             *
+           * * *              
+         * * * * *
+       * *  *  * * *   */
+
+        for (int row = 0; row < n; row++) {
+           //space 
+           for (int col = 0; col < n-row-1; col++) {
+              System.out.print(" ");
+            }
+            for(int col =0;col<2*row+1;col++){
+                System.out.print("*");
+            }
+            System.out.println();
+        }
+    }
+    static void pattern8(int n) {
+
+                           /*
+        * * * * *
+        *       *
+        *       *
+        *       *
+        * * * * *
+                      */
+
+        for (int row = 0; row < n; row++) {
+            for (int col = 0; col < row-1; col++) {
+                System.out.print(" ");
+            }
+            for(int col =0;col<2*n-row;col++){
+                System.out.print("*");
             }
             System.out.println();
         }
