@@ -5,7 +5,8 @@ public class pattern {
         // pattern1(n);
         // pattern2(n);
         // pattern3(n);
-        pattern4(n);
+        // pattern4(n);
+        pattern5(n);
     }
 
     static void pattern1(int n) {
@@ -82,6 +83,30 @@ public class pattern {
             //star
             for(int col=0;col<n-row;col++){
                 System.out.print(" *"); 
+            }
+            System.out.println();
+        }
+    }
+
+    static void pattern5(int n) {
+
+                           /*
+        * * * * *
+        *       *
+        *       *
+        *       *
+        * * * * *
+                      */
+
+        for (int row = 0; row < n; row++) {
+            for (int col = 0; col < n; col++) {
+                if(row==0 || row==n-1 || col==0 || col==n-1)
+                {
+                    System.out.print(" * ");
+                }
+                else{
+                    System.out.print("   ");
+                }
             }
             System.out.println();
         }
