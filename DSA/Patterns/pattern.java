@@ -9,7 +9,10 @@ public class pattern {
         // pattern5(n);
         // pattern6(n);
         // pattern7(n);
-        pattern8(n);
+        // pattern8(n);
+        // pattern9(n);
+        pattern10(n);
+        // pattern11(n);
     }
 
     static void pattern1(int n) {
@@ -173,7 +176,57 @@ public class pattern {
             System.out.println();
         }
     }
+
+    static void pattern9(int n) {
+
+                           /*
+             !
+           ! * !              
+         ! * ! * !
+       !  *  !  *  ! *   */
+
+        for (int row = 0; row < n; row++) {
+           //space 
+           for (int col = 0; col < n-row-1; col++) {
+              System.out.print(" ");
+            }
+            for(int col =0;col<2*row+1;col++){
+                if(col%2!=0){
+                System.out.print("!");}
+                else{
+                    System.out.print("*");
+                }
+            }
+            System.out.println();
+        }
+    }  
     
-    
+    static void pattern10(int n) {
+
+                           /*
+            *
+            *  *
+            *  *  *
+            *  *  *  *
+            *  *  *
+            *  *
+            * 
+       */
+
+        for (int row = 0; row < n; row++) {
+           //space 
+           for (int col = 0; col <=row; col++) {
+              System.out.print(" * ");
+            }
+            System.out.println();
+        }
+        for (int row = n-1; row > 0; row--) {
+           //star 
+           for (int col = 0; col <row; col++) {
+              System.out.print(" * ");
+            }
+            System.out.println();
+        }
+    }
 
 }
