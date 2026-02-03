@@ -11,8 +11,8 @@ public class pattern {
         // pattern7(n);
         // pattern8(n);
         // pattern9(n);
-        pattern10(n);
-        // pattern11(n);
+        // pattern10(n);
+        pattern11(n);
     }
 
     static void pattern1(int n) {
@@ -224,6 +224,63 @@ public class pattern {
            //star 
            for (int col = 0; col <row; col++) {
               System.out.print(" * ");
+            }
+            System.out.println();
+        }
+    }
+
+    static void pattern11(int n) {
+
+                           /*
+        * * * * * 
+            * * * *
+                * * *
+                    * *
+                        * 
+                    * *
+                * * *  
+            * * * * 
+        * * * *                   */
+
+        for (int row = 0; row < n; row++) {
+            for (int col = 0; col <row*2; col++) {
+               System.out.print(" ");
+            }
+            for(int col=0;col<n-row;col++){
+                System.out.print("*");
+            }
+            System.out.println();
+        }
+        for(int row=n-2;row>=0;row--){
+            for(int col =0;col<2*row;col++){
+                System.out.print(" ");
+            }
+            for(int col =0;col<n-row;col++){
+                System.out.print("*");
+            }
+            System.out.println();
+        }
+    }
+
+    static void pattern6(int n) {
+
+                           /*
+        * * *   * * *
+        * *       * * 
+        *           *
+                         
+        *           *
+        * *       * *            
+        * * *   * * *
+
+                                   */
+
+        for (int row = 0; row < n; row++) {
+            for (int col = 0; col <row*2; col++) {
+               System.out.print(" ");
+            }
+            for(int col=0;col<n-row;col++){
+                System.out.print("*");
             }
             System.out.println();
         }
