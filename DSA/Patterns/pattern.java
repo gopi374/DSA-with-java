@@ -1,7 +1,7 @@
 
 public class pattern {
     public static void main(String[] args) {
-        int n = 4;
+        int n = 5;
         // pattern1(n);
         // pattern2(n);
         // pattern3(n);
@@ -12,7 +12,34 @@ public class pattern {
         // pattern8(n);
         // pattern9(n);
         // pattern10(n);
-        pattern11(n);
+        // pattern11(n);
+        // pattern12(n);
+        // pattern13(n);
+        pattern14(n);
+    }
+    static void pattern13(int n){
+
+        /*
+         * 
+         *         1
+         *       2 1 2
+         *     3 2 1 2 3
+         *   4 3 2 1 2 3 4
+         * 5 4 3 2 1 2 3 4 5
+         */
+
+        for(int r=1;r<=n;r++){
+            for(int c=0;c<n-r;c++){
+                System.out.print("  ");
+            }
+            for(int c=r;c>=1;c--){
+                System.out.print(c+" ");
+            }
+            for(int c=2;c<=r;c++){
+                System.out.print(c+" ");
+            }
+            System.out.println();
+        }
     }
 
     static void pattern1(int n) {
@@ -149,10 +176,10 @@ public class pattern {
         for (int row = 0; row < n; row++) {
            //space 
            for (int col = 0; col < n-row-1; col++) {
-              System.out.print(" ");
+              System.out.print("   ");
             }
             for(int col =0;col<2*row+1;col++){
-                System.out.print("*");
+                System.out.print(" * ");
             }
             System.out.println();
         }
@@ -261,29 +288,24 @@ public class pattern {
             System.out.println();
         }
     }
-
-    static void pattern6(int n) {
+    static void pattern12(int n) {
 
                            /*
-        * * *   * * *
-        * *       * * 
-        *           *
-                         
-        *           *
-        * *       * *            
-        * * *   * * *
-
-                                   */
+         *  *  *  *  *  *  * 
+            *  *  *  *  *
+               *  *  *
+                  *
+                      */
 
         for (int row = 0; row < n; row++) {
-            for (int col = 0; col <row*2; col++) {
-               System.out.print(" ");
+            for (int col = 0; col < row; col++) {
+                System.out.print(" * ");
             }
-            for(int col=0;col<n-row;col++){
-                System.out.print("*");
+            for(int col =0;col<2*(n-row)-1;col++){
+                System.out.print("   ");
             }
             System.out.println();
         }
     }
 
-}
+   }

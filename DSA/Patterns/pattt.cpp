@@ -2,7 +2,8 @@
 using namespace std;
 
 int main(){
-    int n= 7;
+    int n;
+    cin>>n;
     int mid =n/2;
     for(int row=0;row<mid;row++){
         for(int col=0;col<mid-row;col++){
