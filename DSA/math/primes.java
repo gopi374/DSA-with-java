@@ -1,22 +1,24 @@
-public class primes {
-    public static void main(String[] args) {
-        int n=10;
-        for(int i=2;i<=n;i++){
-            if(isprime(i)){
-                System.out.print(i+" ");
-            }
+public class primes{
+public static int countPrimes(int n) {
+    int count = 0;
+    for (int i = 2; i < n; i++) {
+        if (isPrime(i)) {
+            count++;
         }
+    }
+    return count;
+}
 
+public static boolean isPrime(int num) {
+    if (num < 2) return false;
+    for (int i = 2; i * i <= num; i++) {
+        if (num % i == 0) return false;
     }
-    static boolean isprime(int n){
-        if(n<=1){
-            return false;
-        }
-        for(int i=2;i<=Math.sqrt(n);i++){
-            if(n%i==0){
-                return false;
-            }
-        }
-        return true;
-    }
+    return true;
+}
+
+public static void main(String[] args) {
+    int n = 5000000;
+    System.out.println(countPrimes(n));  // Output: 18
+}
 }

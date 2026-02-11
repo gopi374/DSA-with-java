@@ -14,6 +14,6 @@ class Arraylist{
         System.out.println(list.get(2));// get method is used to access element from arraylist by index
         System.out.println(list.size());        // size method is used to get the size of arraylist
         list.set(2, 90); // set method is used to update element in arraylist by index
-        System.out.println(list);
+        System.out.println(list); 
     }
 }

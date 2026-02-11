@@ -1,7 +1,7 @@
 class bs {
     public static void main(String[] args) {
-        int[] nums={1,3,5,6};
-        int target = 7;
+        int[] nums={-1,5,3,4,0};
+        int target = 4;
        System.out.println(searchInsert(nums,target));
     }
     static  int searchInsert(int[] nums, int target) {
@@ -22,3 +22,4 @@ class bs {
         return -1;
     }
 }
+
