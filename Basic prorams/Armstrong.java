@@ -3,6 +3,7 @@ public class Armstrong {
         int a = 153;
         int ans = 0;
         while(a>0){
+            //Armstrong numbers
             int remind = a%10;
             ans = ans + remind *remind *remind;
             ans += remind;
