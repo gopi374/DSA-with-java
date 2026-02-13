@@ -4,7 +4,7 @@ class Array {
     public static void main(String[] args)
     {
         Scanner sc = new Scanner(System.in);
-        int[] numbers = new int[9];
+        int[] numbers = new int[10];
         numbers[0] = 23;
         numbers[1] = 45;    
         numbers[2] = 67;
@@ -14,6 +14,7 @@ class Array {
         numbers[6] = 56;
         numbers[7] = 78;
         numbers[8] = 90;
+        numbers[9] = 101;
 
         // int a;
         // System.out.println("Enter the index of element you want to add number:");
