@@ -1,7 +1,7 @@
 public class MovingZero {
     public static void main(String[] args) {
         int[] arr={0,4,3,8,0,5};
-        moveZeroes(arr);
+        moveZeroesoptimal(arr);
         for(int i:arr){
             System.out.print(i+" ");
         }
@@ -18,4 +18,17 @@ public class MovingZero {
             }
         }
     }
+    static void moveZeroesoptimal(int[] nums) {
+    int j = 0;
+
+    for (int i = 0; i < nums.length; i++) {
+        if (nums[i] != 0) {
+            int temp = nums[i];
+            nums[i] = nums[j];
+            nums[j] = temp;
+            j++;
+        }
+    }
+    }
+    
 }
