@@ -3,6 +3,7 @@ public class removeDuplicate {
         int[] nums={0,0,1,1,1,2,2,3,3,4};
         System.out.println(remov(nums));
     }
+    
     static int remov(int[]nums){
         int i=0;
             for(int j=1;j<nums.length;j++){
