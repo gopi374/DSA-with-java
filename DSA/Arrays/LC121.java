@@ -3,8 +3,18 @@ class LC121{
         int[] prices={7,1,5,3,6,4};
     
         int[] nums={3,1,4,2};
+        System.out.println(min(nums));
         System.out.println(maxProfit(prices));
         System.out.println(pattern(nums));
+    }
+    static int min(int[] nums) {
+        int min = Integer.MAX_VALUE;
+        for (int num : nums) {
+            if (num < min) {
+                min = num;
+            }
+        }
+        return min;
     }
     static int maxProfit(int[] prices) {
         int minPrice = Integer.MAX_VALUE;
@@ -21,10 +31,12 @@ class LC121{
         return maxProfit;
     }
     static boolean pattern(int[] nums){
-        for(int i=0;i<nums.length-1;i++){
-            for(int j=i+1;j<nums.length-1;j++){
-                for(int k=j+1;k<nums.length-1;k++){
-                    if(){
+        //output: true
+        int n = nums.length;
+        for(int i=0;i<n-2;i++){
+            for(int j=i+1;j<n-1;j++){
+                for(int k=j+1;k<n;k++){
+                    if(nums[i]<nums[k] && nums[k]<nums[j]){
                         return true;
                     }
                 }
