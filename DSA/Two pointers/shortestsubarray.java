@@ -18,10 +18,10 @@ class shortestsubarray{
         for(int i=0;i<n;i++){
             if(nums[i]!=sorted[i]){
                 if(s==-1){
-                    s++;
+                    s=i;
                 }
                 else{
-                    e++;
+                    e=i;
                 }
             }
         }
