@@ -37,5 +37,9 @@ public class ImportantVectorMethods {
         // 🔟 clear() → Remove all elements
         v.clear();
         System.out.println("After clear: " + v);
+
+        // 1️⃣1️⃣ clone() → Shallow copy
+        Vector<Integer> v2 = (Vector<Integer>) v.clone();
+        System.out.println("Cloned Vector: " + v2);
     }
 }
