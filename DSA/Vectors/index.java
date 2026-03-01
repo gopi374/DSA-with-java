@@ -15,5 +15,8 @@ class index{
             System.out.println(e+" ");
         }
         System.out.println(arr.get(55)); //get() method is used to access the element at the specified index
+        System.out.println(arr.remove(2)); //remove() method is used to remove the element at the specified index and return the removed element
+        System.out.println(arr.size()); //size() method is used to get the number of elements in the vector
+        
     }
 }
