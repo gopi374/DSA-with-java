@@ -1,6 +1,7 @@
 class Removevowels{
     public static void main(String[] args) {
         String s="idea";
+        System.out.println(s.substring(0,2));
         int n=s.length();
         int idx=n;
         for(int i=n-1;i>0;i--){
