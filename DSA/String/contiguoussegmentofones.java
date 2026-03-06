@@ -5,12 +5,8 @@ class contiguoussegmentofones{
         System.out.println(checkOnesSegment(s));
     }
     public static boolean checkOnesSegment(String s) {
-        boolean zero=false;
-        for(int i=0;i<s.length()-1;i++){
-            if(s.charAt(i)=='0'){
-                zero=true;
-            }
-            else if(zero){
+        for (int i = 0; i < s.length() - 1; i++) {
+            if (s.charAt(i) == '0' && s.charAt(i + 1) == '1') {
                 return false;
             }
         }
