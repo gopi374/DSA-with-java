@@ -1,0 +1,1795 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PARIVESH 3.0 – Environmental Clearance Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gov-blue: #003580;
+    --gov-blue-mid: #0050b3;
+    --gov-blue-light: #1677ff;
+    --gov-gold: #d4a017;
+    --gov-gold-light: #f5d848;
+    --emerald: #0a7c59;
+    --emerald-light: #13a67a;
+    --crimson: #c0392b;
+    --amber: #e67e22;
+    --surface: #f0f4f9;
+    --surface-2: #e6edf7;
+    --white: #ffffff;
+    --ink: #0d1b2e;
+    --ink-mid: #2c4264;
+    --ink-soft: #5a7099;
+    --border: #c8d8ec;
+    --border-soft: #dde9f7;
+    --shadow-sm: 0 2px 8px rgba(0,53,128,.08);
+    --shadow-md: 0 6px 24px rgba(0,53,128,.13);
+    --shadow-lg: 0 16px 48px rgba(0,53,128,.18);
+    --radius: 10px;
+    --radius-lg: 16px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--surface);
+    color: var(--ink);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ─── SCREENS ─── */
+  .screen { display: none; animation: fadeSlide .35s ease; }
+  .screen.active { display: block; }
+  @keyframes fadeSlide {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ─── LANDING ─── */
+  #screen-landing {
+    min-height: 100vh;
+    background: linear-gradient(155deg, #001d4a 0%, #003580 45%, #005bb5 100%);
+    position: relative;
+    overflow: hidden;
+  }
+  #screen-landing::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image:
+      radial-gradient(circle at 15% 50%, rgba(22,119,255,.18) 0%, transparent 50%),
+      radial-gradient(circle at 85% 20%, rgba(212,160,23,.12) 0%, transparent 45%);
+    pointer-events: none;
+  }
+  .grid-overlay {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none;
+  }
+
+  .landing-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 56px;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+  }
+  .brand { display: flex; align-items: center; gap: 14px; }
+  .brand-logo {
+    width: 52px; height: 52px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--gov-gold), #f5a623);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 20px; font-weight: 700; color: var(--gov-blue);
+    box-shadow: 0 0 0 3px rgba(212,160,23,.3);
+  }
+  .brand-text h1 {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 22px; font-weight: 700; color: #fff;
+    letter-spacing: .5px;
+  }
+  .brand-text p { font-size: 11px; color: rgba(255,255,255,.5); letter-spacing: 1.5px; text-transform: uppercase; }
+
+  .header-badges { display: flex; gap: 8px; }
+  .badge {
+    padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 600;
+    letter-spacing: .5px; text-transform: uppercase;
+  }
+  .badge-gov { background: rgba(255,255,255,.1); color: rgba(255,255,255,.8); border: 1px solid rgba(255,255,255,.15); }
+  .badge-version { background: var(--gov-gold); color: var(--gov-blue); }
+
+  .landing-hero {
+    padding: 80px 56px 60px;
+    max-width: 720px;
+  }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.15);
+    border-radius: 20px; padding: 6px 16px; font-size: 12px; color: var(--gov-gold-light);
+    letter-spacing: 1px; text-transform: uppercase; font-weight: 600; margin-bottom: 28px;
+  }
+  .hero-tag::before { content: '●'; font-size: 8px; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+
+  .hero-title {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: clamp(42px, 5vw, 64px); font-weight: 700;
+    color: #fff; line-height: 1.08; margin-bottom: 20px;
+  }
+  .hero-title span { color: var(--gov-gold-light); }
+  .hero-sub { font-size: 17px; color: rgba(255,255,255,.65); line-height: 1.7; margin-bottom: 48px; max-width: 560px; }
+
+  .portal-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    padding: 0 56px 80px;
+  }
+  .portal-card {
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: var(--radius-lg);
+    padding: 28px 24px;
+    cursor: pointer;
+    transition: all .25s ease;
+    position: relative; overflow: hidden;
+  }
+  .portal-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, transparent, var(--card-accent, var(--gov-gold)), transparent);
+    opacity: 0; transition: opacity .25s;
+  }
+  .portal-card:hover { background: rgba(255,255,255,.11); transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,.3); }
+  .portal-card:hover::before { opacity: 1; }
+
+  .portal-card.admin { --card-accent: #f5d848; }
+  .portal-card.pp    { --card-accent: #52c41a; }
+  .portal-card.scrut { --card-accent: #1677ff; }
+  .portal-card.mom   { --card-accent: #eb2f96; }
+
+  .card-icon {
+    width: 48px; height: 48px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; margin-bottom: 16px;
+    background: rgba(255,255,255,.08);
+  }
+  .portal-card h3 { font-family: 'Rajdhani', sans-serif; font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 8px; }
+  .portal-card p  { font-size: 13px; color: rgba(255,255,255,.5); line-height: 1.6; margin-bottom: 20px; }
+  .card-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 8px 16px; border-radius: 8px; font-size: 13px; font-weight: 600;
+    background: rgba(255,255,255,.12); color: #fff; border: 1px solid rgba(255,255,255,.18);
+    cursor: pointer; transition: all .2s; text-decoration: none;
+  }
+  .card-btn:hover { background: rgba(255,255,255,.22); }
+
+  .stats-bar {
+    display: flex; gap: 40px;
+    padding: 20px 56px;
+    border-top: 1px solid rgba(255,255,255,.08);
+    background: rgba(0,0,0,.15);
+  }
+  .stat { text-align: center; }
+  .stat-n { font-family: 'Rajdhani', sans-serif; font-size: 28px; font-weight: 700; color: var(--gov-gold-light); }
+  .stat-l { font-size: 11px; color: rgba(255,255,255,.45); text-transform: uppercase; letter-spacing: 1px; }
+
+  /* ─── APP SHELL ─── */
+  .app-shell { display: flex; min-height: 100vh; }
+
+  .sidebar {
+    width: 260px; min-width: 260px;
+    background: var(--gov-blue);
+    display: flex; flex-direction: column;
+    padding: 0;
+    box-shadow: 4px 0 20px rgba(0,53,128,.25);
+    position: sticky; top: 0; height: 100vh;
+    overflow-y: auto;
+  }
+  .sidebar-brand {
+    padding: 20px 20px 16px;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+    display: flex; align-items: center; gap: 12px;
+  }
+  .sidebar-logo {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--gov-gold), #f5a623);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Rajdhani', sans-serif; font-size: 15px; font-weight: 700; color: var(--gov-blue);
+    flex-shrink: 0;
+  }
+  .sidebar-brand-txt h2 { font-family: 'Rajdhani', sans-serif; font-size: 16px; font-weight: 700; color: #fff; }
+  .sidebar-brand-txt p  { font-size: 10px; color: rgba(255,255,255,.4); text-transform: uppercase; letter-spacing: 1px; }
+
+  .sidebar-user {
+    padding: 14px 20px;
+    background: rgba(255,255,255,.05);
+    border-bottom: 1px solid rgba(255,255,255,.08);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .user-avatar {
+    width: 34px; height: 34px; border-radius: 50%;
+    background: linear-gradient(135deg, #1677ff, #0050b3);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 700; color: #fff;
+    flex-shrink: 0;
+  }
+  .user-info p { font-size: 13px; font-weight: 600; color: #fff; }
+  .user-info span { font-size: 10px; color: rgba(255,255,255,.45); }
+
+  .sidebar-nav { padding: 12px 0; flex: 1; }
+  .nav-section-label {
+    padding: 10px 20px 6px;
+    font-size: 10px; font-weight: 600; color: rgba(255,255,255,.3);
+    text-transform: uppercase; letter-spacing: 1.5px;
+  }
+  .nav-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 20px; cursor: pointer;
+    transition: all .2s; border-left: 3px solid transparent;
+    font-size: 13.5px; font-weight: 500; color: rgba(255,255,255,.6);
+  }
+  .nav-item:hover { background: rgba(255,255,255,.07); color: #fff; }
+  .nav-item.active { background: rgba(255,255,255,.1); color: #fff; border-left-color: var(--gov-gold); }
+  .nav-item .nav-icon { font-size: 16px; width: 20px; text-align: center; }
+
+  .sidebar-footer {
+    padding: 14px 20px;
+    border-top: 1px solid rgba(255,255,255,.08);
+  }
+  .logout-btn {
+    display: flex; align-items: center; gap: 8px;
+    padding: 9px 14px; border-radius: 8px;
+    background: rgba(192,57,43,.2); border: 1px solid rgba(192,57,43,.3);
+    color: #ff7875; font-size: 13px; font-weight: 600;
+    cursor: pointer; transition: all .2s; width: 100%;
+  }
+  .logout-btn:hover { background: rgba(192,57,43,.35); }
+
+  .main-content { flex: 1; overflow-y: auto; }
+
+  .top-bar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 32px;
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    position: sticky; top: 0; z-index: 50;
+    box-shadow: var(--shadow-sm);
+  }
+  .top-bar-title { font-family: 'Rajdhani', sans-serif; font-size: 20px; font-weight: 700; color: var(--ink); }
+  .top-bar-actions { display: flex; align-items: center; gap: 12px; }
+  .notif-btn {
+    width: 36px; height: 36px; border-radius: 8px;
+    background: var(--surface); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; font-size: 16px; position: relative; transition: all .2s;
+  }
+  .notif-btn:hover { background: var(--surface-2); }
+  .notif-dot {
+    position: absolute; top: 4px; right: 4px;
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--crimson); border: 2px solid var(--white);
+  }
+
+  .page-content { padding: 28px 32px; }
+
+  /* ─── CARDS & PANELS ─── */
+  .card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    box-shadow: var(--shadow-sm);
+  }
+  .card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+  .card-title { font-family: 'Rajdhani', sans-serif; font-size: 17px; font-weight: 700; color: var(--ink); }
+  .card-subtitle { font-size: 13px; color: var(--ink-soft); margin-top: 2px; }
+
+  /* ─── STAT CARDS ─── */
+  .stats-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; margin-bottom: 24px; }
+  .stat-card {
+    background: var(--white); border: 1px solid var(--border);
+    border-radius: var(--radius-lg); padding: 20px;
+    box-shadow: var(--shadow-sm); position: relative; overflow: hidden;
+  }
+  .stat-card::after {
+    content: '';
+    position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
+    background: var(--stat-color, var(--gov-blue));
+  }
+  .stat-card-icon {
+    width: 42px; height: 42px; border-radius: 10px;
+    background: color-mix(in srgb, var(--stat-color, var(--gov-blue)) 12%, white);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; margin-bottom: 14px;
+  }
+  .stat-card-num { font-family: 'Rajdhani', sans-serif; font-size: 32px; font-weight: 700; color: var(--ink); }
+  .stat-card-label { font-size: 12px; color: var(--ink-soft); font-weight: 500; text-transform: uppercase; letter-spacing: .5px; margin-top: 2px; }
+  .stat-card-delta { font-size: 12px; font-weight: 600; margin-top: 6px; }
+  .delta-up { color: var(--emerald); }
+  .delta-dn { color: var(--crimson); }
+
+  /* ─── WORKFLOW STEPPER ─── */
+  .workflow-stepper {
+    display: flex; align-items: center;
+    padding: 20px 24px;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    margin-bottom: 24px;
+    overflow-x: auto;
+  }
+  .step-item { display: flex; align-items: center; flex-shrink: 0; }
+  .step-circle {
+    width: 32px; height: 32px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 700; flex-shrink: 0;
+    transition: all .3s;
+  }
+  .step-circle.done  { background: var(--emerald); color: #fff; }
+  .step-circle.active { background: var(--gov-blue); color: #fff; box-shadow: 0 0 0 4px rgba(0,80,179,.2); }
+  .step-circle.pend  { background: var(--surface-2); color: var(--ink-soft); border: 2px dashed var(--border); }
+  .step-label { font-size: 11px; font-weight: 600; color: var(--ink-soft); margin-top: 6px; text-align: center; white-space: nowrap; }
+  .step-group { display: flex; flex-direction: column; align-items: center; }
+  .step-connector { width: 40px; height: 2px; background: var(--border); margin: 0 6px; margin-bottom: 22px; flex-shrink: 0; }
+  .step-connector.done { background: var(--emerald); }
+
+  /* ─── TABLE ─── */
+  .data-table { width: 100%; border-collapse: collapse; }
+  .data-table th {
+    background: var(--surface); padding: 10px 14px;
+    font-size: 11px; font-weight: 700; color: var(--ink-soft);
+    text-transform: uppercase; letter-spacing: .5px;
+    border-bottom: 2px solid var(--border); text-align: left;
+  }
+  .data-table td { padding: 12px 14px; border-bottom: 1px solid var(--border-soft); font-size: 13.5px; vertical-align: middle; }
+  .data-table tr:hover td { background: var(--surface); }
+  .data-table tr:last-child td { border-bottom: none; }
+
+  /* ─── BADGES / STATUS ─── */
+  .status-badge {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 3px 10px; border-radius: 20px;
+    font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .4px;
+  }
+  .status-badge::before { content: '●'; font-size: 7px; }
+  .sb-draft    { background: #f5f5f5; color: #8c8c8c; }
+  .sb-submitted{ background: #e6f4ff; color: #0050b3; }
+  .sb-scrutiny { background: #fff7e6; color: #d46b08; }
+  .sb-eds      { background: #fff1f0; color: #cf1322; }
+  .sb-referred { background: #f0f5ff; color: #2f54eb; }
+  .sb-mom      { background: #f6ffed; color: #389e0d; }
+  .sb-final    { background: #002329; color: #36cfc9; }
+
+  /* ─── BUTTONS ─── */
+  .btn {
+    display: inline-flex; align-items: center; gap: 7px;
+    padding: 9px 18px; border-radius: 8px; font-size: 13.5px; font-weight: 600;
+    cursor: pointer; border: none; transition: all .2s; font-family: 'DM Sans', sans-serif;
+    text-decoration: none;
+  }
+  .btn-primary { background: var(--gov-blue); color: #fff; }
+  .btn-primary:hover { background: var(--gov-blue-mid); box-shadow: 0 4px 16px rgba(0,53,128,.3); }
+  .btn-secondary { background: var(--surface); color: var(--ink); border: 1px solid var(--border); }
+  .btn-secondary:hover { background: var(--surface-2); }
+  .btn-success { background: var(--emerald); color: #fff; }
+  .btn-success:hover { background: var(--emerald-light); }
+  .btn-danger { background: var(--crimson); color: #fff; }
+  .btn-danger:hover { background: #a93226; }
+  .btn-warning { background: var(--amber); color: #fff; }
+  .btn-sm { padding: 6px 12px; font-size: 12px; }
+  .btn-gold { background: var(--gov-gold); color: var(--ink); }
+  .btn-gold:hover { background: var(--gov-gold-light); }
+
+  /* ─── FORMS ─── */
+  .form-group { margin-bottom: 18px; }
+  .form-label { display: block; font-size: 13px; font-weight: 600; color: var(--ink-mid); margin-bottom: 7px; }
+  .form-label .req { color: var(--crimson); margin-left: 3px; }
+  .form-control {
+    width: 100%; padding: 10px 14px;
+    border: 1.5px solid var(--border); border-radius: 8px;
+    font-size: 14px; font-family: 'DM Sans', sans-serif;
+    color: var(--ink); background: var(--white);
+    transition: border-color .2s, box-shadow .2s;
+    outline: none;
+  }
+  .form-control:focus { border-color: var(--gov-blue-light); box-shadow: 0 0 0 3px rgba(22,119,255,.12); }
+  .form-control[type="file"] { padding: 8px 10px; font-size: 13px; }
+  select.form-control { cursor: pointer; }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 20px; }
+  .form-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0 20px; }
+
+  /* ─── TABS ─── */
+  .tab-bar { display: flex; gap: 4px; border-bottom: 2px solid var(--border); margin-bottom: 24px; }
+  .tab-btn {
+    padding: 10px 20px; font-size: 13.5px; font-weight: 600;
+    color: var(--ink-soft); cursor: pointer; border: none; background: transparent;
+    border-bottom: 3px solid transparent; margin-bottom: -2px;
+    transition: all .2s; font-family: 'DM Sans', sans-serif;
+  }
+  .tab-btn:hover { color: var(--gov-blue); }
+  .tab-btn.active { color: var(--gov-blue); border-bottom-color: var(--gov-blue); }
+
+  /* ─── ALERT ─── */
+  .alert { padding: 14px 18px; border-radius: 8px; font-size: 13.5px; margin-bottom: 16px; display: flex; align-items: flex-start; gap: 10px; }
+  .alert-info    { background: #e6f4ff; border: 1px solid #91caff; color: #003a8c; }
+  .alert-success { background: #f6ffed; border: 1px solid #b7eb8f; color: #135200; }
+  .alert-warning { background: #fffbe6; border: 1px solid #ffe58f; color: #612500; }
+  .alert-error   { background: #fff1f0; border: 1px solid #ffa39e; color: #820014; }
+  .alert-icon    { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+
+  /* ─── MODAL ─── */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,.5); z-index: 1000;
+    align-items: center; justify-content: center;
+    backdrop-filter: blur(4px);
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: var(--white); border-radius: var(--radius-lg);
+    padding: 32px; max-width: 560px; width: 90%;
+    box-shadow: var(--shadow-lg); animation: modalIn .3s ease;
+    max-height: 85vh; overflow-y: auto;
+  }
+  @keyframes modalIn {
+    from { opacity: 0; transform: scale(.95); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+  .modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
+  .modal-title  { font-family: 'Rajdhani', sans-serif; font-size: 20px; font-weight: 700; }
+  .modal-close  { cursor: pointer; font-size: 20px; color: var(--ink-soft); border: none; background: none; padding: 4px; border-radius: 4px; }
+  .modal-close:hover { color: var(--crimson); }
+
+  /* ─── PROGRESS BAR ─── */
+  .progress-bar { background: var(--surface-2); border-radius: 99px; height: 6px; margin-top: 6px; }
+  .progress-fill { height: 100%; border-radius: 99px; background: linear-gradient(90deg, var(--gov-blue), var(--gov-blue-light)); transition: width .5s ease; }
+
+  /* ─── QR PAYMENT ─── */
+  .qr-box {
+    text-align: center; padding: 24px;
+    background: var(--surface); border-radius: var(--radius);
+    border: 2px dashed var(--border);
+  }
+  .qr-mock {
+    width: 160px; height: 160px; margin: 0 auto 16px;
+    background: repeating-conic-gradient(#000 0% 25%, #fff 0% 50%) 0 0/12px 12px;
+    border: 8px solid #fff; box-shadow: var(--shadow-md); border-radius: 4px;
+  }
+  .upi-id { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--gov-blue); background: var(--white); padding: 6px 14px; border-radius: 6px; display: inline-block; border: 1px solid var(--border); }
+
+  /* ─── DOCUMENT VIEWER ─── */
+  .doc-preview {
+    background: #fafafa; border: 1px solid var(--border);
+    border-radius: 8px; padding: 28px; font-size: 13.5px;
+    line-height: 1.8; color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+  }
+  .doc-preview h2 { font-family: 'Rajdhani', sans-serif; font-size: 18px; font-weight: 700; color: var(--gov-blue); margin-bottom: 4px; text-align: center; }
+  .doc-preview h3 { font-family: 'Rajdhani', sans-serif; font-size: 15px; font-weight: 700; color: var(--ink); margin: 16px 0 8px; border-bottom: 1px solid var(--border); padding-bottom: 4px; }
+  .doc-row { display: flex; gap: 16px; padding: 6px 0; border-bottom: 1px dotted #e0e0e0; }
+  .doc-row-label { width: 220px; flex-shrink: 0; font-weight: 600; color: var(--ink-mid); font-size: 13px; }
+  .doc-row-val { color: var(--ink); font-size: 13px; }
+
+  /* ─── CHECKLIST ─── */
+  .checklist { list-style: none; }
+  .checklist li {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 0; border-bottom: 1px solid var(--border-soft);
+    font-size: 13.5px;
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .check-icon { font-size: 16px; flex-shrink: 0; }
+  .check-ok    { color: var(--emerald); }
+  .check-no    { color: var(--crimson); }
+  .check-warn  { color: var(--amber); }
+
+  /* ─── TIMELINE ─── */
+  .timeline { position: relative; padding-left: 28px; }
+  .timeline::before { content: ''; position: absolute; left: 9px; top: 0; bottom: 0; width: 2px; background: var(--border); }
+  .timeline-item { position: relative; padding-bottom: 20px; }
+  .timeline-dot {
+    position: absolute; left: -23px; top: 3px;
+    width: 14px; height: 14px; border-radius: 50%;
+    background: var(--gov-blue); border: 3px solid var(--white);
+    box-shadow: 0 0 0 2px var(--gov-blue);
+  }
+  .timeline-dot.done   { background: var(--emerald); box-shadow: 0 0 0 2px var(--emerald); }
+  .timeline-dot.active { background: var(--gov-blue-light); box-shadow: 0 0 0 2px var(--gov-blue-light); animation: pulse 2s infinite; }
+  .timeline-time { font-size: 11px; color: var(--ink-soft); font-family: 'JetBrains Mono', monospace; }
+  .timeline-text { font-size: 13.5px; font-weight: 500; color: var(--ink); margin-top: 2px; }
+  .timeline-sub  { font-size: 12px; color: var(--ink-soft); margin-top: 2px; }
+
+  /* ─── SECTION ─── */
+  .section-heading {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 14px; font-weight: 700; color: var(--ink-soft);
+    text-transform: uppercase; letter-spacing: 1px;
+    margin: 24px 0 14px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .section-heading::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  /* ─── FILE DROP ─── */
+  .file-drop {
+    border: 2px dashed var(--border); border-radius: 10px;
+    padding: 32px; text-align: center; cursor: pointer;
+    transition: all .2s;
+  }
+  .file-drop:hover { border-color: var(--gov-blue-light); background: #f0f6ff; }
+  .file-drop-icon { font-size: 32px; margin-bottom: 10px; }
+  .file-drop p { font-size: 14px; color: var(--ink-soft); }
+  .file-drop small { font-size: 12px; color: var(--ink-soft); opacity: .7; }
+
+  /* ─── INFO BOX ─── */
+  .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .info-item { background: var(--surface); border-radius: 8px; padding: 12px 16px; }
+  .info-item-label { font-size: 11px; text-transform: uppercase; letter-spacing: .5px; color: var(--ink-soft); font-weight: 600; margin-bottom: 4px; }
+  .info-item-val { font-size: 14px; font-weight: 600; color: var(--ink); }
+
+  /* ─── HIDDEN PANELS ─── */
+  .dash-panel { display: none; }
+  .dash-panel.active { display: block; }
+
+  /* ─── RESPONSIVE ─── */
+  @media(max-width: 900px) {
+    .stats-grid { grid-template-columns: 1fr 1fr; }
+    .portal-grid { grid-template-columns: 1fr 1fr; }
+    .form-grid, .form-grid-3 { grid-template-columns: 1fr; }
+    .info-grid { grid-template-columns: 1fr; }
+    .landing-header { padding: 16px 20px; }
+    .landing-hero { padding: 48px 20px 40px; }
+    .stats-bar { padding: 16px 20px; gap: 20px; }
+    .portal-grid { padding: 0 20px 48px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════ LANDING ══════════════════ -->
+<div id="screen-landing" class="screen active">
+  <div class="grid-overlay"></div>
+  <div class="landing-header">
+    <div class="brand">
+      <div class="brand-logo">P3</div>
+      <div class="brand-text">
+        <h1>PARIVESH 3.0</h1>
+        <p>Ministry of Environment, Forest and Climate Change</p>
+      </div>
+    </div>
+    <div class="header-badges">
+      <span class="badge badge-gov">Government of India</span>
+      <span class="badge badge-version">v3.0 NEXT-GEN</span>
+    </div>
+  </div>
+
+  <div class="landing-hero">
+    <div class="hero-tag">🟢 Live System – 2024–25</div>
+    <h1 class="hero-title">Next-Gen<br><span>Environmental</span><br>Clearance Portal</h1>
+    <p class="hero-sub">A unified, role-based workflow platform that digitizes the entire lifecycle of environmental clearance — from initial filing to final MoM publication.</p>
+    <button class="btn btn-gold" onclick="showGuide()" style="font-size:15px;padding:12px 28px;border-radius:10px;">▶ Explore Portal &nbsp;→</button>
+  </div>
+
+  <div class="portal-grid">
+    <div class="portal-card admin">
+      <div class="card-icon">🛡️</div>
+      <h3>Administrator</h3>
+      <p>System controller — manage roles, templates, sector parameters, and user provisioning.</p>
+      <div onclick="enterRole('admin')" class="card-btn">Enter Admin Portal →</div>
+    </div>
+    <div class="portal-card pp">
+      <div class="card-icon">🏗️</div>
+      <h3>Project Proponent</h3>
+      <p>Register, file applications, upload documents, and pay fees via UPI/QR code.</p>
+      <div onclick="enterRole('pp')" class="card-btn">Enter PP Portal →</div>
+    </div>
+    <div class="portal-card scrut">
+      <div class="card-icon">🔍</div>
+      <h3>Scrutiny Team</h3>
+      <p>Review and verify documents, raise EDS queries, refer applications for meetings.</p>
+      <div onclick="enterRole('scrutiny')" class="card-btn">Enter Scrutiny Portal →</div>
+    </div>
+    <div class="portal-card mom">
+      <div class="card-icon">📋</div>
+      <h3>MoM Team</h3>
+      <p>Edit meeting gists, convert to Minutes of Meeting, finalize and lock documents.</p>
+      <div onclick="enterRole('mom')" class="card-btn">Enter MoM Portal →</div>
+    </div>
+  </div>
+
+  <div class="stats-bar">
+    <div class="stat"><div class="stat-n">12,847</div><div class="stat-l">Applications Filed</div></div>
+    <div class="stat"><div class="stat-n">8,392</div><div class="stat-l">Clearances Granted</div></div>
+    <div class="stat"><div class="stat-n">2,105</div><div class="stat-l">Active Reviews</div></div>
+    <div class="stat"><div class="stat-n">98.4%</div><div class="stat-l">Processing Rate</div></div>
+    <div class="stat"><div class="stat-n">14</div><div class="stat-l">Avg. Days to Clearance</div></div>
+  </div>
+</div>
+
+<!-- ══════════════════ ADMIN PORTAL ══════════════════ -->
+<div id="screen-admin" class="screen">
+  <div class="app-shell">
+    <nav class="sidebar">
+      <div class="sidebar-brand">
+        <div class="sidebar-logo">P3</div>
+        <div class="sidebar-brand-txt"><h2>PARIVESH 3.0</h2><p>Admin Portal</p></div>
+      </div>
+      <div class="sidebar-user">
+        <div class="user-avatar">A</div>
+        <div class="user-info"><p>Rajesh Kumar</p><span>System Administrator</span></div>
+      </div>
+      <div class="sidebar-nav">
+        <div class="nav-section-label">Main</div>
+        <div class="nav-item active" onclick="adminNav('dashboard',this)"><span class="nav-icon">📊</span> Dashboard</div>
+        <div class="nav-item" onclick="adminNav('users',this)"><span class="nav-icon">👥</span> User Management</div>
+        <div class="nav-item" onclick="adminNav('templates',this)"><span class="nav-icon">📄</span> Gist Templates</div>
+        <div class="nav-section-label">Configuration</div>
+        <div class="nav-item" onclick="adminNav('sectors',this)"><span class="nav-icon">🏭</span> Sector Parameters</div>
+        <div class="nav-item" onclick="adminNav('categories',this)"><span class="nav-icon">🗂️</span> App. Categories</div>
+        <div class="nav-item" onclick="adminNav('audit',this)"><span class="nav-icon">📝</span> Audit Logs</div>
+      </div>
+      <div class="sidebar-footer"><button class="logout-btn" onclick="goHome()">⬅ Exit Portal</button></div>
+    </nav>
+    <div class="main-content">
+      <div class="top-bar">
+        <div class="top-bar-title" id="admin-top-title">Admin Dashboard</div>
+        <div class="top-bar-actions">
+          <div class="notif-btn">🔔<div class="notif-dot"></div></div>
+          <span style="font-size:12px;color:var(--ink-soft);font-family:'JetBrains Mono',monospace;">05 Mar 2025  09:42</span>
+        </div>
+      </div>
+      <div class="page-content">
+
+        <!-- DASHBOARD -->
+        <div id="admin-dashboard" class="dash-panel active">
+          <div class="alert alert-info"><span class="alert-icon">ℹ️</span> 3 new user registration requests are pending approval.</div>
+          <div class="stats-grid">
+            <div class="stat-card" style="--stat-color:#0050b3">
+              <div class="stat-card-icon">📥</div>
+              <div class="stat-card-num">247</div>
+              <div class="stat-card-label">Total Applications</div>
+              <div class="stat-card-delta delta-up">↑ 12% this month</div>
+            </div>
+            <div class="stat-card" style="--stat-color:#389e0d">
+              <div class="stat-card-icon">✅</div>
+              <div class="stat-card-num">183</div>
+              <div class="stat-card-label">Cleared</div>
+              <div class="stat-card-delta delta-up">↑ 8% this month</div>
+            </div>
+            <div class="stat-card" style="--stat-color:#d46b08">
+              <div class="stat-card-icon">⏳</div>
+              <div class="stat-card-num">41</div>
+              <div class="stat-card-label">Under Review</div>
+              <div class="stat-card-delta delta-dn">↓ 3 flagged</div>
+            </div>
+            <div class="stat-card" style="--stat-color:#cf1322">
+              <div class="stat-card-icon">⚠️</div>
+              <div class="stat-card-num">23</div>
+              <div class="stat-card-label">EDS Pending</div>
+              <div class="stat-card-delta delta-dn">Requires attention</div>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+            <div class="card">
+              <div class="card-header"><div><div class="card-title">Active Users by Role</div></div></div>
+              <table class="data-table">
+                <thead><tr><th>Role</th><th>Users</th><th>Status</th><th>Action</th></tr></thead>
+                <tbody>
+                  <tr><td>Scrutiny Officers</td><td><b>12</b></td><td><span class="status-badge sb-mom">Active</span></td><td><button class="btn btn-secondary btn-sm">Manage</button></td></tr>
+                  <tr><td>MoM Secretariat</td><td><b>6</b></td><td><span class="status-badge sb-mom">Active</span></td><td><button class="btn btn-secondary btn-sm">Manage</button></td></tr>
+                  <tr><td>Project Proponents</td><td><b>94</b></td><td><span class="status-badge sb-mom">Active</span></td><td><button class="btn btn-secondary btn-sm">Manage</button></td></tr>
+                  <tr><td>RQP Professionals</td><td><b>31</b></td><td><span class="status-badge sb-scrutiny">Pending</span></td><td><button class="btn btn-primary btn-sm" onclick="openModal('modal-approve')">Approve</button></td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="card">
+              <div class="card-header"><div class="card-title">Application Pipeline</div></div>
+              <div style="space-y:8px">
+                <div style="margin-bottom:14px">
+                  <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px"><span>Draft</span><span style="font-weight:700">18</span></div>
+                  <div class="progress-bar"><div class="progress-fill" style="width:7%;background:linear-gradient(90deg,#8c8c8c,#bfbfbf)"></div></div>
+                </div>
+                <div style="margin-bottom:14px">
+                  <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px"><span>Submitted</span><span style="font-weight:700">34</span></div>
+                  <div class="progress-bar"><div class="progress-fill" style="width:14%;background:linear-gradient(90deg,#0050b3,#1677ff)"></div></div>
+                </div>
+                <div style="margin-bottom:14px">
+                  <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px"><span>Under Scrutiny</span><span style="font-weight:700">41</span></div>
+                  <div class="progress-bar"><div class="progress-fill" style="width:17%"></div></div>
+                </div>
+                <div style="margin-bottom:14px">
+                  <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px"><span>EDS Issued</span><span style="font-weight:700">23</span></div>
+                  <div class="progress-bar"><div class="progress-fill" style="width:9%;background:linear-gradient(90deg,#cf1322,#ff4d4f)"></div></div>
+                </div>
+                <div style="margin-bottom:14px">
+                  <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px"><span>Referred to Meeting</span><span style="font-weight:700">29</span></div>
+                  <div class="progress-bar"><div class="progress-fill" style="width:12%;background:linear-gradient(90deg,#2f54eb,#597ef7)"></div></div>
+                </div>
+                <div>
+                  <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px"><span>Finalized / Cleared</span><span style="font-weight:700">183</span></div>
+                  <div class="progress-bar"><div class="progress-fill" style="width:74%;background:linear-gradient(90deg,#389e0d,#52c41a)"></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- USERS -->
+        <div id="admin-users" class="dash-panel">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+            <h3 style="font-family:'Rajdhani',sans-serif;font-size:18px">User Management</h3>
+            <button class="btn btn-primary" onclick="openModal('modal-adduser')">+ Add User</button>
+          </div>
+          <div class="card">
+            <table class="data-table">
+              <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Assigned Date</th><th>Status</th><th>Actions</th></tr></thead>
+              <tbody>
+                <tr><td><b>Priya Sharma</b></td><td>priya@mef.gov.in</td><td>Scrutiny Officer</td><td>12 Jan 2025</td><td><span class="status-badge sb-mom">Active</span></td><td><button class="btn btn-secondary btn-sm">Edit</button></td></tr>
+                <tr><td><b>Amit Verma</b></td><td>amit@mef.gov.in</td><td>Scrutiny Officer</td><td>08 Feb 2025</td><td><span class="status-badge sb-mom">Active</span></td><td><button class="btn btn-secondary btn-sm">Edit</button></td></tr>
+                <tr><td><b>Sunita Rao</b></td><td>sunita@mef.gov.in</td><td>MoM Secretariat</td><td>01 Mar 2025</td><td><span class="status-badge sb-mom">Active</span></td><td><button class="btn btn-secondary btn-sm">Edit</button></td></tr>
+                <tr><td><b>R.K. Enterprises</b></td><td>rkent@gmail.com</td><td>Project Proponent</td><td>03 Mar 2025</td><td><span class="status-badge sb-scrutiny">Pending</span></td><td><button class="btn btn-primary btn-sm">Approve</button></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- TEMPLATES -->
+        <div id="admin-templates" class="dash-panel">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+            <h3 style="font-family:'Rajdhani',sans-serif;font-size:18px">Gist Master Templates</h3>
+            <button class="btn btn-primary">+ Create Template</button>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px">
+            <div class="card" style="border-top:3px solid var(--gov-blue)">
+              <div style="font-size:28px;margin-bottom:10px">📋</div>
+              <h3 style="font-family:'Rajdhani',sans-serif;font-size:16px;margin-bottom:6px">Category A – Major Projects</h3>
+              <p style="font-size:13px;color:var(--ink-soft);margin-bottom:14px">Large-scale projects requiring full EIA. Mining, thermal power, large infrastructure.</p>
+              <div style="display:flex;gap:8px">
+                <button class="btn btn-secondary btn-sm">Preview</button>
+                <button class="btn btn-primary btn-sm">Edit Template</button>
+              </div>
+            </div>
+            <div class="card" style="border-top:3px solid var(--emerald)">
+              <div style="font-size:28px;margin-bottom:10px">📋</div>
+              <h3 style="font-family:'Rajdhani',sans-serif;font-size:16px;margin-bottom:6px">Category B1 – Medium Projects</h3>
+              <p style="font-size:13px;color:var(--ink-soft);margin-bottom:14px">Scoping required. Cement plants, small thermal, smaller mining operations.</p>
+              <div style="display:flex;gap:8px">
+                <button class="btn btn-secondary btn-sm">Preview</button>
+                <button class="btn btn-primary btn-sm">Edit Template</button>
+              </div>
+            </div>
+            <div class="card" style="border-top:3px solid var(--amber)">
+              <div style="font-size:28px;margin-bottom:10px">📋</div>
+              <h3 style="font-family:'Rajdhani',sans-serif;font-size:16px;margin-bottom:6px">Category B2 – Small Projects</h3>
+              <p style="font-size:13px;color:var(--ink-soft);margin-bottom:14px">No scoping required. Small industries, service sector, irrigation projects.</p>
+              <div style="display:flex;gap:8px">
+                <button class="btn btn-secondary btn-sm">Preview</button>
+                <button class="btn btn-primary btn-sm">Edit Template</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SECTORS -->
+        <div id="admin-sectors" class="dash-panel">
+          <h3 style="font-family:'Rajdhani',sans-serif;font-size:18px;margin-bottom:20px">Sector-Specific Parameters</h3>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+            <div class="card">
+              <div class="card-header"><div class="card-title">⛏️ Mining Sector</div><button class="btn btn-primary btn-sm">Edit</button></div>
+              <ul class="checklist">
+                <li><span class="check-icon check-ok">✓</span> Mining lease area (ha)</li>
+                <li><span class="check-icon check-ok">✓</span> Ore/mineral production (MTPA)</li>
+                <li><span class="check-icon check-ok">✓</span> Overburden management plan</li>
+                <li><span class="check-icon check-ok">✓</span> Dust suppression measures</li>
+                <li><span class="check-icon check-ok">✓</span> Reclamation & rehabilitation plan</li>
+              </ul>
+            </div>
+            <div class="card">
+              <div class="card-header"><div class="card-title">🏗️ Infrastructure Sector</div><button class="btn btn-primary btn-sm">Edit</button></div>
+              <ul class="checklist">
+                <li><span class="check-icon check-ok">✓</span> Total project area (sq km)</li>
+                <li><span class="check-icon check-ok">✓</span> Forest land diversion (ha)</li>
+                <li><span class="check-icon check-ok">✓</span> Waste generation & disposal</li>
+                <li><span class="check-icon check-ok">✓</span> Water requirement (MLD)</li>
+                <li><span class="check-icon check-warn">⚠</span> Traffic impact assessment</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- CATEGORIES -->
+        <div id="admin-categories" class="dash-panel">
+          <h3 style="font-family:'Rajdhani',sans-serif;font-size:18px;margin-bottom:20px">Application Category Management</h3>
+          <div class="card">
+            <div class="alert alert-info"><span class="alert-icon">ℹ️</span>Categories define the level of environmental scrutiny and applicable templates.</div>
+            <table class="data-table">
+              <thead><tr><th>Category</th><th>Description</th><th>EIA Required</th><th>Templates</th><th>Active Apps</th></tr></thead>
+              <tbody>
+                <tr><td><b>Category A</b></td><td>National significance, major environmental impact</td><td><span class="status-badge sb-eds">Mandatory</span></td><td>3</td><td>89</td></tr>
+                <tr><td><b>Category B1</b></td><td>Significant impact, scoping required</td><td><span class="status-badge sb-scrutiny">Required</span></td><td>3</td><td>112</td></tr>
+                <tr><td><b>Category B2</b></td><td>Low impact, general conditions apply</td><td><span class="status-badge sb-submitted">Optional</span></td><td>2</td><td>46</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- AUDIT -->
+        <div id="admin-audit" class="dash-panel">
+          <h3 style="font-family:'Rajdhani',sans-serif;font-size:18px;margin-bottom:20px">System Audit Logs</h3>
+          <div class="card">
+            <table class="data-table">
+              <thead><tr><th>Timestamp</th><th>User</th><th>Role</th><th>Action</th><th>IP</th></tr></thead>
+              <tbody>
+                <tr><td style="font-family:'JetBrains Mono',monospace;font-size:12px">05-Mar 09:41:22</td><td>Priya Sharma</td><td>Scrutiny</td><td>Referred APP-2025-047 to meeting</td><td>10.0.1.14</td></tr>
+                <tr><td style="font-family:'JetBrains Mono',monospace;font-size:12px">05-Mar 09:28:06</td><td>Sunita Rao</td><td>MoM Team</td><td>Locked MoM for APP-2025-039</td><td>10.0.1.22</td></tr>
+                <tr><td style="font-family:'JetBrains Mono',monospace;font-size:12px">05-Mar 08:55:11</td><td>R.K. Enterprises</td><td>PP</td><td>Payment verified – APP-2025-051</td><td>182.74.12.5</td></tr>
+                <tr><td style="font-family:'JetBrains Mono',monospace;font-size:12px">04-Mar 17:32:44</td><td>Amit Verma</td><td>Scrutiny</td><td>EDS issued for APP-2025-049</td><td>10.0.1.18</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ PP PORTAL ══════════════════ -->
+<div id="screen-pp" class="screen">
+  <div class="app-shell">
+    <nav class="sidebar">
+      <div class="sidebar-brand">
+        <div class="sidebar-logo">PP</div>
+        <div class="sidebar-brand-txt"><h2>PARIVESH 3.0</h2><p>Proponent Portal</p></div>
+      </div>
+      <div class="sidebar-user">
+        <div class="user-avatar" style="background:linear-gradient(135deg,#52c41a,#389e0d)">R</div>
+        <div class="user-info"><p>R.K. Enterprises</p><span>Project Proponent</span></div>
+      </div>
+      <div class="sidebar-nav">
+        <div class="nav-section-label">My Work</div>
+        <div class="nav-item active" onclick="ppNav('dashboard',this)"><span class="nav-icon">📊</span> My Dashboard</div>
+        <div class="nav-item" onclick="ppNav('newapp',this)"><span class="nav-icon">➕</span> New Application</div>
+        <div class="nav-item" onclick="ppNav('myapps',this)"><span class="nav-icon">📁</span> My Applications</div>
+        <div class="nav-item" onclick="ppNav('eds',this)"><span class="nav-icon">📨</span> EDS Responses <span style="background:var(--crimson);color:#fff;border-radius:10px;padding:1px 7px;font-size:10px;margin-left:4px;">1</span></div>
+        <div class="nav-item" onclick="ppNav('payment',this)"><span class="nav-icon">💳</span> Fee Payment</div>
+        <div class="nav-item" onclick="ppNav('profile',this)"><span class="nav-icon">👤</span> Profile</div>
+      </div>
+      <div class="sidebar-footer"><button class="logout-btn" onclick="goHome()">⬅ Exit Portal</button></div>
+    </nav>
+    <div class="main-content">
+      <div class="top-bar">
+        <div class="top-bar-title" id="pp-top-title">My Dashboard</div>
+        <div class="top-bar-actions">
+          <div class="notif-btn">🔔<div class="notif-dot"></div></div>
+          <button class="btn btn-primary btn-sm" onclick="ppNav('newapp',null)">+ New Application</button>
+        </div>
+      </div>
+      <div class="page-content">
+
+        <!-- PP DASHBOARD -->
+        <div id="pp-dashboard" class="dash-panel active">
+          <div class="alert alert-warning"><span class="alert-icon">⚠️</span> <b>EDS Notice:</b> Application APP-2025-047 requires additional documents. Please respond within 7 days.</div>
+          <div class="stats-grid">
+            <div class="stat-card" style="--stat-color:#0050b3"><div class="stat-card-icon">📄</div><div class="stat-card-num">3</div><div class="stat-card-label">Total Applications</div></div>
+            <div class="stat-card" style="--stat-color:#389e0d"><div class="stat-card-icon">✅</div><div class="stat-card-num">1</div><div class="stat-card-label">Cleared</div></div>
+            <div class="stat-card" style="--stat-color:#d46b08"><div class="stat-card-icon">⏳</div><div class="stat-card-num">1</div><div class="stat-card-label">Under Review</div></div>
+            <div class="stat-card" style="--stat-color:#cf1322"><div class="stat-card-icon">📨</div><div class="stat-card-num">1</div><div class="stat-card-label">EDS Pending</div></div>
+          </div>
+          <div class="card">
+            <div class="card-header"><div class="card-title">My Applications</div></div>
+            <table class="data-table">
+              <thead><tr><th>App. No.</th><th>Project Name</th><th>Category</th><th>Sector</th><th>Status</th><th>Last Updated</th><th>Action</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><b>APP-2025-039</b></td><td>Narmada Bridge Highway</td><td>B1</td><td>Infrastructure</td>
+                  <td><span class="status-badge sb-final">Finalized</span></td><td>28 Feb 2025</td>
+                  <td><button class="btn btn-secondary btn-sm">View MoM</button></td>
+                </tr>
+                <tr>
+                  <td><b>APP-2025-047</b></td><td>Madhya Pradesh Coal Mine</td><td>A</td><td>Mining</td>
+                  <td><span class="status-badge sb-eds">EDS Issued</span></td><td>03 Mar 2025</td>
+                  <td><button class="btn btn-danger btn-sm" onclick="ppNav('eds',null)">Respond EDS</button></td>
+                </tr>
+                <tr>
+                  <td><b>APP-2025-051</b></td><td>Solar Power Plant – Rajasthan</td><td>B2</td><td>Renewable Energy</td>
+                  <td><span class="status-badge sb-scrutiny">Under Scrutiny</span></td><td>04 Mar 2025</td>
+                  <td><button class="btn btn-secondary btn-sm">Track</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- NEW APPLICATION -->
+        <div id="pp-newapp" class="dash-panel">
+          <div class="card">
+            <div class="card-header"><div class="card-title">New Application – Step Wizard</div></div>
+            <!-- Step indicator -->
+            <div class="workflow-stepper" style="margin-bottom:28px">
+              <div class="step-group"><div class="step-circle active" id="ns1">1</div><div class="step-label">Project Info</div></div>
+              <div class="step-connector"></div>
+              <div class="step-group"><div class="step-circle pend" id="ns2">2</div><div class="step-label">Location</div></div>
+              <div class="step-connector"></div>
+              <div class="step-group"><div class="step-circle pend" id="ns3">3</div><div class="step-label">Documents</div></div>
+              <div class="step-connector"></div>
+              <div class="step-group"><div class="step-circle pend" id="ns4">4</div><div class="step-label">Fee Payment</div></div>
+              <div class="step-connector"></div>
+              <div class="step-group"><div class="step-circle pend" id="ns5">5</div><div class="step-label">Review & Submit</div></div>
+            </div>
+
+            <!-- Step 1 -->
+            <div id="newapp-step1">
+              <div class="section-heading">Project Details</div>
+              <div class="form-grid">
+                <div class="form-group"><label class="form-label">Project Name <span class="req">*</span></label><input class="form-control" placeholder="e.g. Rajasthan Solar Power Plant" id="proj-name"></div>
+                <div class="form-group"><label class="form-label">Proponent / Company Name <span class="req">*</span></label><input class="form-control" placeholder="Registered company name"></div>
+              </div>
+              <div class="form-grid">
+                <div class="form-group">
+                  <label class="form-label">Application Category <span class="req">*</span></label>
+                  <select class="form-control"><option value="">Select Category</option><option>Category A – Major Projects (National EIA)</option><option>Category B1 – Medium Projects (State EIA)</option><option>Category B2 – Small Projects</option></select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Industry Sector <span class="req">*</span></label>
+                  <select class="form-control"><option value="">Select Sector</option><option>Mining</option><option>Thermal Power</option><option>Infrastructure</option><option>Renewable Energy</option><option>Chemical</option><option>Tourism</option></select>
+                </div>
+              </div>
+              <div class="form-grid">
+                <div class="form-group"><label class="form-label">Total Project Cost (INR Crores)</label><input class="form-control" type="number" placeholder="0.00"></div>
+                <div class="form-group"><label class="form-label">Project Area (Hectares)</label><input class="form-control" type="number" placeholder="0.00"></div>
+              </div>
+              <div class="form-group"><label class="form-label">Project Description</label><textarea class="form-control" rows="4" placeholder="Briefly describe the nature, purpose, and scope of the project..."></textarea></div>
+              <div style="display:flex;justify-content:flex-end;margin-top:8px">
+                <button class="btn btn-primary" onclick="nextStep(1)">Next: Location Details →</button>
+              </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div id="newapp-step2" style="display:none">
+              <div class="section-heading">Location & Environmental Details</div>
+              <div class="form-grid">
+                <div class="form-group"><label class="form-label">State <span class="req">*</span></label><select class="form-control"><option>Rajasthan</option><option>Madhya Pradesh</option><option>Maharashtra</option><option>Gujarat</option><option>Tamil Nadu</option></select></div>
+                <div class="form-group"><label class="form-label">District <span class="req">*</span></label><input class="form-control" placeholder="District name"></div>
+              </div>
+              <div class="form-grid">
+                <div class="form-group"><label class="form-label">Latitude</label><input class="form-control" placeholder="e.g. 25.3456" type="number"></div>
+                <div class="form-group"><label class="form-label">Longitude</label><input class="form-control" placeholder="e.g. 74.5678" type="number"></div>
+              </div>
+              <div class="form-group"><label class="form-label">Forest Land Involvement?</label><select class="form-control"><option>No forest land involved</option><option>Yes – Forest diversion required (FC Act)</option></select></div>
+              <div class="form-group"><label class="form-label">Proximity to Eco-Sensitive Zones (ESZ)</label><select class="form-control"><option>No ESZ within 10 km</option><option>ESZ within 5-10 km</option><option>Within ESZ boundary</option></select></div>
+              <div style="display:flex;gap:12px;justify-content:flex-end;margin-top:8px">
+                <button class="btn btn-secondary" onclick="prevStep(2)">← Back</button>
+                <button class="btn btn-primary" onclick="nextStep(2)">Next: Documents →</button>
+              </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div id="newapp-step3" style="display:none">
+              <div class="section-heading">Document Upload</div>
+              <div class="alert alert-info"><span class="alert-icon">ℹ️</span>Upload all mandatory documents as PDF. Each file must be under 25MB.</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+                <div class="card" style="padding:16px">
+                  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+                    <span style="font-size:13px;font-weight:600">Form-I (Application Form)</span>
+                    <span class="status-badge sb-eds">Required</span>
+                  </div>
+                  <input type="file" class="form-control" accept=".pdf">
+                </div>
+                <div class="card" style="padding:16px">
+                  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+                    <span style="font-size:13px;font-weight:600">Environmental Impact Assessment</span>
+                    <span class="status-badge sb-eds">Required</span>
+                  </div>
+                  <input type="file" class="form-control" accept=".pdf">
+                </div>
+                <div class="card" style="padding:16px">
+                  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+                    <span style="font-size:13px;font-weight:600">Land Ownership / Lease Documents</span>
+                    <span class="status-badge sb-eds">Required</span>
+                  </div>
+                  <input type="file" class="form-control" accept=".pdf">
+                </div>
+                <div class="card" style="padding:16px">
+                  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+                    <span style="font-size:13px;font-weight:600">Public Hearing Report</span>
+                    <span class="status-badge sb-scrutiny">If Applicable</span>
+                  </div>
+                  <input type="file" class="form-control" accept=".pdf">
+                </div>
+                <div class="card" style="padding:16px">
+                  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+                    <span style="font-size:13px;font-weight:600">Consent to Establish (CTE)</span>
+                    <span class="status-badge sb-scrutiny">If Applicable</span>
+                  </div>
+                  <input type="file" class="form-control" accept=".pdf">
+                </div>
+                <div class="card" style="padding:16px">
+                  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+                    <span style="font-size:13px;font-weight:600">Company Registration / PAN</span>
+                    <span class="status-badge sb-eds">Required</span>
+                  </div>
+                  <input type="file" class="form-control" accept=".pdf">
+                </div>
+              </div>
+              <div style="display:flex;gap:12px;justify-content:flex-end;margin-top:16px">
+                <button class="btn btn-secondary" onclick="prevStep(3)">← Back</button>
+                <button class="btn btn-primary" onclick="nextStep(3)">Next: Fee Payment →</button>
+              </div>
+            </div>
+
+            <!-- Step 4 – Payment -->
+            <div id="newapp-step4" style="display:none">
+              <div class="section-heading">Application Fee Payment</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start">
+                <div>
+                  <div class="card" style="margin-bottom:16px">
+                    <div class="card-title" style="margin-bottom:14px">Fee Breakdown</div>
+                    <table style="width:100%;font-size:13.5px">
+                      <tr><td style="padding:6px 0;color:var(--ink-soft)">Application Processing Fee</td><td style="text-align:right;font-weight:600">₹ 25,000</td></tr>
+                      <tr><td style="padding:6px 0;color:var(--ink-soft)">EIA Review Charges</td><td style="text-align:right;font-weight:600">₹ 15,000</td></tr>
+                      <tr><td style="padding:6px 0;color:var(--ink-soft)">Portal Service Fee</td><td style="text-align:right;font-weight:600">₹ 2,500</td></tr>
+                      <tr style="border-top:2px solid var(--border)"><td style="padding:10px 0 0;font-weight:700">Total Payable</td><td style="text-align:right;font-weight:700;font-size:18px;color:var(--gov-blue)">₹ 42,500</td></tr>
+                    </table>
+                  </div>
+                  <div class="tab-bar">
+                    <button class="tab-btn active" id="tab-upi" onclick="switchPayTab('upi')">UPI / QR Code</button>
+                    <button class="tab-btn" id="tab-netbank" onclick="switchPayTab('netbank')">Net Banking</button>
+                    <button class="tab-btn" id="tab-card" onclick="switchPayTab('card')">Debit/Credit Card</button>
+                  </div>
+                  <div id="pay-upi">
+                    <div class="qr-box">
+                      <div class="qr-mock"></div>
+                      <p style="font-size:13px;font-weight:600;margin-bottom:8px">Scan with any UPI App</p>
+                      <div class="upi-id">parivesh3@hdfcbank</div>
+                      <p style="font-size:12px;color:var(--ink-soft);margin-top:10px">Scan the QR or pay to above UPI ID<br>Amount: <b>₹42,500</b></p>
+                      <button class="btn btn-success btn-sm" style="margin-top:14px" onclick="simulatePayment()">✓ Simulate Payment Success</button>
+                    </div>
+                  </div>
+                  <div id="pay-netbank" style="display:none">
+                    <div class="form-group"><label class="form-label">Select Bank</label><select class="form-control"><option>SBI</option><option>HDFC Bank</option><option>ICICI Bank</option><option>Punjab National Bank</option></select></div>
+                    <button class="btn btn-primary" onclick="simulatePayment()">Proceed to Bank →</button>
+                  </div>
+                  <div id="pay-card" style="display:none">
+                    <div class="form-group"><label class="form-label">Card Number</label><input class="form-control" placeholder="XXXX XXXX XXXX XXXX" maxlength="19"></div>
+                    <div class="form-grid"><div class="form-group"><label class="form-label">Expiry</label><input class="form-control" placeholder="MM/YY"></div><div class="form-group"><label class="form-label">CVV</label><input class="form-control" placeholder="CVV" type="password" maxlength="3"></div></div>
+                    <button class="btn btn-primary" onclick="simulatePayment()">Pay ₹42,500 →</button>
+                  </div>
+                </div>
+                <div id="payment-status-box">
+                  <div class="card" style="text-align:center;padding:32px">
+                    <div style="font-size:48px;margin-bottom:12px">💳</div>
+                    <p style="font-size:14px;color:var(--ink-soft)">Complete payment to proceed<br>to the final review step.</p>
+                  </div>
+                </div>
+              </div>
+              <div style="display:flex;gap:12px;justify-content:flex-end;margin-top:16px">
+                <button class="btn btn-secondary" onclick="prevStep(4)">← Back</button>
+              </div>
+            </div>
+
+            <!-- Step 5 – Review & Submit -->
+            <div id="newapp-step5" style="display:none">
+              <div class="alert alert-success"><span class="alert-icon">✅</span>Payment confirmed! Review your application before final submission.</div>
+              <div class="doc-preview">
+                <h2>PARIVESH APPLICATION SUMMARY</h2>
+                <p style="text-align:center;font-size:12px;color:var(--ink-soft);margin-bottom:20px">Draft – Not Yet Submitted</p>
+                <h3>Section A: Project Information</h3>
+                <div class="doc-row"><div class="doc-row-label">Application Reference</div><div class="doc-row-val">DRAFT-2025-NEW</div></div>
+                <div class="doc-row"><div class="doc-row-label">Project Name</div><div class="doc-row-val" id="review-proj-name">—</div></div>
+                <div class="doc-row"><div class="doc-row-label">Category</div><div class="doc-row-val">Category B2</div></div>
+                <div class="doc-row"><div class="doc-row-label">Sector</div><div class="doc-row-val">Renewable Energy</div></div>
+                <h3>Section B: Financial</h3>
+                <div class="doc-row"><div class="doc-row-label">Fee Paid</div><div class="doc-row-val">₹ 42,500 – Confirmed ✓</div></div>
+                <div class="doc-row"><div class="doc-row-label">Transaction ID</div><div class="doc-row-val" style="font-family:'JetBrains Mono',monospace">TXN-PAY-20250305-9847</div></div>
+                <h3>Section C: Documents</h3>
+                <div class="doc-row"><div class="doc-row-label">Form-I</div><div class="doc-row-val">✓ Uploaded</div></div>
+                <div class="doc-row"><div class="doc-row-label">EIA Report</div><div class="doc-row-val">✓ Uploaded</div></div>
+                <div class="doc-row"><div class="doc-row-label">Land Documents</div><div class="doc-row-val">✓ Uploaded</div></div>
+              </div>
+              <div style="display:flex;gap:12px;justify-content:flex-end;margin-top:20px">
+                <button class="btn btn-secondary" onclick="prevStep(5)">← Back</button>
+                <button class="btn btn-success" onclick="submitApplication()">📤 Submit Application →</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- MY APPS -->
+        <div id="pp-myapps" class="dash-panel">
+          <div class="card">
+            <div class="card-header"><div class="card-title">All My Applications</div></div>
+            <table class="data-table">
+              <thead><tr><th>App. No.</th><th>Project Name</th><th>Category</th><th>Sector</th><th>Status</th><th>Payment</th><th>Filed On</th><th>Action</th></tr></thead>
+              <tbody>
+                <tr><td><b>APP-2025-039</b></td><td>Narmada Bridge Highway</td><td>B1</td><td>Infrastructure</td><td><span class="status-badge sb-final">Finalized</span></td><td><span class="status-badge sb-mom">Paid</span></td><td>15 Jan 2025</td><td><button class="btn btn-secondary btn-sm">View MoM</button></td></tr>
+                <tr><td><b>APP-2025-047</b></td><td>Madhya Pradesh Coal Mine</td><td>A</td><td>Mining</td><td><span class="status-badge sb-eds">EDS Issued</span></td><td><span class="status-badge sb-mom">Paid</span></td><td>01 Feb 2025</td><td><button class="btn btn-danger btn-sm" onclick="ppNav('eds',null)">Respond</button></td></tr>
+                <tr><td><b>APP-2025-051</b></td><td>Solar Power Plant – Rajasthan</td><td>B2</td><td>Renewable Energy</td><td><span class="status-badge sb-scrutiny">Under Scrutiny</span></td><td><span class="status-badge sb-mom">Paid</span></td><td>04 Mar 2025</td><td><button class="btn btn-secondary btn-sm">Track</button></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- EDS RESPONSE -->
+        <div id="pp-eds" class="dash-panel">
+          <div class="alert alert-error"><span class="alert-icon">⚠️</span><div><b>EDS Notice – APP-2025-047</b><br>Issued by: Scrutiny Officer Priya Sharma &nbsp;|&nbsp; Deadline: 12 Mar 2025</div></div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+            <div class="card">
+              <div class="card-title" style="margin-bottom:14px">Deficiencies Raised</div>
+              <ul class="checklist">
+                <li><span class="check-icon check-no">✗</span><div><b>Revised EIA Report required</b><br><span style="font-size:12px;color:var(--ink-soft)">The submitted EIA study area does not cover the full 10km impact zone as mandated for Category A mining projects.</span></div></li>
+                <li><span class="check-icon check-no">✗</span><div><b>Hydrology impact study missing</b><br><span style="font-size:12px;color:var(--ink-soft)">No groundwater impact assessment report found. Required for mining in Zone III districts.</span></div></li>
+                <li><span class="check-icon check-warn">⚠</span><div><b>Public hearing minutes – partial</b><br><span style="font-size:12px;color:var(--ink-soft)">Hearing minutes for Gram Panchayat of Semariya missing from submission.</span></div></li>
+              </ul>
+            </div>
+            <div class="card">
+              <div class="card-title" style="margin-bottom:14px">Upload Response Documents</div>
+              <div class="form-group"><label class="form-label">Revised EIA Report</label><input type="file" class="form-control" accept=".pdf"></div>
+              <div class="form-group"><label class="form-label">Hydrology Impact Study</label><input type="file" class="form-control" accept=".pdf"></div>
+              <div class="form-group"><label class="form-label">Public Hearing Minutes (Complete)</label><input type="file" class="form-control" accept=".pdf"></div>
+              <div class="form-group"><label class="form-label">Response Note / Cover Letter</label><textarea class="form-control" rows="3" placeholder="Briefly explain the corrections made..."></textarea></div>
+              <button class="btn btn-primary" onclick="openModal('modal-edssent')">📤 Submit EDS Response</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- PAYMENT -->
+        <div id="pp-payment" class="dash-panel">
+          <h3 style="font-family:'Rajdhani',sans-serif;font-size:18px;margin-bottom:20px">Fee Payment History</h3>
+          <div class="card">
+            <table class="data-table">
+              <thead><tr><th>App. No.</th><th>Amount</th><th>Method</th><th>Date</th><th>Transaction ID</th><th>Status</th></tr></thead>
+              <tbody>
+                <tr><td>APP-2025-039</td><td>₹ 42,500</td><td>UPI</td><td>15 Jan 2025</td><td style="font-family:'JetBrains Mono',monospace;font-size:12px">TXN-PAY-20250115-3312</td><td><span class="status-badge sb-mom">Verified</span></td></tr>
+                <tr><td>APP-2025-047</td><td>₹ 1,20,000</td><td>Net Banking (SBI)</td><td>01 Feb 2025</td><td style="font-family:'JetBrains Mono',monospace;font-size:12px">TXN-PAY-20250201-7721</td><td><span class="status-badge sb-mom">Verified</span></td></tr>
+                <tr><td>APP-2025-051</td><td>₹ 42,500</td><td>UPI</td><td>04 Mar 2025</td><td style="font-family:'JetBrains Mono',monospace;font-size:12px">TXN-PAY-20250304-9847</td><td><span class="status-badge sb-mom">Verified</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- PROFILE -->
+        <div id="pp-profile" class="dash-panel">
+          <div style="display:grid;grid-template-columns:1fr 2fr;gap:20px">
+            <div class="card" style="text-align:center">
+              <div style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#52c41a,#389e0d);display:flex;align-items:center;justify-content:center;font-size:32px;font-weight:700;color:#fff;margin:0 auto 16px">R</div>
+              <h3 style="font-family:'Rajdhani',sans-serif;font-size:18px">R.K. Enterprises</h3>
+              <p style="font-size:13px;color:var(--ink-soft)">Project Proponent</p>
+              <span class="status-badge sb-mom" style="margin-top:10px;display:inline-flex">● Verified</span>
+            </div>
+            <div class="card">
+              <div class="card-title" style="margin-bottom:20px">Company Profile</div>
+              <div class="form-grid">
+                <div class="form-group"><label class="form-label">Company Name</label><input class="form-control" value="R.K. Enterprises Pvt. Ltd."></div>
+                <div class="form-group"><label class="form-label">Registration No.</label><input class="form-control" value="CIN-U21090MP2018PTC044521"></div>
+                <div class="form-group"><label class="form-label">Authorized Person</label><input class="form-control" value="Rajiv Kumar"></div>
+                <div class="form-group"><label class="form-label">Designation</label><input class="form-control" value="Managing Director"></div>
+                <div class="form-group"><label class="form-label">Email</label><input class="form-control" value="rkent@gmail.com" type="email"></div>
+                <div class="form-group"><label class="form-label">Mobile</label><input class="form-control" value="+91 98765 43210"></div>
+              </div>
+              <button class="btn btn-primary">Update Profile</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ SCRUTINY PORTAL ══════════════════ -->
+<div id="screen-scrutiny" class="screen">
+  <div class="app-shell">
+    <nav class="sidebar">
+      <div class="sidebar-brand">
+        <div class="sidebar-logo">SC</div>
+        <div class="sidebar-brand-txt"><h2>PARIVESH 3.0</h2><p>Scrutiny Dashboard</p></div>
+      </div>
+      <div class="sidebar-user">
+        <div class="user-avatar" style="background:linear-gradient(135deg,#1677ff,#0050b3)">P</div>
+        <div class="user-info"><p>Priya Sharma</p><span>Scrutiny Officer</span></div>
+      </div>
+      <div class="sidebar-nav">
+        <div class="nav-section-label">Review</div>
+        <div class="nav-item active" onclick="scrutNav('dashboard',this)"><span class="nav-icon">📊</span> Dashboard</div>
+        <div class="nav-item" onclick="scrutNav('pending',this)"><span class="nav-icon">📋</span> Pending Review <span style="background:var(--amber);color:#fff;border-radius:10px;padding:1px 7px;font-size:10px;margin-left:4px;">5</span></div>
+        <div class="nav-item" onclick="scrutNav('review-app',this)"><span class="nav-icon">🔍</span> Review Application</div>
+        <div class="nav-item" onclick="scrutNav('eds-issued',this)"><span class="nav-icon">📨</span> EDS Tracker</div>
+        <div class="nav-item" onclick="scrutNav('referred',this)"><span class="nav-icon">📤</span> Referred to Meeting</div>
+      </div>
+      <div class="sidebar-footer"><button class="logout-btn" onclick="goHome()">⬅ Exit Portal</button></div>
+    </nav>
+    <div class="main-content">
+      <div class="top-bar">
+        <div class="top-bar-title" id="scrut-top-title">Scrutiny Dashboard</div>
+        <div class="top-bar-actions"><div class="notif-btn">🔔<div class="notif-dot"></div></div></div>
+      </div>
+      <div class="page-content">
+
+        <div id="scrut-dashboard" class="dash-panel active">
+          <div class="stats-grid">
+            <div class="stat-card" style="--stat-color:#0050b3"><div class="stat-card-icon">📥</div><div class="stat-card-num">5</div><div class="stat-card-label">Awaiting Review</div></div>
+            <div class="stat-card" style="--stat-color:#cf1322"><div class="stat-card-icon">📨</div><div class="stat-card-num">3</div><div class="stat-card-label">EDS Issued</div></div>
+            <div class="stat-card" style="--stat-color:#2f54eb"><div class="stat-card-icon">📤</div><div class="stat-card-num">7</div><div class="stat-card-label">Referred to Meeting</div></div>
+            <div class="stat-card" style="--stat-color:#389e0d"><div class="stat-card-icon">✅</div><div class="stat-card-num">29</div><div class="stat-card-label">Cleared This Month</div></div>
+          </div>
+          <div class="card">
+            <div class="card-header"><div class="card-title">My Scrutiny Queue</div><button class="btn btn-primary btn-sm" onclick="scrutNav('pending',null)">View All</button></div>
+            <table class="data-table">
+              <thead><tr><th>App. No.</th><th>Project</th><th>Category</th><th>Submitted</th><th>Days Pending</th><th>Status</th><th>Action</th></tr></thead>
+              <tbody>
+                <tr><td><b>APP-2025-051</b></td><td>Solar Power Plant – Rajasthan</td><td>B2</td><td>04 Mar 2025</td><td><span style="color:var(--emerald);font-weight:700">1 day</span></td><td><span class="status-badge sb-submitted">Submitted</span></td><td><button class="btn btn-primary btn-sm" onclick="scrutNav('review-app',null)">Review →</button></td></tr>
+                <tr><td><b>APP-2025-052</b></td><td>Yamuna Expressway Extension</td><td>A</td><td>02 Mar 2025</td><td><span style="color:var(--amber);font-weight:700">3 days</span></td><td><span class="status-badge sb-scrutiny">Under Scrutiny</span></td><td><button class="btn btn-secondary btn-sm" onclick="scrutNav('review-app',null)">Continue →</button></td></tr>
+                <tr><td><b>APP-2025-053</b></td><td>Goa Coastal Hotel Project</td><td>B1</td><td>28 Feb 2025</td><td><span style="color:var(--crimson);font-weight:700">5 days</span></td><td><span class="status-badge sb-scrutiny">Under Scrutiny</span></td><td><button class="btn btn-secondary btn-sm" onclick="scrutNav('review-app',null)">Continue →</button></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div id="scrut-pending" class="dash-panel">
+          <div class="card">
+            <div class="card-header"><div class="card-title">Applications Pending Review</div></div>
+            <table class="data-table">
+              <thead><tr><th>App. No.</th><th>Project Name</th><th>Category</th><th>Sector</th><th>Payment</th><th>Submitted</th><th>Action</th></tr></thead>
+              <tbody>
+                <tr><td><b>APP-2025-051</b></td><td>Solar Power Plant</td><td>B2</td><td>Renewable Energy</td><td><span class="status-badge sb-mom">✓ Verified</span></td><td>04 Mar 2025</td><td><button class="btn btn-primary btn-sm" onclick="scrutNav('review-app',null)">Open Review</button></td></tr>
+                <tr><td><b>APP-2025-052</b></td><td>Yamuna Expressway Ext.</td><td>A</td><td>Infrastructure</td><td><span class="status-badge sb-mom">✓ Verified</span></td><td>02 Mar 2025</td><td><button class="btn btn-primary btn-sm" onclick="scrutNav('review-app',null)">Open Review</button></td></tr>
+                <tr><td><b>APP-2025-053</b></td><td>Goa Coastal Hotel</td><td>B1</td><td>Tourism</td><td><span class="status-badge sb-mom">✓ Verified</span></td><td>28 Feb 2025</td><td><button class="btn btn-primary btn-sm" onclick="scrutNav('review-app',null)">Open Review</button></td></tr>
+                <tr><td><b>APP-2025-054</b></td><td>Steel Plant – Chhattisgarh</td><td>A</td><td>Industrial</td><td><span class="status-badge sb-scrutiny">Pending</span></td><td>27 Feb 2025</td><td><button class="btn btn-warning btn-sm">Verify Payment</button></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div id="scrut-review-app" class="dash-panel">
+          <div class="alert alert-info"><span class="alert-icon">ℹ️</span>Reviewing: <b>APP-2025-051</b> – Solar Power Plant, Rajasthan &nbsp;|&nbsp; Category B2 &nbsp;|&nbsp; Submitted: 04 Mar 2025</div>
+          <div class="tab-bar">
+            <button class="tab-btn active" id="rt1" onclick="switchReviewTab('checklist')">Document Checklist</button>
+            <button class="tab-btn" id="rt2" onclick="switchReviewTab('details')">Application Details</button>
+            <button class="tab-btn" id="rt3" onclick="switchReviewTab('notes')">Scrutiny Notes</button>
+          </div>
+
+          <div id="review-checklist">
+            <div class="card">
+              <div class="card-title" style="margin-bottom:16px">Document Verification Checklist</div>
+              <ul class="checklist">
+                <li><span class="check-icon check-ok">✓</span><div><b>Form-I Application</b> &nbsp;<span style="font-size:12px;color:var(--ink-soft)">form_i_solar_rajasthan.pdf · 2.1 MB</span></div><button class="btn btn-secondary btn-sm" style="margin-left:auto">View</button></li>
+                <li><span class="check-icon check-ok">✓</span><div><b>EIA Report</b> &nbsp;<span style="font-size:12px;color:var(--ink-soft)">eia_report_v2.pdf · 8.7 MB</span></div><button class="btn btn-secondary btn-sm" style="margin-left:auto">View</button></li>
+                <li><span class="check-icon check-ok">✓</span><div><b>Land Documents</b> &nbsp;<span style="font-size:12px;color:var(--ink-soft)">land_lease_rajasthan.pdf · 1.5 MB</span></div><button class="btn btn-secondary btn-sm" style="margin-left:auto">View</button></li>
+                <li><span class="check-icon check-ok">✓</span><div><b>Company PAN / Registration</b> &nbsp;<span style="font-size:12px;color:var(--ink-soft)">company_reg.pdf · 0.8 MB</span></div><button class="btn btn-secondary btn-sm" style="margin-left:auto">View</button></li>
+                <li><span class="check-icon check-no">✗</span><div><b>Grid Connectivity Approval</b> &nbsp;<span style="font-size:12px;color:var(--crimson)">Document missing – required for solar > 5MW</span></div><button class="btn btn-danger btn-sm" style="margin-left:auto">Flag</button></li>
+              </ul>
+            </div>
+            <div class="card" style="margin-top:16px">
+              <div class="card-title" style="margin-bottom:14px">Fee Verification</div>
+              <div class="info-grid">
+                <div class="info-item"><div class="info-item-label">Amount Paid</div><div class="info-item-val" style="color:var(--emerald)">₹ 42,500 ✓</div></div>
+                <div class="info-item"><div class="info-item-label">Payment Mode</div><div class="info-item-val">UPI</div></div>
+                <div class="info-item"><div class="info-item-label">Transaction ID</div><div class="info-item-val" style="font-family:'JetBrains Mono',monospace;font-size:12px">TXN-PAY-20250304-9847</div></div>
+                <div class="info-item"><div class="info-item-label">Date</div><div class="info-item-val">04 Mar 2025</div></div>
+              </div>
+            </div>
+            <div style="display:flex;gap:12px;margin-top:20px;flex-wrap:wrap">
+              <button class="btn btn-danger" onclick="openModal('modal-eds')">📨 Issue EDS Notice</button>
+              <button class="btn btn-warning" onclick="openModal('modal-eds')">⚠️ Request Clarification</button>
+              <button class="btn btn-success" onclick="openModal('modal-refer')">📤 Refer to Meeting →</button>
+              <button class="btn btn-primary" onclick="openModal('modal-gist')">⚡ Generate Auto-Gist</button>
+            </div>
+          </div>
+
+          <div id="review-details" style="display:none">
+            <div class="doc-preview">
+              <h2>Application Details – APP-2025-051</h2>
+              <h3>Project Information</h3>
+              <div class="doc-row"><div class="doc-row-label">Project Name</div><div class="doc-row-val">Solar Power Plant – Rajasthan</div></div>
+              <div class="doc-row"><div class="doc-row-label">Proponent</div><div class="doc-row-val">R.K. Enterprises Pvt. Ltd.</div></div>
+              <div class="doc-row"><div class="doc-row-label">Category</div><div class="doc-row-val">B2</div></div>
+              <div class="doc-row"><div class="doc-row-label">Sector</div><div class="doc-row-val">Renewable Energy</div></div>
+              <div class="doc-row"><div class="doc-row-label">Location</div><div class="doc-row-val">Barmer District, Rajasthan</div></div>
+              <div class="doc-row"><div class="doc-row-label">Capacity</div><div class="doc-row-val">50 MW</div></div>
+              <div class="doc-row"><div class="doc-row-label">Project Area</div><div class="doc-row-val">250 Ha</div></div>
+              <div class="doc-row"><div class="doc-row-label">Total Cost</div><div class="doc-row-val">₹ 320 Crores</div></div>
+            </div>
+          </div>
+
+          <div id="review-notes" style="display:none">
+            <div class="card">
+              <div class="card-title" style="margin-bottom:14px">Scrutiny Officer Notes</div>
+              <div class="form-group"><label class="form-label">Internal Remarks</label><textarea class="form-control" rows="5" placeholder="Add your review notes here...">Documents largely complete. EIA covers 10km study area. Land documents verified. Missing grid connectivity approval from DISCOM – need to issue EDS or wait for proponent to upload.</textarea></div>
+              <div class="form-group"><label class="form-label">Recommendation</label><select class="form-control"><option>Issue EDS and return to PP</option><option>Refer to Expert Appraisal Committee</option><option>Approve and refer for meeting</option><option>Reject application</option></select></div>
+              <button class="btn btn-primary">Save Notes</button>
+            </div>
+          </div>
+        </div>
+
+        <div id="scrut-eds-issued" class="dash-panel">
+          <div class="card">
+            <div class="card-header"><div class="card-title">EDS Tracker</div></div>
+            <table class="data-table">
+              <thead><tr><th>App. No.</th><th>Project</th><th>EDS Date</th><th>Deadline</th><th>Response</th><th>Status</th></tr></thead>
+              <tbody>
+                <tr><td><b>APP-2025-047</b></td><td>MP Coal Mine</td><td>01 Mar 2025</td><td>12 Mar 2025</td><td><span class="status-badge sb-scrutiny">Awaited</span></td><td><span class="status-badge sb-eds">Open</span></td></tr>
+                <tr><td><b>APP-2025-044</b></td><td>Uttarakhand Dam</td><td>20 Feb 2025</td><td>03 Mar 2025</td><td><span class="status-badge sb-mom">Received</span></td><td><span class="status-badge sb-submitted">Under Review</span></td></tr>
+                <tr><td><b>APP-2025-038</b></td><td>Mumbai Port Expansion</td><td>10 Feb 2025</td><td>24 Feb 2025</td><td><span class="status-badge sb-mom">Accepted</span></td><td><span class="status-badge sb-referred">Referred</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div id="scrut-referred" class="dash-panel">
+          <div class="card">
+            <div class="card-header"><div class="card-title">Referred to Meeting</div></div>
+            <table class="data-table">
+              <thead><tr><th>App. No.</th><th>Project</th><th>Referred On</th><th>Meeting Date</th><th>Gist Status</th><th>Action</th></tr></thead>
+              <tbody>
+                <tr><td><b>APP-2025-039</b></td><td>Narmada Bridge Highway</td><td>10 Feb 2025</td><td>20 Feb 2025</td><td><span class="status-badge sb-final">MoM Finalized</span></td><td><button class="btn btn-secondary btn-sm">View MoM</button></td></tr>
+                <tr><td><b>APP-2025-042</b></td><td>Chennai Metro Phase III</td><td>20 Feb 2025</td><td>05 Mar 2025</td><td><span class="status-badge sb-mom">Gist Generated</span></td><td><button class="btn btn-secondary btn-sm">View Gist</button></td></tr>
+                <tr><td><b>APP-2025-046</b></td><td>Tapi River Hydro Project</td><td>01 Mar 2025</td><td>15 Mar 2025</td><td><span class="status-badge sb-submitted">Pending</span></td><td><button class="btn btn-primary btn-sm">Generate Gist</button></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ MOM PORTAL ══════════════════ -->
+<div id="screen-mom" class="screen">
+  <div class="app-shell">
+    <nav class="sidebar">
+      <div class="sidebar-brand">
+        <div class="sidebar-logo">MM</div>
+        <div class="sidebar-brand-txt"><h2>PARIVESH 3.0</h2><p>MoM Secretariat</p></div>
+      </div>
+      <div class="sidebar-user">
+        <div class="user-avatar" style="background:linear-gradient(135deg,#eb2f96,#c41d7f)">S</div>
+        <div class="user-info"><p>Sunita Rao</p><span>MoM Secretariat</span></div>
+      </div>
+      <div class="sidebar-nav">
+        <div class="nav-section-label">Meeting Docs</div>
+        <div class="nav-item active" onclick="momNav('dashboard',this)"><span class="nav-icon">📊</span> Dashboard</div>
+        <div class="nav-item" onclick="momNav('gists',this)"><span class="nav-icon">📋</span> Gist Documents <span style="background:var(--amber);color:#fff;border-radius:10px;padding:1px 7px;font-size:10px;margin-left:4px;">3</span></div>
+        <div class="nav-item" onclick="momNav('edit-gist',this)"><span class="nav-icon">✏️</span> Edit & Finalize Gist</div>
+        <div class="nav-item" onclick="momNav('moms',this)"><span class="nav-icon">📜</span> Minutes of Meeting</div>
+        <div class="nav-item" onclick="momNav('publish',this)"><span class="nav-icon">🔒</span> Publish & Lock</div>
+      </div>
+      <div class="sidebar-footer"><button class="logout-btn" onclick="goHome()">⬅ Exit Portal</button></div>
+    </nav>
+    <div class="main-content">
+      <div class="top-bar">
+        <div class="top-bar-title" id="mom-top-title">MoM Dashboard</div>
+        <div class="top-bar-actions"><div class="notif-btn">🔔<div class="notif-dot"></div></div></div>
+      </div>
+      <div class="page-content">
+
+        <div id="mom-dashboard" class="dash-panel active">
+          <div class="stats-grid">
+            <div class="stat-card" style="--stat-color:#d46b08"><div class="stat-card-icon">📋</div><div class="stat-card-num">3</div><div class="stat-card-label">Gists to Edit</div></div>
+            <div class="stat-card" style="--stat-color:#2f54eb"><div class="stat-card-icon">📜</div><div class="stat-card-num">5</div><div class="stat-card-label">MoMs in Progress</div></div>
+            <div class="stat-card" style="--stat-color:#389e0d"><div class="stat-card-icon">🔒</div><div class="stat-card-num">12</div><div class="stat-card-label">Finalized MoMs</div></div>
+            <div class="stat-card" style="--stat-color:#eb2f96"><div class="stat-card-icon">📅</div><div class="stat-card-num">2</div><div class="stat-card-label">Meetings This Week</div></div>
+          </div>
+          <div class="card">
+            <div class="card-header"><div class="card-title">Upcoming Meetings</div></div>
+            <table class="data-table">
+              <thead><tr><th>Meeting Date</th><th>Application</th><th>Project</th><th>Gist Status</th><th>Action</th></tr></thead>
+              <tbody>
+                <tr><td><b>05 Mar 2025</b></td><td>APP-2025-042</td><td>Chennai Metro Phase III</td><td><span class="status-badge sb-mom">Gist Ready</span></td><td><button class="btn btn-primary btn-sm" onclick="momNav('edit-gist',null)">Open Gist →</button></td></tr>
+                <tr><td><b>15 Mar 2025</b></td><td>APP-2025-046</td><td>Tapi River Hydro Project</td><td><span class="status-badge sb-scrutiny">Pending</span></td><td><button class="btn btn-warning btn-sm">Generate Gist</button></td></tr>
+                <tr><td><b>22 Mar 2025</b></td><td>APP-2025-051</td><td>Solar Power Plant</td><td><span class="status-badge sb-draft">Not Started</span></td><td><button class="btn btn-secondary btn-sm" disabled>Awaiting Referral</button></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div id="mom-gists" class="dash-panel">
+          <div class="card">
+            <div class="card-header"><div class="card-title">All Gist Documents</div></div>
+            <table class="data-table">
+              <thead><tr><th>App. No.</th><th>Project</th><th>Generated On</th><th>Template</th><th>Status</th><th>Actions</th></tr></thead>
+              <tbody>
+                <tr><td><b>APP-2025-042</b></td><td>Chennai Metro Phase III</td><td>03 Mar 2025</td><td>Category A</td><td><span class="status-badge sb-mom">Ready for Edit</span></td><td><div style="display:flex;gap:6px"><button class="btn btn-primary btn-sm" onclick="momNav('edit-gist',null)">Edit</button><button class="btn btn-secondary btn-sm">Preview</button></div></td></tr>
+                <tr><td><b>APP-2025-046</b></td><td>Tapi River Hydro</td><td>04 Mar 2025</td><td>Category A</td><td><span class="status-badge sb-scrutiny">Draft</span></td><td><div style="display:flex;gap:6px"><button class="btn btn-primary btn-sm" onclick="momNav('edit-gist',null)">Edit</button></div></td></tr>
+                <tr><td><b>APP-2025-039</b></td><td>Narmada Bridge Highway</td><td>19 Feb 2025</td><td>Category B1</td><td><span class="status-badge sb-final">Converted to MoM</span></td><td><button class="btn btn-secondary btn-sm" onclick="momNav('moms',null)">View MoM</button></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div id="mom-edit-gist" class="dash-panel">
+          <div class="alert alert-warning"><span class="alert-icon">⚠️</span>This Gist was auto-generated from the application. Review and edit before converting to MoM.</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+            <div>
+              <div class="card">
+                <div class="card-title" style="margin-bottom:16px">⚡ Auto-Generated Gist – APP-2025-042</div>
+                <div class="doc-preview" style="padding:16px">
+                  <h2>MEETING GIST</h2>
+                  <p style="text-align:center;font-size:11px;color:var(--ink-soft);margin-bottom:16px">Expert Appraisal Committee Meeting &nbsp;|&nbsp; 05 March 2025</p>
+                  <h3>Project Overview</h3>
+                  <div class="doc-row"><div class="doc-row-label">Application No.</div><div class="doc-row-val">APP-2025-042</div></div>
+                  <div class="doc-row"><div class="doc-row-label">Project Name</div><div class="doc-row-val">Chennai Metro Phase III</div></div>
+                  <div class="doc-row"><div class="doc-row-label">Proponent</div><div class="doc-row-val">Chennai Metro Rail Ltd.</div></div>
+                  <div class="doc-row"><div class="doc-row-label">Category</div><div class="doc-row-val">A – Linear Project</div></div>
+                  <div class="doc-row"><div class="doc-row-label">Sector</div><div class="doc-row-val">Infrastructure / Urban Transport</div></div>
+                  <div class="doc-row"><div class="doc-row-label">Total Length</div><div class="doc-row-val">47.2 km (elevated + underground)</div></div>
+                  <div class="doc-row"><div class="doc-row-label">Investment</div><div class="doc-row-val">₹ 14,820 Crores</div></div>
+                  <h3>Key Environmental Issues</h3>
+                  <div style="font-size:13px;line-height:1.8;color:var(--ink)">
+                    1. Tunnelling impacts on groundwater in T-Nagar area.<br>
+                    2. Tree felling requirement: 1,240 trees (mitigation: 3x replanting committed).<br>
+                    3. Construction dust &amp; noise management for residential corridors.<br>
+                    4. Waste management during excavation (~2.8 lakh m³ spoil).
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="card" style="margin-bottom:16px">
+                <div class="card-title" style="margin-bottom:14px">Edit Gist Fields</div>
+                <div class="form-group"><label class="form-label">Meeting Date</label><input class="form-control" value="05 March 2025" type="date"></div>
+                <div class="form-group"><label class="form-label">Committee Members Present</label><textarea class="form-control" rows="3">Dr. S. Krishnamurthy (Chair), Dr. P. Menon, Shri R. Iyer, Dr. A. Nair</textarea></div>
+                <div class="form-group"><label class="form-label">Committee Observations</label><textarea class="form-control" rows="5" placeholder="Add committee's observations and discussion points...">Committee noted the comprehensive EIA. Concern raised about groundwater impact monitoring during tunnelling phase. Proponent agreed to install 15 additional piezometers. Public hearing conducted satisfactorily.</textarea></div>
+                <div class="form-group"><label class="form-label">Conditions Imposed</label><textarea class="form-control" rows="4" placeholder="List specific conditions for clearance...">1. Install real-time groundwater monitoring system
+2. Submit quarterly tree plantation reports
+3. Dust suppression protocol to be approved by SPCB</textarea></div>
+              </div>
+              <div class="card">
+                <div class="card-title" style="margin-bottom:14px">Actions</div>
+                <div style="display:flex;flex-direction:column;gap:10px">
+                  <button class="btn btn-secondary">💾 Save Draft</button>
+                  <button class="btn btn-primary" onclick="openModal('modal-convert')">📜 Convert Gist to MoM</button>
+                  <button class="btn btn-secondary" onclick="openModal('modal-download')">📥 Export Gist (.docx / .pdf)</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="mom-moms" class="dash-panel">
+          <div class="card">
+            <div class="card-header"><div class="card-title">Minutes of Meeting (MoM) Registry</div></div>
+            <table class="data-table">
+              <thead><tr><th>MoM No.</th><th>App. No.</th><th>Project</th><th>Meeting Date</th><th>Finalized On</th><th>Status</th><th>Actions</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><b>MoM-2025-018</b></td><td>APP-2025-039</td><td>Narmada Bridge Highway</td><td>20 Feb 2025</td><td>22 Feb 2025</td>
+                  <td><span class="status-badge sb-final">🔒 Locked</span></td>
+                  <td><div style="display:flex;gap:6px"><button class="btn btn-secondary btn-sm" onclick="momNav('publish',null)">View</button><button class="btn btn-secondary btn-sm">⬇ PDF</button><button class="btn btn-secondary btn-sm">⬇ Word</button></div></td>
+                </tr>
+                <tr>
+                  <td><b>MoM-2025-022</b></td><td>APP-2025-042</td><td>Chennai Metro Phase III</td><td>05 Mar 2025</td><td>—</td>
+                  <td><span class="status-badge sb-mom">In Progress</span></td>
+                  <td><div style="display:flex;gap:6px"><button class="btn btn-primary btn-sm" onclick="momNav('edit-gist',null)">Edit</button><button class="btn btn-success btn-sm" onclick="momNav('publish',null)">Finalize</button></div></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div id="mom-publish" class="dash-panel">
+          <div class="card" style="max-width:760px">
+            <div class="card-header">
+              <div>
+                <div class="card-title">🔒 Finalize & Publish MoM – MoM-2025-018</div>
+                <div class="card-subtitle">Narmada Bridge Highway | APP-2025-039</div>
+              </div>
+              <span class="status-badge sb-final">🔒 Locked</span>
+            </div>
+            <div class="doc-preview" style="margin-bottom:20px">
+              <h2>MINUTES OF MEETING</h2>
+              <p style="text-align:center;font-size:11px;color:var(--ink-soft);margin-bottom:4px">Expert Appraisal Committee – Infrastructure &amp; CRZ</p>
+              <p style="text-align:center;font-size:11px;color:var(--ink-soft);margin-bottom:20px">Meeting held on: 20 February 2025 | MoM No.: MoM-2025-018</p>
+              <h3>1. Details of the Project</h3>
+              <div class="doc-row"><div class="doc-row-label">Name of the Project</div><div class="doc-row-val">Narmada Bridge 4-Lane Highway, M.P.</div></div>
+              <div class="doc-row"><div class="doc-row-label">Proponent</div><div class="doc-row-val">M.P. Road Development Corporation</div></div>
+              <div class="doc-row"><div class="doc-row-label">EC Category</div><div class="doc-row-val">B1 – State Level</div></div>
+              <div class="doc-row"><div class="doc-row-label">Total Length</div><div class="doc-row-val">18.6 km</div></div>
+              <h3>2. Committee Decision</h3>
+              <p style="font-size:13px;line-height:1.8">The Expert Appraisal Committee (EAC) accorded Environmental Clearance to the above project subject to the following conditions. The project proponent shall comply with all the stipulated conditions and submit compliance reports every six months.</p>
+              <h3>3. Specific Conditions</h3>
+              <p style="font-size:13px;line-height:1.8">i) Comprehensive drainage plan for monsoon season to be submitted.<br>ii) Minimum 33% of ROW to be maintained as green belt.<br>iii) No construction activity between 10 PM and 6 AM in villages within 500m of alignment.</p>
+              <h3>4. Signature Block</h3>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:8px">
+                <div style="border:1px solid var(--border);border-radius:8px;padding:12px;text-align:center;font-size:12px"><div style="margin-bottom:30px;border-bottom:1px dashed var(--border)"></div><b>Member Secretary, EAC</b></div>
+                <div style="border:1px solid var(--border);border-radius:8px;padding:12px;text-align:center;font-size:12px"><div style="margin-bottom:30px;border-bottom:1px dashed var(--border)"></div><b>Chairperson, EAC</b></div>
+              </div>
+            </div>
+            <div class="alert alert-success"><span class="alert-icon">🔒</span>This MoM has been finalized and locked. No further edits are possible. Download in your preferred format.</div>
+            <div style="display:flex;gap:12px;flex-wrap:wrap">
+              <button class="btn btn-primary">📄 Download as Word (.docx)</button>
+              <button class="btn btn-danger">📕 Download as PDF</button>
+              <button class="btn btn-secondary">📤 Send to Proponent</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ MODALS ══════════════════ -->
+<div class="modal-overlay" id="modal-approve">
+  <div class="modal">
+    <div class="modal-header"><h2 class="modal-title">Approve User Registration</h2><button class="modal-close" onclick="closeModal('modal-approve')">✕</button></div>
+    <div class="alert alert-info"><span class="alert-icon">ℹ️</span>New registration from <b>R.K. Enterprises Pvt. Ltd.</b> – requesting Project Proponent access.</div>
+    <div class="form-group"><label class="form-label">Assign Role</label><select class="form-control"><option>Project Proponent (PP)</option><option>Recognized Qualified Professional (RQP)</option><option>Scrutiny Officer</option></select></div>
+    <div class="form-group"><label class="form-label">Notes</label><textarea class="form-control" rows="2" placeholder="Optional notes..."></textarea></div>
+    <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:8px">
+      <button class="btn btn-secondary" onclick="closeModal('modal-approve')">Cancel</button>
+      <button class="btn btn-success" onclick="closeModal('modal-approve')">✓ Approve & Activate</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-adduser">
+  <div class="modal">
+    <div class="modal-header"><h2 class="modal-title">Add New User</h2><button class="modal-close" onclick="closeModal('modal-adduser')">✕</button></div>
+    <div class="form-grid">
+      <div class="form-group"><label class="form-label">Full Name</label><input class="form-control" placeholder="User's full name"></div>
+      <div class="form-group"><label class="form-label">Email</label><input class="form-control" placeholder="Official email" type="email"></div>
+    </div>
+    <div class="form-group"><label class="form-label">Role</label><select class="form-control"><option>Scrutiny Officer</option><option>MoM Secretariat</option><option>Project Proponent</option><option>RQP</option></select></div>
+    <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:8px">
+      <button class="btn btn-secondary" onclick="closeModal('modal-adduser')">Cancel</button>
+      <button class="btn btn-primary" onclick="closeModal('modal-adduser')">Create User</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-eds">
+  <div class="modal">
+    <div class="modal-header"><h2 class="modal-title">📨 Issue EDS Notice</h2><button class="modal-close" onclick="closeModal('modal-eds')">✕</button></div>
+    <div class="alert alert-warning"><span class="alert-icon">⚠️</span>This will return the application to the proponent for correction.</div>
+    <div class="form-group"><label class="form-label">Select Deficiencies</label>
+      <div style="display:flex;flex-direction:column;gap:8px;font-size:13.5px">
+        <label style="display:flex;gap:8px;align-items:center"><input type="checkbox" checked> Grid connectivity approval document missing</label>
+        <label style="display:flex;gap:8px;align-items:center"><input type="checkbox"> EIA does not cover full 10km impact zone</label>
+        <label style="display:flex;gap:8px;align-items:center"><input type="checkbox"> Hydrology impact study required</label>
+      </div>
+    </div>
+    <div class="form-group"><label class="form-label">Response Deadline</label><input class="form-control" type="date" value="2025-03-15"></div>
+    <div class="form-group"><label class="form-label">Additional Remarks</label><textarea class="form-control" rows="3" placeholder="Remarks to proponent..."></textarea></div>
+    <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:8px">
+      <button class="btn btn-secondary" onclick="closeModal('modal-eds')">Cancel</button>
+      <button class="btn btn-danger" onclick="closeModal('modal-eds')">📨 Issue EDS</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-refer">
+  <div class="modal">
+    <div class="modal-header"><h2 class="modal-title">📤 Refer to Meeting</h2><button class="modal-close" onclick="closeModal('modal-refer')">✕</button></div>
+    <div class="alert alert-success"><span class="alert-icon">✅</span>All documents verified. This application is ready for meeting referral.</div>
+    <div class="form-group"><label class="form-label">EAC Committee</label><select class="form-control"><option>EAC – Infrastructure & CRZ</option><option>EAC – Mining</option><option>EAC – Renewable Energy</option><option>State EAC – Rajasthan</option></select></div>
+    <div class="form-group"><label class="form-label">Proposed Meeting Date</label><input class="form-control" type="date" value="2025-03-15"></div>
+    <div class="form-group"><label class="form-label">Remarks for MoM Team</label><textarea class="form-control" rows="2" placeholder="Any special notes..."></textarea></div>
+    <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:8px">
+      <button class="btn btn-secondary" onclick="closeModal('modal-refer')">Cancel</button>
+      <button class="btn btn-success" onclick="closeModal('modal-refer')">✓ Confirm Referral & Auto-Generate Gist</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-gist">
+  <div class="modal">
+    <div class="modal-header"><h2 class="modal-title">⚡ Auto-Gist Generation</h2><button class="modal-close" onclick="closeModal('modal-gist')">✕</button></div>
+    <div class="alert alert-info"><span class="alert-icon">ℹ️</span>The system will extract data from APP-2025-051 and populate the Category B2 master template.</div>
+    <div style="background:var(--surface);border-radius:10px;padding:16px;margin-bottom:16px">
+      <div style="font-size:13px;font-weight:600;margin-bottom:10px">Fields to be auto-populated:</div>
+      <ul class="checklist" style="font-size:13px">
+        <li><span class="check-icon check-ok">✓</span> Project name, category, sector</li>
+        <li><span class="check-icon check-ok">✓</span> Proponent details</li>
+        <li><span class="check-icon check-ok">✓</span> Location and environmental parameters</li>
+        <li><span class="check-icon check-ok">✓</span> Key data from EIA report metadata</li>
+        <li><span class="check-icon check-warn">⚠</span> Committee observations (to be filled manually)</li>
+      </ul>
+    </div>
+    <div style="display:flex;gap:10px;justify-content:flex-end">
+      <button class="btn btn-secondary" onclick="closeModal('modal-gist')">Cancel</button>
+      <button class="btn btn-primary" onclick="closeModal('modal-gist')">⚡ Generate Gist Now</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-convert">
+  <div class="modal">
+    <div class="modal-header"><h2 class="modal-title">📜 Convert Gist to MoM</h2><button class="modal-close" onclick="closeModal('modal-convert')">✕</button></div>
+    <div class="alert alert-warning"><span class="alert-icon">⚠️</span>Once converted, the Gist will be transformed into a formal MoM document. Ensure all fields are complete.</div>
+    <div class="form-group"><label class="form-label">MoM Number (Auto-assigned)</label><input class="form-control" value="MoM-2025-023" readonly style="background:var(--surface)"></div>
+    <div class="form-group"><label class="form-label">Decision</label><select class="form-control"><option>Environmental Clearance Recommended</option><option>EC Recommended with Conditions</option><option>Deferred – Additional Info Required</option><option>Rejected</option></select></div>
+    <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:8px">
+      <button class="btn btn-secondary" onclick="closeModal('modal-convert')">Cancel</button>
+      <button class="btn btn-success" onclick="closeModal('modal-convert')">📜 Convert to MoM</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-download">
+  <div class="modal">
+    <div class="modal-header"><h2 class="modal-title">📥 Export Document</h2><button class="modal-close" onclick="closeModal('modal-download')">✕</button></div>
+    <p style="color:var(--ink-soft);margin-bottom:20px;font-size:14px">Choose your export format. Documents will be generated using the official PARIVESH template.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+      <button class="btn btn-primary" style="flex-direction:column;align-items:center;padding:24px;border-radius:12px;gap:12px;font-size:15px" onclick="closeModal('modal-download')"><span style="font-size:32px">📄</span>Export as Word<br><span style="font-size:11px;opacity:.7;font-weight:400">Microsoft Word (.docx)</span></button>
+      <button class="btn btn-danger" style="flex-direction:column;align-items:center;padding:24px;border-radius:12px;gap:12px;font-size:15px" onclick="closeModal('modal-download')"><span style="font-size:32px">📕</span>Export as PDF<br><span style="font-size:11px;opacity:.7;font-weight:400">Portable Document (.pdf)</span></button>
+    </div>
+    <div style="text-align:right;margin-top:16px"><button class="btn btn-secondary btn-sm" onclick="closeModal('modal-download')">Close</button></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-edssent">
+  <div class="modal" style="text-align:center;padding:40px">
+    <div style="font-size:60px;margin-bottom:16px">✅</div>
+    <h2 style="font-family:'Rajdhani',sans-serif;font-size:22px;margin-bottom:10px">EDS Response Submitted!</h2>
+    <p style="color:var(--ink-soft);margin-bottom:24px">Your documents have been uploaded and the Scrutiny Officer has been notified. Application APP-2025-047 is now back under review.</p>
+    <button class="btn btn-primary" onclick="closeModal('modal-edssent');ppNav('myapps',null)">View My Applications</button>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-submitted">
+  <div class="modal" style="text-align:center;padding:40px">
+    <div style="font-size:60px;margin-bottom:16px">🎉</div>
+    <h2 style="font-family:'Rajdhani',sans-serif;font-size:22px;margin-bottom:10px">Application Submitted Successfully!</h2>
+    <p style="color:var(--ink-soft);margin-bottom:8px">Your application has been received and assigned to the Scrutiny Team.</p>
+    <div style="background:var(--surface);border-radius:10px;padding:16px;margin:16px 0;text-align:left">
+      <div class="doc-row"><div class="doc-row-label">Application No.</div><div class="doc-row-val" style="font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--gov-blue)">APP-2025-055</div></div>
+      <div class="doc-row"><div class="doc-row-label">Status</div><div class="doc-row-val"><span class="status-badge sb-submitted">Submitted</span></div></div>
+      <div class="doc-row"><div class="doc-row-label">Next Step</div><div class="doc-row-val">Scrutiny Review (est. 5-7 working days)</div></div>
+    </div>
+    <button class="btn btn-primary" onclick="closeModal('modal-submitted');ppNav('myapps',null)">View My Applications →</button>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-guide">
+  <div class="modal" style="max-width:680px">
+    <div class="modal-header"><h2 class="modal-title">📖 PARIVESH 3.0 – Portal Guide</h2><button class="modal-close" onclick="closeModal('modal-guide')">✕</button></div>
+    <div class="workflow-stepper">
+      <div class="step-group"><div class="step-circle done">1</div><div class="step-label">Draft</div></div>
+      <div class="step-connector done"></div>
+      <div class="step-group"><div class="step-circle done">2</div><div class="step-label">Submitted</div></div>
+      <div class="step-connector done"></div>
+      <div class="step-group"><div class="step-circle active">3</div><div class="step-label">Scrutiny</div></div>
+      <div class="step-connector"></div>
+      <div class="step-group"><div class="step-circle pend">4</div><div class="step-label">EDS (if any)</div></div>
+      <div class="step-connector"></div>
+      <div class="step-group"><div class="step-circle pend">5</div><div class="step-label">Referred</div></div>
+      <div class="step-connector"></div>
+      <div class="step-group"><div class="step-circle pend">6</div><div class="step-label">MoM</div></div>
+      <div class="step-connector"></div>
+      <div class="step-group"><div class="step-circle pend">7</div><div class="step-label">Finalized</div></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div style="background:#f0f6ff;border-radius:10px;padding:16px;border:1px solid #bdd7ff">
+        <div style="font-weight:700;margin-bottom:8px;font-family:'Rajdhani',sans-serif;font-size:15px">🛡️ Admin Portal</div>
+        <p style="font-size:13px;color:var(--ink-soft)">Manage roles, users, Gist templates, sector parameters. Full system oversight.</p>
+        <button class="btn btn-primary btn-sm" style="margin-top:10px" onclick="closeModal('modal-guide');enterRole('admin')">Open Admin →</button>
+      </div>
+      <div style="background:#f0fff4;border-radius:10px;padding:16px;border:1px solid #b7e6c2">
+        <div style="font-weight:700;margin-bottom:8px;font-family:'Rajdhani',sans-serif;font-size:15px">🏗️ Proponent Portal</div>
+        <p style="font-size:13px;color:var(--ink-soft)">File applications, upload documents, pay fees via UPI/QR, respond to EDS.</p>
+        <button class="btn btn-success btn-sm" style="margin-top:10px" onclick="closeModal('modal-guide');enterRole('pp')">Open PP Portal →</button>
+      </div>
+      <div style="background:#f0f5ff;border-radius:10px;padding:16px;border:1px solid #adc6ff">
+        <div style="font-weight:700;margin-bottom:8px;font-family:'Rajdhani',sans-serif;font-size:15px">🔍 Scrutiny Portal</div>
+        <p style="font-size:13px;color:var(--ink-soft)">Review documents, verify payments, issue EDS, refer to meetings, generate Gists.</p>
+        <button class="btn btn-primary btn-sm" style="margin-top:10px" onclick="closeModal('modal-guide');enterRole('scrutiny')">Open Scrutiny →</button>
+      </div>
+      <div style="background:#fff0f9;border-radius:10px;padding:16px;border:1px solid #ffadd9">
+        <div style="font-weight:700;margin-bottom:8px;font-family:'Rajdhani',sans-serif;font-size:15px">📋 MoM Portal</div>
+        <p style="font-size:13px;color:var(--ink-soft)">Edit Gists, convert to MoMs, finalize & lock documents, export Word/PDF.</p>
+        <button class="btn btn-sm" style="margin-top:10px;background:#eb2f96;color:#fff" onclick="closeModal('modal-guide');enterRole('mom')">Open MoM Portal →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── NAVIGATION ───
+function show(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+function goHome()  { show('screen-landing'); }
+function enterRole(r) { show('screen-'+r); }
+function showGuide()  { openModal('modal-guide'); }
+
+// Generic nav for any portal
+function portalNav(prefix, panel, el) {
+  document.querySelectorAll(`#screen-${prefix} .dash-panel`).forEach(p => p.classList.remove('active'));
+  document.getElementById(`${prefix}-${panel}`).classList.add('active');
+  if (el) {
+    document.querySelectorAll(`#screen-${prefix} .nav-item`).forEach(n => n.classList.remove('active'));
+    el.classList.add('active');
+  }
+  const titles = {
+    dashboard:'Dashboard', users:'User Management', templates:'Gist Templates',
+    sectors:'Sector Parameters', categories:'App. Categories', audit:'Audit Logs',
+    newapp:'New Application', myapps:'My Applications', eds:'EDS Response',
+    payment:'Fee Payment', profile:'My Profile',
+    pending:'Pending Review', 'review-app':'Review Application',
+    'eds-issued':'EDS Tracker', referred:'Referred to Meeting',
+    gists:'Gist Documents', 'edit-gist':'Edit Gist', moms:'Minutes of Meeting', publish:'Finalize & Publish MoM'
+  };
+  const title = titles[panel] || panel;
+  const el2 = document.getElementById(`${prefix}-top-title`);
+  if (el2) el2.textContent = title;
+}
+function adminNav(p,e){ portalNav('admin',p,e); }
+function ppNav(p,e)   { portalNav('pp',p,e); }
+function scrutNav(p,e){ portalNav('scrutiny',p,e); }
+function momNav(p,e)  { portalNav('mom',p,e); }
+
+// ─── MODALS ───
+function openModal(id)  { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+document.querySelectorAll('.modal-overlay').forEach(o => {
+  o.addEventListener('click', e => { if(e.target===o) o.classList.remove('open'); });
+});
+
+// ─── NEW APP WIZARD ───
+let currentStep = 1;
+function nextStep(s) {
+  if (s === 4) return; // need payment
+  document.getElementById(`newapp-step${s}`).style.display = 'none';
+  document.getElementById(`newapp-step${s+1}`).style.display = 'block';
+  updateStepUI(s+1);
+  currentStep = s+1;
+}
+function prevStep(s) {
+  document.getElementById(`newapp-step${s}`).style.display = 'none';
+  document.getElementById(`newapp-step${s-1}`).style.display = 'block';
+  updateStepUI(s-1);
+  currentStep = s-1;
+}
+function updateStepUI(s) {
+  for (let i=1;i<=5;i++) {
+    const c = document.getElementById('ns'+i);
+    if (!c) continue;
+    c.className = 'step-circle ' + (i<s?'done':(i===s?'active':'pend'));
+    if (i<s) c.textContent='✓';
+    else c.textContent=i;
+  }
+  const connectors = document.querySelectorAll('.workflow-stepper .step-connector');
+  connectors.forEach((c,i)=>{ c.className = 'step-connector'+(i<s-1?' done':''); });
+}
+function simulatePayment() {
+  const box = document.getElementById('payment-status-box');
+  box.innerHTML = `<div class="card" style="text-align:center;padding:32px">
+    <div style="font-size:48px;margin-bottom:12px">✅</div>
+    <h3 style="font-family:'Rajdhani',sans-serif;font-size:18px;color:var(--emerald);margin-bottom:8px">Payment Successful!</h3>
+    <p style="font-size:13px;color:var(--ink-soft)">₹ 42,500 received</p>
+    <p style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ink-soft);margin-top:8px">TXN-PAY-20250305-9847</p>
+  </div>`;
+  setTimeout(()=>{
+    document.getElementById('newapp-step4').style.display='none';
+    document.getElementById('newapp-step5').style.display='block';
+    updateStepUI(5);
+    const pn = document.getElementById('proj-name');
+    const rn = document.getElementById('review-proj-name');
+    if(rn) rn.textContent = pn&&pn.value ? pn.value : 'New Project';
+  }, 800);
+}
+function submitApplication() { openModal('modal-submitted'); }
+
+// ─── TAB SWITCHES ───
+function switchPayTab(t) {
+  ['upi','netbank','card'].forEach(id=>{
+    document.getElementById('pay-'+id).style.display = id===t?'block':'none';
+    document.getElementById('tab-'+id).className = 'tab-btn'+(id===t?' active':'');
+  });
+}
+function switchReviewTab(t) {
+  ['checklist','details','notes'].forEach(id=>{
+    document.getElementById('review-'+id).style.display = id===t?'block':'none';
+    document.getElementById('rt'+(id==='checklist'?1:id==='details'?2:3)).className='tab-btn'+(id===t?' active':'');
+  });
+}
+</script>
+</body>
+</html>

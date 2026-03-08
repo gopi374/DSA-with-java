@@ -1,0 +1,2403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CECB - Environmental Clearance Portal</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2E7D32;
+            --primary-dark: #1B5E20;
+            --secondary: #0288D1;
+            --accent: #FF9800;
+            --danger: #D32F2F;
+            --success: #388E3C;
+            --warning: #F57C00;
+            --light: #F5F5F5;
+            --dark: #212121;
+            --gray: #757575;
+            --border: #E0E0E0;
+            --shadow: 0 2px 10px rgba(0,0,0,0.1);
+            --shadow-lg: 0 5px 20px rgba(0,0,0,0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 1rem 2rem;
+            box-shadow: var(--shadow-lg);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo i {
+            font-size: 2.5rem;
+        }
+
+        .logo-text h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .logo-text p {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: white;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .role-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+        }
+
+        .logout-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        /* Navigation */
+        .nav {
+            background: white;
+            padding: 0.5rem 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .nav-item {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            background: transparent;
+            color: var(--gray);
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .nav-item:hover {
+            background: var(--light);
+            color: var(--primary);
+        }
+
+        .nav-item.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Main Content */
+        .main {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .page {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Cards */
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            color: var(--primary-dark);
+            font-weight: 700;
+        }
+
+        /* Forms */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 2px solid var(--border);
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.1);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .btn-secondary {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-warning {
+            background: var(--warning);
+            color: white;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-block {
+            width: 100%;
+            justify-content: center;
+        }
+
+        /* Status Badges */
+        .status-badge {
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .status-draft {
+            background: #E3F2FD;
+            color: #1976D2;
+        }
+
+        .status-submitted {
+            background: #FFF3E0;
+            color: #F57C00;
+        }
+
+        .status-scrutiny {
+            background: #E8F5E9;
+            color: #388E3C;
+        }
+
+        .status-deficiency {
+            background: #FFEBEE;
+            color: #D32F2F;
+        }
+
+        .status-referred {
+            background: #F3E5F5;
+            color: #7B1FA2;
+        }
+
+        .status-mom {
+            background: #E0F7FA;
+            color: #0097A7;
+        }
+
+        .status-finalized {
+            background: #C8E6C9;
+            color: #2E7D32;
+        }
+
+        /* Tables */
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .table th,
+        .table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .table th {
+            background: var(--light);
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .table tr:hover {
+            background: #FAFAFA;
+        }
+
+        /* Workflow Timeline */
+        .timeline {
+            position: relative;
+            padding: 2rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 100%;
+            background: var(--border);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+            width: 50%;
+            padding: 0 2rem;
+        }
+
+        .timeline-item:nth-child(odd) {
+            left: 0;
+            text-align: right;
+        }
+
+        .timeline-item:nth-child(even) {
+            left: 50%;
+            text-align: left;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--primary);
+            border: 4px solid white;
+            box-shadow: var(--shadow);
+            top: 0;
+        }
+
+        .timeline-item:nth-child(odd) .timeline-dot {
+            right: -10px;
+        }
+
+        .timeline-item:nth-child(even) .timeline-dot {
+            left: -10px;
+        }
+
+        .timeline-content {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+        }
+
+        .timeline-content.active {
+            border: 2px solid var(--primary);
+            background: #E8F5E9;
+        }
+
+        .timeline-content.completed {
+            background: #C8E6C9;
+        }
+
+        /* Dashboard Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.5rem;
+        }
+
+        .stat-icon.primary {
+            background: rgba(46, 125, 50, 0.1);
+            color: var(--primary);
+        }
+
+        .stat-icon.secondary {
+            background: rgba(2, 136, 209, 0.1);
+            color: var(--secondary);
+        }
+
+        .stat-icon.warning {
+            background: rgba(245, 124, 0, 0.1);
+            color: var(--warning);
+        }
+
+        .stat-icon.danger {
+            background: rgba(211, 47, 47, 0.1);
+            color: var(--danger);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        /* File Upload */
+        .upload-area {
+            border: 2px dashed var(--border);
+            border-radius: 10px;
+            padding: 3rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .upload-area:hover {
+            border-color: var(--primary);
+            background: rgba(46, 125, 50, 0.05);
+        }
+
+        .upload-area i {
+            font-size: 3rem;
+            color: var(--gray);
+            margin-bottom: 1rem;
+        }
+
+        /* Payment Section */
+        .payment-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .payment-option {
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .payment-option:hover,
+        .payment-option.selected {
+            border-color: var(--primary);
+            background: rgba(46, 125, 50, 0.05);
+        }
+
+        .payment-option i {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+        }
+
+        /* Login Page */
+        .login-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+        }
+
+        .login-card {
+            background: white;
+            padding: 3rem;
+            border-radius: 15px;
+            box-shadow: var(--shadow-lg);
+            width: 100%;
+            max-width: 450px;
+        }
+
+        .login-logo {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .login-logo i {
+            font-size: 4rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .login-logo h1 {
+            color: var(--primary-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .login-logo p {
+            color: var(--gray);
+        }
+
+        .role-selector {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .role-option {
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .role-option:hover,
+        .role-option.selected {
+            border-color: var(--primary);
+            background: rgba(46, 125, 50, 0.05);
+        }
+
+        .role-option i {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Alerts */
+        .alert {
+            padding: 1rem 1.5rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .alert-success {
+            background: #E8F5E9;
+            color: #2E7D32;
+            border-left: 4px solid #2E7D32;
+        }
+
+        .alert-warning {
+            background: #FFF3E0;
+            color: #F57C00;
+            border-left: 4px solid #F57C00;
+        }
+
+        .alert-danger {
+            background: #FFEBEE;
+            color: #D32F2F;
+            border-left: 4px solid #D32F2F;
+        }
+
+        .alert-info {
+            background: #E3F2FD;
+            color: #1976D2;
+            border-left: 4px solid #1976D2;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-content {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .timeline::before {
+                left: 20px;
+            }
+
+            .timeline-item {
+                width: 100%;
+                left: 0 !important;
+                text-align: left !important;
+                padding-left: 50px;
+            }
+
+            .timeline-item .timeline-dot {
+                left: 10px !important;
+                right: auto !important;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            .header, .nav, .btn {
+                display: none;
+            }
+
+            .main {
+                margin: 0;
+                padding: 0;
+            }
+
+            .card {
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+        }
+
+        /* Loading Spinner */
+        .spinner {
+            border: 3px solid var(--border);
+            border-top: 3px solid var(--primary);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 2rem auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: var(--border);
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        /* Document List */
+        .doc-list {
+            list-style: none;
+        }
+
+        .doc-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem;
+            border: 1px solid var(--border);
+            border-radius: 5px;
+            margin-bottom: 0.5rem;
+            transition: all 0.3s;
+        }
+
+        .doc-item:hover {
+            background: var(--light);
+        }
+
+        .doc-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .doc-info i {
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .doc-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .doc-actions button {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .doc-actions .view-btn {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .doc-actions .delete-btn {
+            background: var(--danger);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Page -->
+    <div id="loginPage" class="login-page">
+        <div class="login-card">
+            <div class="login-logo">
+                <i class="fas fa-leaf"></i>
+                <h1>CECB Portal</h1>
+                <p>Chhattisgarh Environment Conservation Board</p>
+                <p style="margin-top: 0.5rem; font-size: 0.85rem;">PARIVESH 3.0 Initiative</p>
+            </div>
+
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle"></i>
+                <span>Select your role to login (Demo Credentials)</span>
+            </div>
+
+            <div class="role-selector">
+                <div class="role-option selected" data-role="proponent">
+                    <i class="fas fa-user"></i>
+                    <p>Project Proponent</p>
+                    <small>demo@proponent.com</small>
+                </div>
+                <div class="role-option" data-role="scrutiny">
+                    <i class="fas fa-search"></i>
+                    <p>Scrutiny Team</p>
+                    <small>demo@scrutiny.com</small>
+                </div>
+                <div class="role-option" data-role="mom">
+                    <i class="fas fa-file-alt"></i>
+                    <p>MoM Team</p>
+                    <small>demo@mom.com</small>
+                </div>
+                <div class="role-option" data-role="admin">
+                    <i class="fas fa-cog"></i>
+                    <p>Admin</p>
+                    <small>demo@admin.com</small>
+                </div>
+            </div>
+
+            <form id="loginForm">
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email" value="demo@proponent.com" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-control" id="password" value="password123" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">
+                    <i class="fas fa-sign-in-alt"></i>
+                    Login
+                </button>
+            </form>
+
+            <div style="text-align: center; margin-top: 1.5rem;">
+                <p style="color: var(--gray); font-size: 0.85rem;">
+                    <i class="fas fa-shield-alt"></i> Secure Login | Role-Based Access Control
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Application -->
+    <div id="mainApp" style="display: none;">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-leaf"></i>
+                    <div class="logo-text">
+                        <h1>CECB Portal</h1>
+                        <p>Environmental Clearance System</p>
+                    </div>
+                </div>
+                <div class="user-info">
+                    <div class="user-avatar" id="userAvatar">PP</div>
+                    <div>
+                        <div id="userName">Project Proponent</div>
+                        <span class="role-badge" id="userRole">Proponent</span>
+                    </div>
+                    <button class="logout-btn" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Logout
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="nav">
+            <div class="nav-content" id="navContent">
+                <!-- Navigation items will be dynamically generated based on role -->
+            </nav>
+
+        <!-- Main Content -->
+        <main class="main">
+            <!-- Dashboard Page -->
+            <div id="dashboardPage" class="page active">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Dashboard</h2>
+                        <button class="btn btn-primary" onclick="showPage('applicationPage')">
+                            <i class="fas fa-plus"></i>
+                            New Application
+                        </button>
+                    </div>
+
+                    <div class="stats-grid" id="statsGrid">
+                        <!-- Stats will be dynamically generated -->
+                    </div>
+
+                    <div class="alert alert-info">
+                        <i class="fas fa-bell"></i>
+                        <span id="notificationText">Welcome to CECB Environmental Clearance Portal</span>
+                    </div>
+
+                    <h3 style="margin: 2rem 0 1rem;">Recent Applications</h3>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Application ID</th>
+                                <th>Project Name</th>
+                                <th>Sector</th>
+                                <th>Status</th>
+                                <th>Submitted Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="applicationsTable">
+                            <!-- Applications will be dynamically loaded -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Application Form Page -->
+            <div id="applicationPage" class="page">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">New Environmental Clearance Application</h2>
+                        <button class="btn btn-secondary" onclick="showPage('dashboardPage')">
+                            <i class="fas fa-arrow-left"></i>
+                            Back
+                        </button>
+                    </div>
+
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="formProgress" style="width: 25%"></div>
+                    </div>
+
+                    <form id="applicationForm">
+                        <!-- Step 1: Basic Information -->
+                        <div id="step1" class="form-step">
+                            <h3 style="margin-bottom: 1.5rem;">Step 1: Basic Information</h3>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Project Name *</label>
+                                    <input type="text" class="form-control" id="projectName" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Industry Sector *</label>
+                                    <select class="form-control" id="industrySector" required>
+                                        <option value="">Select Sector</option>
+                                        <option value="Mining">Mining</option>
+                                        <option value="Manufacturing">Manufacturing</option>
+                                        <option value="Power">Power</option>
+                                        <option value="Infrastructure">Infrastructure</option>
+                                        <option value="Chemical">Chemical</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Project Location *</label>
+                                    <input type="text" class="form-control" id="projectLocation" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Investment Amount (₹) *</label>
+                                    <input type="number" class="form-control" id="investmentAmount" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Project Description *</label>
+                                <textarea class="form-control" id="projectDescription" rows="4" required></textarea>
+                            </div>
+                            <button type="button" class="btn btn-primary" onclick="nextStep(2)">
+                                Next: Applicant Details <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+
+                        <!-- Step 2: Applicant Details -->
+                        <div id="step2" class="form-step" style="display: none;">
+                            <h3 style="margin-bottom: 1.5rem;">Step 2: Applicant Details</h3>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Applicant Name *</label>
+                                    <input type="text" class="form-control" id="applicantName" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Organization *</label>
+                                    <input type="text" class="form-control" id="organization" required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Email *</label>
+                                    <input type="email" class="form-control" id="applicantEmail" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Phone *</label>
+                                    <input type="tel" class="form-control" id="applicantPhone" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Address *</label>
+                                <textarea class="form-control" id="applicantAddress" rows="3" required></textarea>
+                            </div>
+                            <div style="display: flex; gap: 1rem;">
+                                <button type="button" class="btn btn-secondary" onclick="previousStep(1)">
+                                    <i class="fas fa-arrow-left"></i>
+                                    Back
+                                </button>
+                                <button type="button" class="btn btn-primary" onclick="nextStep(3)">
+                                    Next: Documents <i class="fas fa-arrow-right"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Step 3: Document Upload -->
+                        <div id="step3" class="form-step" style="display: none;">
+                            <h3 style="margin-bottom: 1.5rem;">Step 3: Document Upload</h3>
+                            <div class="alert alert-info">
+                                <i class="fas fa-info-circle"></i>
+                                <span>Upload all required documents. Maximum file size: 10MB per file.</span>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Required Documents</label>
+                                <div class="doc-list" id="requiredDocs">
+                                    <div class="doc-item">
+                                        <div class="doc-info">
+                                            <i class="fas fa-file-pdf"></i>
+                                            <div>
+                                                <strong>Form-I Application</strong>
+                                                <p style="color: var(--gray); font-size: 0.85rem;">Required</p>
+                                            </div>
+                                        </div>
+                                        <input type="file" class="form-control" style="width: auto;">
+                                    </div>
+                                    <div class="doc-item">
+                                        <div class="doc-info">
+                                            <i class="fas fa-file-pdf"></i>
+                                            <div>
+                                                <strong>Environmental Impact Assessment</strong>
+                                                <p style="color: var(--gray); font-size: 0.85rem;">Required</p>
+                                            </div>
+                                        </div>
+                                        <input type="file" class="form-control" style="width: auto;">
+                                    </div>
+                                    <div class="doc-item">
+                                        <div class="doc-info">
+                                            <i class="fas fa-file-pdf"></i>
+                                            <div>
+                                                <strong>NOC from PCB</strong>
+                                                <p style="color: var(--gray); font-size: 0.85rem;">Required</p>
+                                            </div>
+                                        </div>
+                                        <input type="file" class="form-control" style="width: auto;">
+                                    </div>
+                                    <div class="doc-item">
+                                        <div class="doc-info">
+                                            <i class="fas fa-file-pdf"></i>
+                                            <div>
+                                                <strong>Land Ownership Documents</strong>
+                                                <p style="color: var(--gray); font-size: 0.85rem;">Required</p>
+                                            </div>
+                                        </div>
+                                        <input type="file" class="form-control" style="width: auto;">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="upload-area">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <h3>Drag & Drop Files Here</h3>
+                                <p>or click to browse</p>
+                            </div>
+
+                            <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                                <button type="button" class="btn btn-secondary" onclick="previousStep(2)">
+                                    <i class="fas fa-arrow-left"></i>
+                                    Back
+                                </button>
+                                <button type="button" class="btn btn-primary" onclick="nextStep(4)">
+                                    Next: Payment <i class="fas fa-arrow-right"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Step 4: Payment -->
+                        <div id="step4" class="form-step" style="display: none;">
+                            <h3 style="margin-bottom: 1.5rem;">Step 4: Fee Payment</h3>
+                            
+                            <div class="card" style="background: var(--light);">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+                                    <span>Application Fee:</span>
+                                    <strong>₹50,000</strong>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+                                    <span>Processing Fee:</span>
+                                    <strong>₹10,000</strong>
+                                </div>
+                                <hr style="margin: 1rem 0;">
+                                <div style="display: flex; justify-content: space-between; font-size: 1.2rem;">
+                                    <strong>Total Amount:</strong>
+                                    <strong style="color: var(--primary);">₹60,000</strong>
+                                </div>
+                            </div>
+
+                            <h4 style="margin: 1.5rem 0 1rem;">Select Payment Method</h4>
+                            <div class="payment-options">
+                                <div class="payment-option selected">
+                                    <i class="fas fa-qrcode"></i>
+                                    <p>UPI / QR Code</p>
+                                </div>
+                                <div class="payment-option">
+                                    <i class="fas fa-credit-card"></i>
+                                    <p>Credit/Debit Card</p>
+                                </div>
+                                <div class="payment-option">
+                                    <i class="fas fa-university"></i>
+                                    <p>Net Banking</p>
+                                </div>
+                                <div class="payment-option">
+                                    <i class="fas fa-wallet"></i>
+                                    <p>Digital Wallet</p>
+                                </div>
+                            </div>
+
+                            <div class="alert alert-warning" style="margin-top: 1.5rem;">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <span>Payment is non-refundable. Please verify all details before proceeding.</span>
+                            </div>
+
+                            <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                                <button type="button" class="btn btn-secondary" onclick="previousStep(3)">
+                                    <i class="fas fa-arrow-left"></i>
+                                    Back
+                                </button>
+                                <button type="submit" class="btn btn-success">
+                                    <i class="fas fa-check"></i>
+                                    Submit & Pay
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Application Tracking Page -->
+            <div id="trackingPage" class="page">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Application Tracking</h2>
+                        <button class="btn btn-secondary" onclick="showPage('dashboardPage')">
+                            <i class="fas fa-arrow-left"></i>
+                            Back
+                        </button>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Search Application</label>
+                        <div style="display: flex; gap: 1rem;">
+                            <input type="text" class="form-control" placeholder="Enter Application ID" id="searchAppId">
+                            <button class="btn btn-primary" onclick="searchApplication()">
+                                <i class="fas fa-search"></i>
+                                Search
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="trackingDetails" style="display: none;">
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle"></i>
+                            <span id="trackingAppId">Application ID: CECB/2026/EC/00123</span>
+                        </div>
+
+                        <div class="timeline" id="workflowTimeline">
+                            <!-- Timeline will be dynamically generated -->
+                        </div>
+
+                        <div class="card" style="margin-top: 2rem;">
+                            <h3>Application Details</h3>
+                            <div class="form-row" style="margin-top: 1rem;">
+                                <div>
+                                    <p style="color: var(--gray);">Project Name</p>
+                                    <p id="trackProjectName" style="font-weight: 600;">-</p>
+                                </div>
+                                <div>
+                                    <p style="color: var(--gray);">Sector</p>
+                                    <p id="trackSector" style="font-weight: 600;">-</p>
+                                </div>
+                                <div>
+                                    <p style="color: var(--gray);">Current Status</p>
+                                    <span class="status-badge status-scrutiny" id="trackStatus">Under Scrutiny</span>
+                                </div>
+                                <div>
+                                    <p style="color: var(--gray);">Submitted Date</p>
+                                    <p id="trackDate" style="font-weight: 600;">-</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card" style="margin-top: 2rem;">
+                            <h3>Documents</h3>
+                            <ul class="doc-list" id="trackDocuments">
+                                <!-- Documents will be loaded -->
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scrutiny Page (Scrutiny Team Only) -->
+            <div id="scrutinyPage" class="page">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Document Scrutiny</h2>
+                    </div>
+
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon primary">
+                                <i class="fas fa-inbox"></i>
+                            </div>
+                            <div class="stat-number" id="pendingCount">5</div>
+                            <div class="stat-label">Pending Review</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon success">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div class="stat-number" id="verifiedCount">12</div>
+                            <div class="stat-label">Verified</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon warning">
+                                <i class="fas fa-exclamation-circle"></i>
+                            </div>
+                            <div class="stat-number" id="deficiencyCount">3</div>
+                            <div class="stat-label">Deficiencies</div>
+                        </div>
+                    </div>
+
+                    <h3 style="margin: 2rem 0 1rem;">Applications Under Scrutiny</h3>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Application ID</th>
+                                <th>Project Name</th>
+                                <th>Sector</th>
+                                <th>Submitted Date</th>
+                                <th>Documents</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="scrutinyTable">
+                            <!-- Will be populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- MoM Page (MoM Team Only) -->
+            <div id="momPage" class="page">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Minutes of Meeting Management</h2>
+                    </div>
+
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon primary">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="stat-number" id="referredCount">8</div>
+                            <div class="stat-label">Referred for Meeting</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon secondary">
+                                <i class="fas fa-file-alt"></i>
+                            </div>
+                            <div class="stat-number" id="gistCount">5</div>
+                            <div class="stat-label">Gist Generated</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon success">
+                                <i class="fas fa-lock"></i>
+                            </div>
+                            <div class="stat-number" id="finalizedCount">15</div>
+                            <div class="stat-label">Finalized MoM</div>
+                        </div>
+                    </div>
+
+                    <h3 style="margin: 2rem 0 1rem;">Applications Referred for Meeting</h3>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Application ID</th>
+                                <th>Project Name</th>
+                                <th>Sector</th>
+                                <th>Gist Status</th>
+                                <th>MoM Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="momTable">
+                            <!-- Will be populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Admin Page (Admin Only) -->
+            <div id="adminPage" class="page">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Admin Dashboard</h2>
+                    </div>
+
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon primary">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="stat-number" id="totalUsers">24</div>
+                            <div class="stat-label">Total Users</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon secondary">
+                                <i class="fas fa-file-alt"></i>
+                            </div>
+                            <div class="stat-number" id="totalApplications">45</div>
+                            <div class="stat-label">Total Applications</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon warning">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="stat-number" id="avgTurnaround">7</div>
+                            <div class="stat-label">Avg. Turnaround (Days)</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon success">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div class="stat-number" id="successRate">92</div>
+                            <div class="stat-label">Success Rate (%)</div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="card">
+                            <h3>Role Management</h3>
+                            <p style="color: var(--gray); margin: 1rem 0;">Assign users to Scrutiny or MoM teams</p>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>User</th>
+                                        <th>Current Role</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>user1@cecb.gov.in</td>
+                                        <td><span class="status-badge status-scrutiny">Scrutiny</span></td>
+                                        <td>
+                                            <button class="btn btn-warning" style="padding: 0.5rem 1rem;">
+                                                <i class="fas fa-exchange-alt"></i>
+                                                Change
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>user2@cecb.gov.in</td>
+                                        <td><span class="status-badge status-mom">MoM</span></td>
+                                        <td>
+                                            <button class="btn btn-warning" style="padding: 0.5rem 1rem;">
+                                                <i class="fas fa-exchange-alt"></i>
+                                                Change
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="card">
+                            <h3>System Settings</h3>
+                            <div class="form-group">
+                                <label class="form-label">Master Template Management</label>
+                                <button class="btn btn-primary btn-block">
+                                    <i class="fas fa-file-word"></i>
+                                    Manage Templates
+                                </button>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Sector Parameters</label>
+                                <button class="btn btn-primary btn-block">
+                                    <i class="fas fa-cogs"></i>
+                                    Configure Sectors
+                                </button>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Audit Logs</label>
+                                <button class="btn btn-secondary btn-block">
+                                    <i class="fas fa-history"></i>
+                                    View Logs
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal for Application Details -->
+    <div class="modal" id="appModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Application Details</h3>
+                <button class="modal-close" onclick="closeModal('appModal')">&times;</button>
+            </div>
+            <div id="modalBody">
+                <!-- Dynamic content -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Deficiency -->
+    <div class="modal" id="deficiencyModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Flag Deficiency</h3>
+                <button class="modal-close" onclick="closeModal('deficiencyModal')">&times;</button>
+            </div>
+            <form id="deficiencyForm">
+                <div class="form-group">
+                    <label class="form-label">Select Missing Document</label>
+                    <select class="form-control" id="deficiencyDoc" required>
+                        <option value="">Select Document</option>
+                        <option value="Form-I">Form-I Application</option>
+                        <option value="EIA">Environmental Impact Assessment</option>
+                        <option value="NOC">NOC from PCB</option>
+                        <option value="Land">Land Ownership Documents</option>
+                        <option value="Water">Water Audit Report</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Remarks</label>
+                    <textarea class="form-control" id="deficiencyRemarks" rows="4" placeholder="Please specify what needs to be corrected..." required></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Correction Deadline</label>
+                    <input type="date" class="form-control" id="deficiencyDeadline" required>
+                </div>
+                <button type="submit" class="btn btn-warning btn-block">
+                    <i class="fas fa-flag"></i>
+                    Flag Deficiency
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal for MoM Generation -->
+    <div class="modal" id="momModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Generate Minutes of Meeting</h3>
+                <button class="modal-close" onclick="closeModal('momModal')">&times;</button>
+            </div>
+            <form id="momForm">
+                <div class="alert alert-info">
+                    <i class="fas fa-robot"></i>
+                    <span>Meeting gist will be auto-generated from verified application data</span>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Meeting Date</label>
+                    <input type="date" class="form-control" id="momDate" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Meeting Members Present</label>
+                    <textarea class="form-control" id="momMembers" rows="3" placeholder="List committee members..." required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Decision</label>
+                    <select class="form-control" id="momDecision" required>
+                        <option value="">Select Decision</option>
+                        <option value="Approved">Approved</option>
+                        <option value="Approved with Conditions">Approved with Conditions</option>
+                        <option value="Rejected">Rejected</option>
+                        <option value="Deferred">Deferred</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Conditions/Remarks</label>
+                    <textarea class="form-control" id="momConditions" rows="4" placeholder="Specify conditions if any..."></textarea>
+                </div>
+                
+                <div style="display: flex; gap: 1rem;">
+                    <button type="button" class="btn btn-secondary" onclick="generateGist()">
+                        <i class="fas fa-magic"></i>
+                        Auto-Generate Gist
+                    </button>
+                    <button type="submit" class="btn btn-success btn-block">
+                        <i class="fas fa-file-export"></i>
+                        Generate & Lock MoM
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // ==================== STATE MANAGEMENT ====================
+        let currentUser = null;
+        let currentRole = 'proponent';
+        let applications = [];
+        let currentStep = 1;
+
+        // ==================== INITIALIZATION ====================
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeRoleSelector();
+            initializeLogin();
+            loadMockData();
+        });
+
+        // ==================== ROLE SELECTOR ====================
+        function initializeRoleSelector() {
+            const roleOptions = document.querySelectorAll('.role-option');
+            roleOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    roleOptions.forEach(o => o.classList.remove('selected'));
+                    this.classList.add('selected');
+                    currentRole = this.dataset.role;
+                    
+                    // Update email based on role
+                    const emailMap = {
+                        'proponent': 'demo@proponent.com',
+                        'scrutiny': 'demo@scrutiny.com',
+                        'mom': 'demo@mom.com',
+                        'admin': 'demo@admin.com'
+                    };
+                    document.getElementById('email').value = emailMap[currentRole];
+                });
+            });
+        }
+
+        // ==================== LOGIN ====================
+        function initializeLogin() {
+            document.getElementById('loginForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                login();
+            });
+        }
+
+        function login() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            // Demo authentication (in production, this would be server-side)
+            if (email && password) {
+                currentUser = {
+                    email: email,
+                    role: currentRole,
+                    name: getRoleName(currentRole)
+                };
+
+                // Hide login, show main app
+                document.getElementById('loginPage').style.display = 'none';
+                document.getElementById('mainApp').style.display = 'block';
+
+                // Update user info
+                updateUserInterface();
+
+                // Load role-specific navigation
+                loadNavigation();
+
+                // Load dashboard
+                loadDashboard();
+            }
+        }
+
+        function logout() {
+            currentUser = null;
+            document.getElementById('mainApp').style.display = 'none';
+            document.getElementById('loginPage').style.display = 'flex';
+            document.getElementById('password').value = '';
+        }
+
+        function getRoleName(role) {
+            const names = {
+                'proponent': 'Project Proponent',
+                'scrutiny': 'Scrutiny Team Member',
+                'mom': 'MoM Team Member',
+                'admin': 'System Administrator'
+            };
+            return names[role] || role;
+        }
+
+        function updateUserInterface() {
+            document.getElementById('userName').textContent = currentUser.name;
+            document.getElementById('userRole').textContent = currentUser.role.charAt(0).toUpperCase() + currentUser.role.slice(1);
+            
+            const avatarInitials = currentUser.name.split(' ').map(n => n[0]).join('').substring(0, 2);
+            document.getElementById('userAvatar').textContent = avatarInitials;
+        }
+
+        // ==================== NAVIGATION ====================
+        function loadNavigation() {
+            const navContent = document.getElementById('navContent');
+            const navItems = getNavItemsForRole(currentUser.role);
+
+            navContent.innerHTML = navItems.map((item, index) => `
+                <button class="nav-item ${index === 0 ? 'active' : ''}" 
+                        onclick="showPage('${item.page}'); updateNavActive(this)">
+                    <i class="${item.icon}"></i>
+                    ${item.label}
+                </button>
+            `).join('');
+        }
+
+        function getNavItemsForRole(role) {
+            const navMaps = {
+                'proponent': [
+                    { page: 'dashboardPage', label: 'Dashboard', icon: 'fas fa-home' },
+                    { page: 'applicationPage', label: 'New Application', icon: 'fas fa-plus' },
+                    { page: 'trackingPage', label: 'Track Application', icon: 'fas fa-search' }
+                ],
+                'scrutiny': [
+                    { page: 'dashboardPage', label: 'Dashboard', icon: 'fas fa-home' },
+                    { page: 'scrutinyPage', label: 'Scrutiny', icon: 'fas fa-search' },
+                    { page: 'trackingPage', label: 'Track Application', icon: 'fas fa-search-location' }
+                ],
+                'mom': [
+                    { page: 'dashboardPage', label: 'Dashboard', icon: 'fas fa-home' },
+                    { page: 'momPage', label: 'MoM Management', icon: 'fas fa-file-alt' },
+                    { page: 'trackingPage', label: 'Track Application', icon: 'fas fa-search-location' }
+                ],
+                'admin': [
+                    { page: 'dashboardPage', label: 'Dashboard', icon: 'fas fa-home' },
+                    { page: 'adminPage', label: 'Admin Panel', icon: 'fas fa-cog' },
+                    { page: 'trackingPage', label: 'Track Application', icon: 'fas fa-search-location' }
+                ]
+            };
+            return navMaps[role] || navMaps['proponent'];
+        }
+
+        function updateNavActive(element) {
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            element.classList.add('active');
+        }
+
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById(pageId).classList.add('active');
+
+            // Load page-specific data
+            if (pageId === 'dashboardPage') loadDashboard();
+            if (pageId === 'scrutinyPage') loadScrutinyPage();
+            if (pageId === 'momPage') loadMomPage();
+            if (pageId === 'adminPage') loadAdminPage();
+        }
+
+        // ==================== DASHBOARD ====================
+        function loadDashboard() {
+            const statsGrid = document.getElementById('statsGrid');
+            const notificationText = document.getElementById('notificationText');
+
+            const stats = getDashboardStats(currentUser.role);
+            statsGrid.innerHTML = stats.map(stat => `
+                <div class="stat-card">
+                    <div class="stat-icon ${stat.color}">
+                        <i class="${stat.icon}"></i>
+                    </div>
+                    <div class="stat-number">${stat.value}</div>
+                    <div class="stat-label">${stat.label}</div>
+                </div>
+            `).join('');
+
+            notificationText.textContent = getNotificationForRole(currentUser.role);
+
+            loadApplicationsTable();
+        }
+
+        function getDashboardStats(role) {
+            const statsMap = {
+                'proponent': [
+                    { icon: 'fas fa-file-alt', value: applications.filter(a => a.proponentEmail === currentUser.email).length, label: 'My Applications', color: 'primary' },
+                    { icon: 'fas fa-check-circle', value: applications.filter(a => a.proponentEmail === currentUser.email && a.status === 'Finalized').length, label: 'Approved', color: 'success' },
+                    { icon: 'fas fa-clock', value: applications.filter(a => a.proponentEmail === currentUser.email && a.status === 'Under Scrutiny').length, label: 'In Progress', color: 'warning' },
+                    { icon: 'fas fa-exclamation-circle', value: applications.filter(a => a.proponentEmail === currentUser.email && a.status === 'Essential Document Sought').length, label: 'Action Required', color: 'danger' }
+                ],
+                'scrutiny': [
+                    { icon: 'fas fa-inbox', value: applications.filter(a => a.status === 'Submitted').length, label: 'Pending Review', color: 'primary' },
+                    { icon: 'fas fa-check-circle', value: applications.filter(a => a.status === 'Referred').length, label: 'Verified', color: 'success' },
+                    { icon: 'fas fa-exclamation-circle', value: applications.filter(a => a.status === 'Essential Document Sought').length, label: 'Deficiencies', color: 'warning' },
+                    { icon: 'fas fa-chart-line', value: '92%', label: 'SLA Compliance', color: 'secondary' }
+                ],
+                'mom': [
+                    { icon: 'fas fa-users', value: applications.filter(a => a.status === 'Referred').length, label: 'Referred for Meeting', color: 'primary' },
+                    { icon: 'fas fa-file-alt', value: applications.filter(a => a.status === 'MoM Generated').length, label: 'Gist Generated', color: 'secondary' },
+                    { icon: 'fas fa-lock', value: applications.filter(a => a.status === 'Finalized').length, label: 'Finalized MoM', color: 'success' },
+                    { icon: 'fas fa-clock', value: '5 days', label: 'Avg. Processing', color: 'warning' }
+                ],
+                'admin': [
+                    { icon: 'fas fa-users', value: '24', label: 'Total Users', color: 'primary' },
+                    { icon: 'fas fa-file-alt', value: applications.length, label: 'Total Applications', color: 'secondary' },
+                    { icon: 'fas fa-clock', value: '7 days', label: 'Avg. Turnaround', color: 'warning' },
+                    { icon: 'fas fa-check-circle', value: '92%', label: 'Success Rate', color: 'success' }
+                ]
+            };
+            return statsMap[role] || statsMap['proponent'];
+        }
+
+        function getNotificationForRole(role) {
+            const notifications = {
+                'proponent': 'Welcome! You can create new environmental clearance applications from your dashboard.',
+                'scrutiny': 'You have 5 applications pending scrutiny. Please review them within SLA timeline.',
+                'mom': 'You have 8 applications referred for meeting. Generate meeting gists and finalize MoMs.',
+                'admin': 'System Overview: 45 total applications, 92% success rate, 7 days average turnaround.'
+            };
+            return notifications[role] || notifications['proponent'];
+        }
+
+        function loadApplicationsTable() {
+            const tbody = document.getElementById('applicationsTable');
+            const userApps = currentUser.role === 'proponent' 
+                ? applications.filter(a => a.proponentEmail === currentUser.email)
+                : applications;
+
+            tbody.innerHTML = userApps.slice(0, 5).map(app => `
+                <tr>
+                    <td><strong>${app.applicationId}</strong></td>
+                    <td>${app.projectName}</td>
+                    <td>${app.sector}</td>
+                    <td><span class="status-badge status-${getStatusClass(app.status)}">${app.status}</span></td>
+                    <td>${app.submittedDate}</td>
+                    <td>
+                        <button class="btn btn-secondary" style="padding: 0.5rem 1rem;" onclick="viewApplication('${app.applicationId}')">
+                            <i class="fas fa-eye"></i>
+                            View
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+
+            if (userApps.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="6" style="text-align: center; color: var(--gray); padding: 3rem;">
+                            <i class="fas fa-inbox" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                            <p>No applications found</p>
+                        </td>
+                    </tr>
+                `;
+            }
+        }
+
+        function getStatusClass(status) {
+            const statusMap = {
+                'Draft': 'draft',
+                'Submitted': 'submitted',
+                'Under Scrutiny': 'scrutiny',
+                'Essential Document Sought': 'deficiency',
+                'Referred': 'referred',
+                'MoM Generated': 'mom',
+                'Finalized': 'finalized'
+            };
+            return statusMap[status] || 'draft';
+        }
+
+        // ==================== APPLICATION FORM ====================
+        function nextStep(step) {
+            // Validate current step
+            if (!validateStep(currentStep)) {
+                return;
+            }
+
+            document.getElementById(`step${currentStep}`).style.display = 'none';
+            document.getElementById(`step${step}`).style.display = 'block';
+            currentStep = step;
+
+            // Update progress bar
+            const progress = (step / 4) * 100;
+            document.getElementById('formProgress').style.width = `${progress}%`;
+        }
+
+        function previousStep(step) {
+            document.getElementById(`step${currentStep}`).style.display = 'none';
+            document.getElementById(`step${step}`).style.display = 'block';
+            currentStep = step;
+
+            const progress = (step / 4) * 100;
+            document.getElementById('formProgress').style.width = `${progress}%`;
+        }
+
+        function validateStep(step) {
+            // Simple validation (in production, add comprehensive validation)
+            if (step === 1) {
+                const required = ['projectName', 'industrySector', 'projectLocation', 'investmentAmount', 'projectDescription'];
+                return required.every(id => document.getElementById(id).value.trim() !== '');
+            }
+            if (step === 2) {
+                const required = ['applicantName', 'organization', 'applicantEmail', 'applicantPhone', 'applicantAddress'];
+                return required.every(id => document.getElementById(id).value.trim() !== '');
+            }
+            return true;
+        }
+
+        document.getElementById('applicationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            submitApplication();
+        });
+
+        function submitApplication() {
+            // Generate application ID
+            const appId = `CECB/2026/EC/${String(applications.length + 1).padStart(5, '0')}`;
+
+            // Create application object
+            const newApplication = {
+                applicationId: appId,
+                projectName: document.getElementById('projectName').value,
+                sector: document.getElementById('industrySector').value,
+                location: document.getElementById('projectLocation').value,
+                investment: document.getElementById('investmentAmount').value,
+                description: document.getElementById('projectDescription').value,
+                applicantName: document.getElementById('applicantName').value,
+                organization: document.getElementById('organization').value,
+                email: document.getElementById('applicantEmail').value,
+                phone: document.getElementById('applicantPhone').value,
+                address: document.getElementById('applicantAddress').value,
+                status: 'Submitted',
+                submittedDate: new Date().toISOString().split('T')[0],
+                proponentEmail: currentUser.email,
+                documents: [],
+                paymentStatus: 'Pending',
+                workflow: [
+                    { stage: 'Draft', timestamp: new Date().toISOString(), actor: currentUser.email },
+                    { stage: 'Submitted', timestamp: new Date().toISOString(), actor: 'system' }
+                ]
+            };
+
+            applications.push(newApplication);
+            saveToLocalStorage();
+
+            // Show success message
+            alert(`Application Submitted Successfully!\n\nApplication ID: ${appId}\n\nYou will receive updates via email and SMS.`);
+
+            // Reset form
+            document.getElementById('applicationForm').reset();
+            currentStep = 1;
+            document.querySelectorAll('.form-step').forEach((step, index) => {
+                step.style.display = index === 0 ? 'block' : 'none';
+            });
+            document.getElementById('formProgress').style.width = '25%';
+
+            // Redirect to dashboard
+            showPage('dashboardPage');
+            loadDashboard();
+        }
+
+        // ==================== TRACKING ====================
+        function searchApplication() {
+            const appId = document.getElementById('searchAppId').value.trim();
+            const app = applications.find(a => a.applicationId === appId);
+
+            if (app) {
+                document.getElementById('trackingDetails').style.display = 'block';
+                document.getElementById('trackingAppId').textContent = `Application ID: ${app.applicationId}`;
+                document.getElementById('trackProjectName').textContent = app.projectName;
+                document.getElementById('trackSector').textContent = app.sector;
+                document.getElementById('trackStatus').textContent = app.status;
+                document.getElementById('trackDate').textContent = app.submittedDate;
+
+                // Update status badge class
+                const statusBadge = document.getElementById('trackStatus');
+                statusBadge.className = `status-badge status-${getStatusClass(app.status)}`;
+
+                // Load timeline
+                loadWorkflowTimeline(app);
+
+                // Load documents
+                loadTrackingDocuments(app);
+            } else {
+                alert('Application not found. Please check the Application ID.');
+                document.getElementById('trackingDetails').style.display = 'none';
+            }
+        }
+
+        function loadWorkflowTimeline(app) {
+            const timeline = document.getElementById('workflowTimeline');
+            const stages = ['Draft', 'Submitted', 'Under Scrutiny', 'Essential Document Sought', 'Referred', 'MoM Generated', 'Finalized'];
+            const currentIndex = stages.indexOf(app.status);
+
+            timeline.innerHTML = stages.map((stage, index) => {
+                const isCompleted = index < currentIndex;
+                const isActive = index === currentIndex;
+                const isPending = index > currentIndex;
+
+                return `
+                    <div class="timeline-item">
+                        <div class="timeline-dot" style="background: ${isCompleted ? 'var(--success)' : isActive ? 'var(--primary)' : 'var(--border)'}"></div>
+                        <div class="timeline-content ${isActive ? 'active' : ''} ${isCompleted ? 'completed' : ''}">
+                            <h4>${stage}</h4>
+                            <p style="color: var(--gray); font-size: 0.85rem; margin-top: 0.5rem;">
+                                ${isCompleted || isActive ? getStatusDescription(stage) : 'Pending'}
+                            </p>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function getStatusDescription(stage) {
+            const descriptions = {
+                'Draft': 'Application being prepared',
+                'Submitted': 'Submitted for review',
+                'Under Scrutiny': 'Documents under verification',
+                'Essential Document Sought': 'Additional documents required',
+                'Referred': 'Approved for committee meeting',
+                'MoM Generated': 'Meeting minutes prepared',
+                'Finalized': 'Clearance granted'
+            };
+            return descriptions[stage] || stage;
+        }
+
+        function loadTrackingDocuments(app) {
+            const docList = document.getElementById('trackDocuments');
+            const docs = [
+                { name: 'Form-I Application', status: 'Uploaded' },
+                { name: 'Environmental Impact Assessment', status: 'Uploaded' },
+                { name: 'NOC from PCB', status: 'Uploaded' },
+                { name: 'Land Ownership Documents', status: 'Uploaded' }
+            ];
+
+            docList.innerHTML = docs.map(doc => `
+                <li class="doc-item">
+                    <div class="doc-info">
+                        <i class="fas fa-file-pdf"></i>
+                        <div>
+                            <strong>${doc.name}</strong>
+                            <p style="color: var(--gray); font-size: 0.85rem;">${doc.status}</p>
+                        </div>
+                    </div>
+                    <div class="doc-actions">
+                        <button class="view-btn">
+                            <i class="fas fa-eye"></i>
+                            View
+                        </button>
+                    </div>
+                </li>
+            `).join('');
+        }
+
+        // ==================== SCRUTINY PAGE ====================
+        function loadScrutinyPage() {
+            const tbody = document.getElementById('scrutinyTable');
+            const pendingApps = applications.filter(a => a.status === 'Submitted' || a.status === 'Under Scrutiny');
+
+            document.getElementById('pendingCount').textContent = pendingApps.length;
+            document.getElementById('verifiedCount').textContent = applications.filter(a => a.status === 'Referred').length;
+            document.getElementById('deficiencyCount').textContent = applications.filter(a => a.status === 'Essential Document Sought').length;
+
+            tbody.innerHTML = pendingApps.map(app => `
+                <tr>
+                    <td><strong>${app.applicationId}</strong></td>
+                    <td>${app.projectName}</td>
+                    <td>${app.sector}</td>
+                    <td>${app.submittedDate}</td>
+                    <td>
+                        <span class="status-badge status-scrutiny">
+                            <i class="fas fa-check"></i>
+                            4/4 Documents
+                        </span>
+                    </td>
+                    <td>
+                        <button class="btn btn-primary" style="padding: 0.5rem 1rem;" onclick="viewApplication('${app.applicationId}')">
+                            <i class="fas fa-eye"></i>
+                            Review
+                        </button>
+                        <button class="btn btn-warning" style="padding: 0.5rem 1rem;" onclick="openDeficiencyModal('${app.applicationId}')">
+                            <i class="fas fa-flag"></i>
+                            Flag
+                        </button>
+                        <button class="btn btn-success" style="padding: 0.5rem 1rem;" onclick="verifyApplication('${app.applicationId}')">
+                            <i class="fas fa-check"></i>
+                            Verify
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+
+            if (pendingApps.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="6" style="text-align: center; color: var(--gray); padding: 3rem;">
+                            <i class="fas fa-check-circle" style="font-size: 3rem; margin-bottom: 1rem; color: var(--success);"></i>
+                            <p>No applications pending scrutiny</p>
+                        </td>
+                    </tr>
+                `;
+            }
+        }
+
+        function verifyApplication(appId) {
+            const app = applications.find(a => a.applicationId === appId);
+            if (app) {
+                app.status = 'Referred';
+                app.workflow.push({
+                    stage: 'Referred',
+                    timestamp: new Date().toISOString(),
+                    actor: currentUser.email
+                });
+                saveToLocalStorage();
+                alert(`Application ${appId} verified and referred for meeting.`);
+                loadScrutinyPage();
+            }
+        }
+
+        function openDeficiencyModal(appId) {
+            document.getElementById('deficiencyModal').classList.add('active');
+            document.getElementById('deficiencyForm').dataset.appId = appId;
+        }
+
+        document.getElementById('deficiencyForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const appId = this.dataset.appId;
+            const app = applications.find(a => a.applicationId === appId);
+
+            if (app) {
+                app.status = 'Essential Document Sought';
+                app.deficiency = {
+                    document: document.getElementById('deficiencyDoc').value,
+                    remarks: document.getElementById('deficiencyRemarks').value,
+                    deadline: document.getElementById('deficiencyDeadline').value
+                };
+                app.workflow.push({
+                    stage: 'Essential Document Sought',
+                    timestamp: new Date().toISOString(),
+                    actor: currentUser.email
+                });
+                saveToLocalStorage();
+                closeModal('deficiencyModal');
+                alert(`Deficiency flagged for application ${appId}`);
+                loadScrutinyPage();
+            }
+        });
+
+        // ==================== MoM PAGE ====================
+        function loadMomPage() {
+            const tbody = document.getElementById('momTable');
+            const referredApps = applications.filter(a => a.status === 'Referred' || a.status === 'MoM Generated');
+
+            document.getElementById('referredCount').textContent = applications.filter(a => a.status === 'Referred').length;
+            document.getElementById('gistCount').textContent = applications.filter(a => a.status === 'MoM Generated').length;
+            document.getElementById('finalizedCount').textContent = applications.filter(a => a.status === 'Finalized').length;
+
+            tbody.innerHTML = referredApps.map(app => `
+                <tr>
+                    <td><strong>${app.applicationId}</strong></td>
+                    <td>${app.projectName}</td>
+                    <td>${app.sector}</td>
+                    <td>
+                        <span class="status-badge ${app.status === 'Referred' ? 'status-warning' : 'status-success'}">
+                            ${app.status === 'Referred' ? 'Not Generated' : 'Generated'}
+                        </span>
+                    </td>
+                    <td>
+                        <span class="status-badge ${app.status === 'Finalized' ? 'status-finalized' : 'status-draft'}">
+                            ${app.status === 'Finalized' ? 'Finalized' : 'Pending'}
+                        </span>
+                    </td>
+                    <td>
+                        ${app.status === 'Referred' ? `
+                            <button class="btn btn-primary" style="padding: 0.5rem 1rem;" onclick="openMomModal('${app.applicationId}')">
+                                <i class="fas fa-magic"></i>
+                                Generate Gist
+                            </button>
+                        ` : `
+                            <button class="btn btn-success" style="padding: 0.5rem 1rem;" onclick="finalizeMom('${app.applicationId}')">
+                                <i class="fas fa-lock"></i>
+                                Finalize
+                            </button>
+                            <button class="btn btn-secondary" style="padding: 0.5rem 1rem;" onclick="exportMom('${app.applicationId}')">
+                                <i class="fas fa-file-export"></i>
+                                Export
+                            </button>
+                        `}
+                    </td>
+                </tr>
+            `).join('');
+
+            if (referredApps.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="6" style="text-align: center; color: var(--gray); padding: 3rem;">
+                            <i class="fas fa-inbox" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                            <p>No applications referred for meeting</p>
+                        </td>
+                    </tr>
+                `;
+            }
+        }
+
+        function openMomModal(appId) {
+            document.getElementById('momModal').classList.add('active');
+            document.getElementById('momForm').dataset.appId = appId;
+        }
+
+        function generateGist() {
+            const appId = document.getElementById('momForm').dataset.appId;
+            const app = applications.find(a => a.applicationId === appId);
+
+            if (app) {
+                // Auto-generate gist from application data
+                const gist = `
+                    MEETING GIST - ${app.applicationId}
+                    
+                    Project: ${app.projectName}
+                    Sector: ${app.sector}
+                    Location: ${app.location}
+                    Investment: ₹${app.investment}
+                    
+                    Applicant: ${app.applicantName}
+                    Organization: ${app.organization}
+                    
+                    Documents Verified: Yes
+                    Deficiencies: None
+                    
+                    Recommendation: Approved for Environmental Clearance
+                `;
+
+                alert('Meeting Gist Auto-Generated!\n\n' + gist);
+                
+                app.status = 'MoM Generated';
+                app.gist = gist;
+                app.workflow.push({
+                    stage: 'MoM Generated',
+                    timestamp: new Date().toISOString(),
+                    actor: currentUser.email
+                });
+                saveToLocalStorage();
+            }
+        }
+
+        document.getElementById('momForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const appId = this.dataset.appId;
+            const app = applications.find(a => a.applicationId === appId);
+
+            if (app) {
+                app.mom = {
+                    date: document.getElementById('momDate').value,
+                    members: document.getElementById('momMembers').value,
+                    decision: document.getElementById('momDecision').value,
+                    conditions: document.getElementById('momConditions').value
+                };
+                saveToLocalStorage();
+                closeModal('momModal');
+                alert(`MoM generated for application ${appId}`);
+                loadMomPage();
+            }
+        });
+
+        function finalizeMom(appId) {
+            const app = applications.find(a => a.applicationId === appId);
+            if (app) {
+                app.status = 'Finalized';
+                app.workflow.push({
+                    stage: 'Finalized',
+                    timestamp: new Date().toISOString(),
+                    actor: currentUser.email
+                });
+                saveToLocalStorage();
+                alert(`MoM finalized and locked for application ${appId}`);
+                loadMomPage();
+            }
+        }
+
+        function exportMom(appId) {
+            const app = applications.find(a => a.applicationId === appId);
+            if (app) {
+                alert(`Exporting MoM for ${appId} in Word and PDF formats...`);
+                // In production, this would trigger actual file download
+            }
+        }
+
+        // ==================== ADMIN PAGE ====================
+        function loadAdminPage() {
+            // Admin stats are already loaded in dashboard
+            // Additional admin functionality can be added here
+        }
+
+        // ==================== MODAL FUNCTIONS ====================
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        function viewApplication(appId) {
+            const app = applications.find(a => a.applicationId === appId);
+            if (app) {
+                const modalBody = document.getElementById('modalBody');
+                modalBody.innerHTML = `
+                    <div class="form-row">
+                        <div>
+                            <p style="color: var(--gray);">Application ID</p>
+                            <p><strong>${app.applicationId}</strong></p>
+                        </div>
+                        <div>
+                            <p style="color: var(--gray);">Status</p>
+                            <span class="status-badge status-${getStatusClass(app.status)}">${app.status}</span>
+                        </div>
+                    </div>
+                    <hr style="margin: 1.5rem 0;">
+                    <div class="form-row">
+                        <div>
+                            <p style="color: var(--gray);">Project Name</p>
+                            <p><strong>${app.projectName}</strong></p>
+                        </div>
+                        <div>
+                            <p style="color: var(--gray);">Sector</p>
+                            <p><strong>${app.sector}</strong></p>
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-top: 1rem;">
+                        <p style="color: var(--gray);">Description</p>
+                        <p>${app.description}</p>
+                    </div>
+                    <div class="form-row" style="margin-top: 1rem;">
+                        <div>
+                            <p style="color: var(--gray);">Applicant</p>
+                            <p><strong>${app.applicantName}</strong></p>
+                        </div>
+                        <div>
+                            <p style="color: var(--gray);">Organization</p>
+                            <p><strong>${app.organization}</strong></p>
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-top: 1rem;">
+                        <p style="color: var(--gray);">Contact</p>
+                        <p><strong>${app.email}</strong> | ${app.phone}</p>
+                    </div>
+                    <div style="margin-top: 2rem;">
+                        <button class="btn btn-primary" onclick="closeModal('appModal'); showPage('trackingPage'); document.getElementById('searchAppId').value='${app.applicationId}'; searchApplication();">
+                            <i class="fas fa-search-location"></i>
+                            View Full Tracking
+                        </button>
+                    </div>
+                `;
+                document.getElementById('modalTitle').textContent = `Application: ${app.applicationId}`;
+                document.getElementById('appModal').classList.add('active');
+            }
+        }
+
+        // ==================== LOCAL STORAGE ====================
+        function saveToLocalStorage() {
+            localStorage.setItem('cecb_applications', JSON.stringify(applications));
+        }
+
+        function loadFromLocalStorage() {
+            const stored = localStorage.getItem('cecb_applications');
+            if (stored) {
+                applications = JSON.parse(stored);
+            }
+        }
+
+        function loadMockData() {
+            loadFromLocalStorage();
+            
+            if (applications.length === 0) {
+                // Create sample applications for demo
+                applications = [
+                    {
+                        applicationId: 'CECB/2026/EC/00001',
+                        projectName: 'Green Valley Mining Project',
+                        sector: 'Mining',
+                        location: 'Raipur District',
+                        investment: '50000000',
+                        description: 'Establishment of eco-friendly mining operations',
+                        applicantName: 'Rajesh Kumar',
+                        organization: 'Green Valley Minerals Pvt Ltd',
+                        email: 'rajesh@greenvalley.com',
+                        phone: '9876543210',
+                        address: '123 Industrial Area, Raipur',
+                        status: 'Under Scrutiny',
+                        submittedDate: '2026-03-01',
+                        proponentEmail: 'demo@proponent.com',
+                        workflow: [
+                            { stage: 'Draft', timestamp: '2026-03-01T10:00:00Z', actor: 'demo@proponent.com' },
+                            { stage: 'Submitted', timestamp: '2026-03-01T11:30:00Z', actor: 'system' },
+                            { stage: 'Under Scrutiny', timestamp: '2026-03-02T09:00:00Z', actor: 'demo@scrutiny.com' }
+                        ]
+                    },
+                    {
+                        applicationId: 'CECB/2026/EC/00002',
+                        projectName: 'Solar Power Plant Phase-II',
+                        sector: 'Power',
+                        location: 'Bilaspur District',
+                        investment: '120000000',
+                        description: '50MW Solar Power Generation Facility',
+                        applicantName: 'Priya Sharma',
+                        organization: 'Solar Energy Corp',
+                        email: 'priya@solarenergy.com',
+                        phone: '9876543211',
+                        address: '456 Power Zone, Bilaspur',
+                        status: 'Referred',
+                        submittedDate: '2026-02-15',
+                        proponentEmail: 'demo@proponent.com',
+                        workflow: [
+                            { stage: 'Draft', timestamp: '2026-02-15T10:00:00Z', actor: 'demo@proponent.com' },
+                            { stage: 'Submitted', timestamp: '2026-02-15T11:30:00Z', actor: 'system' },
+                            { stage: 'Under Scrutiny', timestamp: '2026-02-16T09:00:00Z', actor: 'demo@scrutiny.com' },
+                            { stage: 'Referred', timestamp: '2026-02-20T14:00:00Z', actor: 'demo@scrutiny.com' }
+                        ]
+                    },
+                    {
+                        applicationId: 'CECB/2026/EC/00003',
+                        projectName: 'Chemical Processing Unit',
+                        sector: 'Chemical',
+                        location: 'Durg District',
+                        investment: '80000000',
+                        description: 'Industrial chemical processing and manufacturing',
+                        applicantName: 'Amit Patel',
+                        organization: 'ChemTech Industries',
+                        email: 'amit@chemtech.com',
+                        phone: '9876543212',
+                        address: '789 Chemical Zone, Durg',
+                        status: 'Finalized',
+                        submittedDate: '2026-01-20',
+                        proponentEmail: 'demo@proponent.com',
+                        workflow: [
+                            { stage: 'Draft', timestamp: '2026-01-20T10:00:00Z', actor: 'demo@proponent.com' },
+                            { stage: 'Submitted', timestamp: '2026-01-20T11:30:00Z', actor: 'system' },
+                            { stage: 'Under Scrutiny', timestamp: '2026-01-21T09:00:00Z', actor: 'demo@scrutiny.com' },
+                            { stage: 'Referred', timestamp: '2026-01-25T14:00:00Z', actor: 'demo@scrutiny.com' },
+                            { stage: 'MoM Generated', timestamp: '2026-01-30T10:00:00Z', actor: 'demo@mom.com' },
+                            { stage: 'Finalized', timestamp: '2026-02-01T15:00:00Z', actor: 'demo@mom.com' }
+                        ]
+                    }
+                ];
+                saveToLocalStorage();
+            }
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.classList.remove('active');
+            }
+        }
+
+        // Payment option selection
+        document.querySelectorAll('.payment-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.payment-option').forEach(o => o.classList.remove('selected'));
+                this.classList.add('selected');
+            });
+        });
+    </script>
+</body>
+</html>
