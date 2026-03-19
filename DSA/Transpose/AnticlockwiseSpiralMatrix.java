@@ -1,5 +1,4 @@
 import java.util.*;
-import java.util.Scanner;
 
 class AnticlockwiseSpiralMatrix {
     public static void main(String[] args) {
@@ -10,7 +9,12 @@ class AnticlockwiseSpiralMatrix {
                 matrix[i][j]=in.nextInt();
             }
         }
-        System.out.println(AnticlockwiseSpiral(matrix));
+        List<Integer> res=new ArrayList<>();
+        res=AnticlockwiseSpiral(matrix);
+        for (int i = 0; i < res.size(); i++) {
+            System.out.print(res.get(i) + ", ");
+        }
+        System.out.print("END");
     }
 
     public static List<Integer> AnticlockwiseSpiral(int[][] matrix) {
