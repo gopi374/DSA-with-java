@@ -11,17 +11,28 @@ class Anticlockwiseimagerotate {
                 mat[i][j]=sc.nextInt();
             }
         }
-        int[][] res=new int[c][r];
-        for(int i=0;i<r;i++){
-            for(int j=0;j<c;j++){
-                res[c-j-1][i]=mat[i][j];
-                System.out.print(res[c-j-1][i]+" ");
+        int n=mat.length,m=mat[0].length;
+        for(int i=0;i<n;i++){
+            for(int j=i;j<m;j++){
+                int temp=mat[i][j];
+                mat[i][j]=mat[j][i];
+                mat[j][i]=temp;
             }
             System.out.println();
         }
-        for(int i=r-1;i>=0;i--){
-            for(int j=0;j<c;j++){
-                System.out.print(res[c-j-1][i]+" ");
+        for(int i=0;i<n;i++){
+            int left=0,right=m-1;
+            while(left<=right){
+                int temp=mat[left][i];
+                mat[left][i]=mat[right][i];
+                mat[right][i]=temp;
+                left++;
+                right--;
+            }
+        }
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                System.out.print(mat[i][j]+" ");
             }
             System.out.println();
         }
