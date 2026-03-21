@@ -8,7 +8,7 @@ public class sqrt {
     static double sqrt(double  n){
         double result=0;
         for(int i=1;i<=n;i++){
-            if(i*i==n){
+            if(i*i==n){ 
                 result=i;
                 break;
             }
