@@ -21,12 +21,12 @@ public class waveprintcolumnwise {
             if(j % 2 == 0){
                 // top to bottom
                 for(int i = 0; i < n; i++){
-                    System.out.print(mat[i][j] + " ");
+                    System.out.print(mat[j][i] + " ");
                 }
             } else {
                 // bottom to top
                 for(int i = n - 1; i >= 0; i--){
-                    System.out.print(mat[i][j] + " ");
+                    System.out.print(mat[j][i] + ", ");
                 }
             }
         }
