@@ -6,6 +6,6 @@ public class ispalindrone {
         String s = sc.nextLine();
         StringBuilder sb =new StringBuilder(s);
         sb.reverse();
-        System.out.println(sb.equals(s));
+        System.out.println((sb.toString()).equals(s));
     }
 }
