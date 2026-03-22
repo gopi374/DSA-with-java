@@ -4,12 +4,11 @@ public class removingDuplicates {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         String s = sc.nextLine();
-        String ls = s.toLowerCase();
-        StringBuilder sb =new StringBuilder(ls);
-        for (int i = 1; i <= ls.length(); i++) {
-            if(ls.charAt(i-1) && ls.charAt(i)){
-                sb.deleteCharAt(i-1);
-                sb.append(i);
+        StringBuilder sb =new StringBuilder();
+        sb.append(s.charAt(0));
+        for (int i = 1; i < s.length(); i++) {
+            if(s.charAt(1) != s.charAt(i-1)){
+                sb.append(s.charAt(i));
             }
         }
         System.out.println(sb.toString());
