@@ -10,5 +10,4 @@ public class ispalindrone {
         System.out.println(sb.toString());
         System.out.println((sb.toString()).equals(lower));
     }
-    
 }
