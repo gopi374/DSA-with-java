@@ -4,9 +4,9 @@ public class ispalindrone {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         String s = sc.nextLine();
-        System.out.println(chech(s));
+        System.out.println(check(s));
     }
-    static boolean chech(String s){
+    static boolean check(String s){
         StringBuilder sb =new StringBuilder(s);
         sb.reverse();
         if(s!=sb.toString()){
