@@ -8,7 +8,7 @@ public class palindromicsubstring {
 
         for (int i = 0; i < s.length(); i++) {
             count += countPal(s, i, i);     
-            count += countPal(s, i, i + 1); // even-
+            count += countPal(s, i, i + 1); 
         }
 
         System.out.println(count);
