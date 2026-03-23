@@ -21,13 +21,13 @@ class Anticlockwiseimagerotate {
             System.out.println();
         }
         for(int i=0;i<n;i++){
-            int left=0,right=m-1;
-            while(left<=right){
-                int temp=mat[left][i];
-                mat[left][i]=mat[right][i];
-                mat[right][i]=temp;
-                left++;
-                right--;
+            int top=0,bot=m-1;
+            while(top<=bot){
+                int temp=mat[top][i];
+                mat[top][i]=mat[bot][i];
+                mat[bot][i]=temp;
+                top++;
+                bot--;
             }
         }
         for(int i=0;i<n;i++){
