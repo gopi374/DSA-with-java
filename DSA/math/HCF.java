@@ -13,6 +13,6 @@ public class HCF {
                 break;
             };
         }
-        System.out.print(hcf+" ");
+        System.out.print("GCD = "+hcf);
     }
 }
