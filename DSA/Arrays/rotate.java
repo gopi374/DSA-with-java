@@ -1,5 +1,4 @@
 
-import java.util.Vector;
 
 public class rotate {
     public static void main(String[] args) {
@@ -8,14 +7,18 @@ public class rotate {
         rot(nums,k);
     }
     static void rot(int[] nums,int k){
-        Vector<Integer> res = new Vector<>();
-        int idx=0;
-        for(int i=nums.length-1;i>k;i--){
-           res.set(idx, nums[i]);
-           idx++;
+        int n =nums.length;
+        k = k % n;
+        System.out.println("K"+k);
+        for (int i = 0; i < k; i++) {
+            int last = nums[n - 1];
+            for(int j=n-1;j>0;j--){
+                nums[j]=nums[j-1];
+            }
+            nums[0]=last;
         }
-        for (int i=0;i<res.size();i++) {
-            System.out.print(res.get(i)+" ");
+        for(int l:nums){
+            System.out.println(l+" ");
         }
 
     }
