@@ -9,7 +9,8 @@ public class rotate {
     static void rot(int[] nums,int k){
         int n =nums.length;
         k = k % n;
-        System.out.println("K"+k);
+        int l1 =k%n;
+        System.out.println("K"+l1);
         for (int i = 0; i < k; i++) {
             int last = nums[n - 1];
             for(int j=n-1;j>0;j--){
