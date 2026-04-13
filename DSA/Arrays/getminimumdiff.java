@@ -5,11 +5,17 @@ class getminimumdiff{
     }
     static int getdiff(int[] nums , int start ,int target){
         for(int i=0;i<nums.length;i++){
-            int min=0;
+            int m=0;
+            if(nums[i]==target){
+                m = i-start;
+            }
             for(int j=nums.length-1;j>=0;j--){
                 if(nums[j]==target){
-                    return Math.min(min,j-start);
+                    int l = j-start;
+                    int mn=  Math.min(m,l);
+                    return Math.abs(mn);
                 }
+                
             }
         }
         return 0;
