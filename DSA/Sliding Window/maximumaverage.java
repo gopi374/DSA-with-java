@@ -5,14 +5,19 @@ class maximumaverage{
         System.out.println(maxi(nums,k));
     }
     static double maxi(int[] nums,int k){
-        double maxsum=0;
-        for (int i =0;i<nums.length;i++) {
-            for(int j=i;j<k;j++){
-                maxsum=maxsum+nums[j];
-                // System.out.print(maxsum+" ");
-            }
-            System.out.println(maxsum/k);
+        int  maxsum=0;
+        int  sum=0;
+        for (int i =0;i<k;i++) {
+            sum+=nums[i];
         }
-        return maxsum;
+        maxsum=sum;
+        for(int i=k;i<nums.length;i++){
+            sum=sum+nums[i]+nums[i-k];
+            // maxsum=Math.max(maxsum, sum);
+            if(sum>maxsum){
+                maxsum=sum;
+            }
+        }
+        return (double)maxsum/k;
     }
 }
