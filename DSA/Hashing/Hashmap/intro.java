@@ -39,5 +39,15 @@ public class intro {
             System.out.println(e.getKey()+" "+e.getValue());
         }
 
+        //itration using keySet();
+        //create an set of keys/value first
+        //add .keySet() method to store key
+        // print
+        //for printing value also use map.get(key);
+        Set<String> keys = map.keySet();
+        for(String key:keys){
+            System.out.println(key+" "+map.get(key));
+        }
+
     }
 }
