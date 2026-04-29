@@ -39,7 +39,7 @@ public class intro {
             System.out.println(e.getKey()+" "+e.getValue());
         }
 
-        //itration using keySet();
+        //itration-2 using keySet();
         //create an set of keys/value first
         //add .keySet() method to store key
         // print
@@ -48,6 +48,10 @@ public class intro {
         for(String key:keys){
             System.out.println(key+" "+map.get(key));
         }
+
+        //remove/delete
+        map.remove("USA");
+        System.out.println(map);
 
     }
 }
