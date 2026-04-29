@@ -2,7 +2,7 @@ import java.util.*;
 
 public class intro {
     public static void main(String[] args) {
-        //hashmap is a data structure which is used to store unique value in the form of key pair.
+        //hashmap is a data structure which is used to store value in the form of key pair.
         //it stores only unique keys and the value is may duplicate or unique.
 
         //string = key, integer =value
