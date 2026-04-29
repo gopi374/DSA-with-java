@@ -34,7 +34,7 @@ public class intro {
 
        // size
        set.size();
-
+    
        System.out.println(set);
 
        Iterator it=set.iterator();
