@@ -15,7 +15,7 @@ public class intro {
         map.put("USA",120);
 
 
-        //traversal
+        //print
         System.out.println(map);
 
         //search
@@ -26,6 +26,14 @@ public class intro {
         else{
             System.out.println("key is not present in map");
         }
+
+        //search -2
+        System.out.println(map.get("india")); //if key exist , return the value
+        System.out.println(map.get("indo")); //key does not exist
+
+
+        //iteration 
+        
 
     }
 }
