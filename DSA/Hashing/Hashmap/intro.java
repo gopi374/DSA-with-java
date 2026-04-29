@@ -33,7 +33,11 @@ public class intro {
 
 
         //iteration 
-        
+        //using like for each loop
+        //.entrySet() provides the set version of map
+        for(Map.Entry<String,Integer> e : map.entrySet()){
+            System.out.println(e.getKey()+" "+e.getValue());
+        }
 
     }
 }
