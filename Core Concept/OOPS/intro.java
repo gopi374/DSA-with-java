@@ -22,7 +22,7 @@ class Pen{
 public class intro {
 
     public static void main(String[] args) {
-        Pen pen1 = new Pen();
+        Pen pen1 = new Pen(); //object creation 
         pen1.color = "black";
         pen1.printcolor();
     }
