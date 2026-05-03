@@ -1,5 +1,5 @@
 class Pen{
-    String color;
+    String color; //properties
     String type;
 
     public void Write(){ //methods of class
