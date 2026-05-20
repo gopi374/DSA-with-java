@@ -3,7 +3,7 @@ class Pen{
     String type;
 
     public void Write(){ //methods of class
-        System.out.println("Writting");
+        System.out.println("Pen is Writting");
     }
 
     public void printcolor(){
@@ -25,6 +25,7 @@ public class intro {
         Pen pen1 = new Pen(); //object creation 
         pen1.color = "black";
         pen1.printcolor();
+        pen1.Write();
     }
     
 }
