@@ -14,8 +14,9 @@ class Car {
     public void Stop(){
         System.out.println("Engine stops");
     }
-
     public static void main(String[] args) {
+        Pen pen =new Pen();
+        pen.color="black";
         Car car = new Car();
         car.Name="BMW M4";
         car.speed=40;
@@ -25,7 +26,7 @@ class Car {
         car.year=2021;
         car.accelerate(2);
         System.out.println(car.Name);
-        System.out.println(car.accelerate(2));
+        car.accelerate(2);
     }
 
 }
