@@ -1,13 +1,21 @@
 class Student {
+
+    //Encapsulation - bundling the data into an single unit.
+    // -> making the data(fields/variable) private/controlled access
+    // -> controlled by getter and setter methods
+
+    // private variables (hidden data)
     private String name;
     private int password; //
 
-    // seeting the data
+    // setter method() 
     public void setName( String name) {
         this.name = name;
     }
+    // this keyword refers to the current object of the class
+    // it is used inside methods to access current object data
 
-    // accessing encapsulated data
+    // getter method()
     public String getName() {
         return name;
     }
