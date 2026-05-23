@@ -27,5 +27,7 @@ class encap {
         Student e = new Student();
         e.setpassword(124536);
         System.out.println(e.getpassword());
+        e.setpassword(526341);
+        System.out.println(e.getpassword());
     }
 }
