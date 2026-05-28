@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 class Student {
 
     //Encapsulation - bundling the data into an single unit.
@@ -38,9 +40,12 @@ class BankAccount{
 
     public void setAccNum(int accNum){
         this.accNum = accNum;
+        System.out.println("Account Number added SucessFully");
     }
     public void setPassword(int password){
         this.password = password;
+        System.out.println("Password added SuccessFully");
+
     }
 
     public void setBalance(int balance){
@@ -85,15 +90,21 @@ class BankAccount{
 
 public class encap {
     public static void main(String[] args) {
-        Student e = new Student();
-        e.setpassword(124536);
-        System.out.println(e.getpassword());
-        e.setpassword(526341);
-        System.out.println(e.getpassword());
+//        Student e = new Student();
+//        e.setpassword(124536);
+//        System.out.println(e.getpassword());
+//        e.setpassword(526341);
+//        System.out.println(e.getpassword());
+
 
         BankAccount bankAccount = new BankAccount();
-        bankAccount.setBalance(2000);
+        Scanner sc = new Scanner(System.in);
+        int initial =sc.nextInt();
+
+        bankAccount.setAccNum(732365);
+        bankAccount.setPassword(882451);
+        bankAccount.setBalance(initial);
         bankAccount.Deposit(2500);
-        bankAccount.withdrew(20000);
+        bankAccount.withdrew(23);
     }
 }
