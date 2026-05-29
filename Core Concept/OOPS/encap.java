@@ -38,6 +38,12 @@ class BankAccount{
     private int deposit;
     private int withdraw;
 
+    public BankAccount(int accNum ,int password ,int balance){ //parameterized constructor/ custom constructor
+        this.accNum = accNum;
+        this.password = password;
+        this.balance = balance;
+    }
+
     public void setAccNum(int accNum){
         this.accNum = accNum;
         System.out.println("Account Number added SucessFully");
@@ -90,21 +96,28 @@ class BankAccount{
 
 public class encap {
     public static void main(String[] args) {
-//        Student e = new Student();
+        Student e = new Student();
 //        e.setpassword(124536);
 //        System.out.println(e.getpassword());
 //        e.setpassword(526341);
 //        System.out.println(e.getpassword());
 
 
-        BankAccount bankAccount = new BankAccount();
-        Scanner sc = new Scanner(System.in);
-        int initial =sc.nextInt();
+//        BankAccount bankAccount = new BankAccount(); //BankAccount() ->it is an default constructor , it set the default value of class instance
 
-        bankAccount.setAccNum(732365);
-        bankAccount.setPassword(882451);
-        bankAccount.setBalance(initial);
-        bankAccount.Deposit(2500);
-        bankAccount.withdrew(23);
+        BankAccount bankAccount = new BankAccount(45215,14*85,100);
+        System.out.println(bankAccount.getAccNum());
+        System.out.println(bankAccount.getPassword());
+        System.out.println(bankAccount.getBalance());
+        bankAccount.withdrew(56);
+
+//        Scanner sc = new Scanner(System.in);
+//        int initial =sc.nextInt();
+//
+//        bankAccount.setAccNum(732365);
+//        bankAccount.setPassword(882451);
+//        bankAccount.setBalance(initial);
+//        bankAccount.Deposit(2500);
+//        bankAccount.withdrew(23);
     }
 }
