@@ -3,7 +3,8 @@
 //inheritance used for code reusability 
 class Grandfather{
 
-    //single level inheritance
+    //single level inheritance ( class A -> class B)
+    //In Single level inheritance only one class extends(acquire) the parents class properties.
     String name;
      
     public void sayHello(){
@@ -17,6 +18,13 @@ class Parents extends Grandfather{
     }
 }
 
+class Child extends Parents{
+    //multilevel inheritance (class Grandfather -> class Parents -> class Child)
+    void childname(){
+        this.name = name;
+        System.out.println("Child name :"+name);
+    }
+}
 
 public class inheritance {
     public static void main(String[] args) {
@@ -24,5 +32,10 @@ public class inheritance {
         p.name="rahul";
         p.hii();
         p.sayHello();
+        Child c = new Child();
+        c.name = "BOB";
+        c.childname();
+        c.hii();
+        c.sayHello();
     }
 }
