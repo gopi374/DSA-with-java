@@ -3,6 +3,8 @@
 //Declared using the abstract keyword.
 //Cannot be instantiated directly.
 //in abstract class , we can defined both methods(abstract or concreate)
+
+
 abstract class Animal{
     private String name;
     private int age;
