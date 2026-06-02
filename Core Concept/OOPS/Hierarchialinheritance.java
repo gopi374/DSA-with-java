@@ -24,7 +24,6 @@ class Cat extends Animal{
     }
 }
 
-
 public class Hierarchialinheritance {
     public static void main(String args[]){
         Cat cat = new Cat();
@@ -32,6 +31,6 @@ public class Hierarchialinheritance {
         cat.ShowName();
         cat.sound();
         Dog dog =new Dog();
-
+        dog.
     }    
 }
