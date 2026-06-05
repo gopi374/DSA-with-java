@@ -24,7 +24,6 @@ class threeSum {
                 if (sum == 0) {
 
                     result.add(Arrays.asList(nums[i], nums[left], nums[right]));
-ō
                     while (left < right && nums[left] == nums[left + 1])
                         left++;
 

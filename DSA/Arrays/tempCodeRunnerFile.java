@@ -1,4 +1,4 @@
-tatic int maxi(int[] nums){
+//static int maxi(int[] nums){
     //     int n=nums.length;
     //     int s=n/2;
     //     int count=0;
