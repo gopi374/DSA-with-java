@@ -14,7 +14,36 @@ class LL{
     }
 
     public void insertLast(int value){
-        if()
+        if(tail==null){
+            inserfirst(value);
+            return;
+        }
+
+        Node node =new Node(value);
+        tail.next = node;
+        tail=node;
+
+        size++;
+    }
+    //isertmiddle
+
+    public void insertMiddle(int value,int idx){
+        if(idx==0){
+            inserfirst(value);
+            return;
+        }
+        if(idx==size){
+            insertLast(value);
+            return;
+        }
+        Node temp = head;
+
+        for(int i=0;i<idx;i++){
+            temp=temp.next;
+        }
+        Node node = new Node(value,temp.next);
+        temp.next=node;
+        size++;
     }
 
     //display
@@ -56,7 +85,9 @@ public class linkedlist{
         LL list = new LL();
         list.inserfirst(125);
         list.inserfirst(100);
+        list.insertMiddle(99, 2);
         list.inserfirst(120);
+        list.insertLast(101);
         list.display();
         list.displayTail();
     }
