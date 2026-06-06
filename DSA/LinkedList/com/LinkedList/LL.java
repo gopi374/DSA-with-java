@@ -56,6 +56,39 @@ public class LL {
         size++;
     }
 
+    //deletefirst
+    public void deletefirst(){
+        int value = head.value;
+        head=head.next;
+        if(head==null)
+        {
+            tail=null;
+        }
+        size--;
+        System.out.println("Deleted first/head value :"+value);
+    }
+
+    //deletelast
+    public void deletelast(){
+        int value = tail.value;
+        tail=tail.next;
+        if(tail==null){
+            head=null;
+        }
+        size--;
+        System.out.println("Deleted tail/last value"+tail.value);
+    }
+
+    //display head
+
+    public void displayHead(){
+        if(head == null){
+            System.out.println("head is Null");
+        }
+        else{
+            System.out.println("head value :"+head.value);
+        }
+    }
     //Tail display method
     public void displayTail(){
         if(tail==null){
@@ -69,6 +102,7 @@ public class LL {
     //display method
     public void display(){
         Node temp=head;
+        System.out.print("Start :");
         while(temp != null){
             System.out.print(temp.value+"-> ");
             temp = temp.next;

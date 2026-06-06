@@ -1,7 +1,5 @@
 package com.LinkedList;
 
-import org.w3c.dom.Node;
-
 public class Main {
     public static void main(String rags[]){
         LL list = new LL();
@@ -12,6 +10,10 @@ public class Main {
         list.insertFirst(2);
         list.insertLast(100);
         list.insertMiddle(75,2);
+        list.display();
+        list.deletefirst();
+//        list.deletelast();
+        list.displayHead();
         list.displayTail();
         list.display();
     }
