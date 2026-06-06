@@ -10,12 +10,16 @@ public class Main {
         list.insertFirst(2);
         list.insertLast(100);
         list.insertMiddle(75,2);
+//        list.displayHead();
+//        list.displayTail();
         list.display();
-        list.deletefirst();
+//        list.deletefirst();
 //        list.deletelast();
-        list.displayHead();
-        list.displayTail();
+//        list.displayHead();
+//        list.displayTail();
+        list.delete(5);
         list.display();
+        System.out.println(list.getNode(60));
     }
 
 }

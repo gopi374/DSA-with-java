@@ -70,17 +70,56 @@ public class LL {
 
     //deletelast
     public void deletelast(){
-        int value = tail.value;
-        tail=tail.next;
-        if(tail==null){
-            head=null;
+        if(size<=1){
+            deletelast();
         }
-        size--;
-        System.out.println("Deleted tail/last value"+tail.value);
+        Node secondlastNode=get(size-2);
+        int value = tail.value;
+        tail=secondlastNode;
+        tail.next=null;
+
+        System.out.println("deleted tail value :"+value);
     }
 
-    //display head
+    //delete
+    public void delete(int idx){
+        if(idx==0){
+            deletefirst();
+            return;
+        }
+        if(idx==size-1){
+            deletelast();
+            return;
+        }
 
+        Node pre = get(idx-1);
+        int val= pre.next.value;
+        pre.next=pre.next.next;
+        System.out.println("deleted value :"+val);
+    }
+
+    //getidx function
+    public Node get(int idx){
+        Node node =head;
+        for (int i = 0; i < idx; i++) {
+            node=node.next;
+        }
+        return node;
+    }
+
+    //getNode() by value
+    public Node getNode(int value){
+        Node node =head;
+        while(node!=null) {
+            if (node.value == value) {
+                return node;
+            }
+            node = node.next;
+        }
+        return null;
+    }
+    
+    //display head
     public void displayHead(){
         if(head == null){
             System.out.println("head is Null");
@@ -109,9 +148,17 @@ public class LL {
         }
         System.out.println("END");
     }
+    //Node creation
     private class Node{
         private int value;
         private Node next;
+
+        @Override
+        public String toString() {
+            return "Node{value=" + value +
+                    ", next=" + (next != null ? next.value : "null") +
+                    "}";
+        }
 
         public Node(int value){
             this.value=value;
