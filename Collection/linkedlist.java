@@ -1,9 +1,15 @@
 class LL{
+    private  Node head;
     private Node tail;
-    private Node head;
     private int size;
 
-    public void inserfirst(int value){
+    // no-argument constructor
+    public LL(){
+        this.size = 0;
+    }
+
+    //insertion
+    public void insertfirst(int value){
         Node node =new Node(value);
         node.next=head;
         head=node;
@@ -15,21 +21,18 @@ class LL{
 
     public void insertLast(int value){
         if(tail==null){
-            inserfirst(value);
+            insertfirst(value);
             return;
         }
-
-        Node node =new Node(value);
-        tail.next = node;
+        Node node = new Node(value);
+        tail.next=node;
         tail=node;
-
         size++;
-    }
-    //isertmiddle
 
+    }
     public void insertMiddle(int value,int idx){
         if(idx==0){
-            inserfirst(value);
+            insertfirst(value);
             return;
         }
         if(idx==size){
@@ -37,58 +40,47 @@ class LL{
             return;
         }
         Node temp = head;
-
-        for(int i=0;i<idx;i++){
+        for(int i=1;i<idx;i++){
             temp=temp.next;
         }
-        Node node = new Node(value,temp.next);
+        Node node = new Node(value, temp.next);
         temp.next=node;
         size++;
     }
-
-    //display
+    //display method
     public void display(){
-        Node temp=head;
+        Node temp = head;
         while(temp!=null){
             System.out.print(temp.value+" -> ");
             temp=temp.next;
         }
         System.out.println("END");
-        
-    }
-    //display method for tail
-    public void displayTail(){
-        if(tail==null){
-            System.out.println("Tail is null");
-        }else{
-            System.out.print("Tail value :"+tail.value);
-        }
     }
 
+    //Node creation
     private class Node{
         private int value;
         private Node next;
 
-        public Node(int value){
+        private Node(int value){
             this.value=value;
-        }
-        public Node(int value,Node next){
+        }   
+        private Node(int value ,Node next){
             this.value=value;
             this.next=next;
         }
 
-    }
 
+    }
 }
 public class linkedlist{
     public static void main(String args[]){
         LL list = new LL();
-        list.inserfirst(125);
-        list.inserfirst(100);
-        list.insertMiddle(99, 2);
-        list.inserfirst(120);
+        list.insertfirst(14);
+        list.insertfirst(55);
+        list.insertLast(100);
         list.insertLast(101);
+        list.insertMiddle(50, 2);
         list.display();
-        list.displayTail();
     }
 }
