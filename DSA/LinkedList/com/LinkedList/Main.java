@@ -17,9 +17,18 @@ public class Main {
 //        list.deletelast();
 //        list.displayHead();
 //        list.displayTail();
-        list.delete(5);
-        list.display();
-        System.out.println(list.getNode(60));
+//        list.delete(5);
+//        list.display();
+//        System.out.println(list.getNode(60));
+
+
+
+        DLL dl = new DLL();
+        dl.insertFirst(25);
+        dl.insertFirst(24);
+        dl.insertFirst(23);
+        dl.insertFirst(22);
+        dl.display();
     }
 
 }
