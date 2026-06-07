@@ -24,21 +24,29 @@ public class Main {
 //        System.out.println(list.getNode(60));
 
 
-
-        DLL dl = new DLL();
-        dl.insertFirst(25);
-        dl.insertFirst(24);
-        dl.insertFirst(23);
-        dl.insertFirst(22);
-        dl.insertLast(26);
-        dl.insertAfter(26,27);
+//
+//        DLL dl = new DLL();
+//        dl.insertFirst(25);
+//        dl.insertFirst(24);
+//        dl.insertFirst(23);
+//        dl.insertFirst(22);
+//        dl.insertLast(26);
+//        dl.insertAfter(26,27);
 //        System.out.println(dl.getNode(25));
-        dl.display();
+//        dl.display();
 //        dl.deletefirst();
 //        dl.deletelast();
 //        dl.delete(2);
-        dl.update(23,60);
-        dl.display();
+//        dl.update(23,60);
+//        dl.display();
+
+        CLL cl = new CLL();
+        cl.insert(12);
+        cl.insert(36);
+        cl.insert(15);
+        cl.insert(13);
+        cl.insert(96);
+        cl.display();
     }
 
 }

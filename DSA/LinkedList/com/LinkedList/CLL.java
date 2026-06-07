@@ -18,7 +18,17 @@ public class CLL {
     }
 
     //dipslay()
-    
+    public void display(){
+        Node node = head;
+        System.out.print("START : ");
+        if(head!=null){
+            do {
+                System.out.print(node.value+" -> ");
+                node=node.next;
+            }while (node!=head);
+        }
+        System.out.print("END");
+    }
 
 
     private class Node{
