@@ -46,6 +46,7 @@ public class Main {
         cl.insert(15);
         cl.insert(13);
         cl.insert(96);
+        cl.delete(15);
         cl.display();
     }
 
