@@ -32,9 +32,10 @@ public class Main {
         dl.insertAfter(26,27);
 //        System.out.println(dl.getNode(25));
         dl.display();
-        dl.deletefirst();
-        dl.deletelast();
-        dl.delete(2);
+//        dl.deletefirst();
+//        dl.deletelast();
+//        dl.delete(2);
+        dl.update(23,60);
         dl.display();
     }
 

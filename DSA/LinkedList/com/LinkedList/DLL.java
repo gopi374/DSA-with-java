@@ -98,6 +98,14 @@ public class DLL {
         size--;
         System.out.println("Deleted value :"+val);
     }
+
+    //update
+    public void update(int val , int NewVal){
+        Node node = getNode(val);
+        int p = node.value;
+        node.value=NewVal;
+        System.out.println("Value updated-> previous="+p+" New value="+NewVal);
+    }
     //get() - for idx return
     public Node get(int idx){
         Node node=head;
