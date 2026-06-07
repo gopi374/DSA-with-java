@@ -12,7 +12,7 @@ public class Main {
         list.insertMiddle(75,2);
 //        list.displayHead();
 //        list.displayTail();
-        list.display();
+//        list.display();
 //        list.deletefirst();
 //        list.deletelast();
 //        list.displayHead();
@@ -28,6 +28,13 @@ public class Main {
         dl.insertFirst(24);
         dl.insertFirst(23);
         dl.insertFirst(22);
+        dl.insertLast(26);
+        dl.insertAfter(26,27);
+//        System.out.println(dl.getNode(25));
+        dl.display();
+        dl.deletefirst();
+        dl.deletelast();
+        dl.delete(2);
         dl.display();
     }
 
