@@ -19,6 +19,8 @@ public class Main {
 //        list.displayTail();
 //        list.delete(5);
 //        list.display();
+//        list.update(2,20);
+//        list.display();
 //        System.out.println(list.getNode(60));
 
 

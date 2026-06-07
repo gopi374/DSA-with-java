@@ -98,6 +98,13 @@ public class LL {
         System.out.println("deleted value :"+val);
     }
 
+    public void update(int val , int NewVal){
+        Node node = getNode(val);
+        int p = node.value;
+        node.value=NewVal;
+        System.out.println("Value updated-> previous="+p+" New value="+NewVal);
+    }
+
     //getidx function
     public Node get(int idx){
         Node node =head;
