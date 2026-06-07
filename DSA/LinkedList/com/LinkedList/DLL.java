@@ -92,18 +92,16 @@ public class DLL {
             deletelast();
             return;
         }
-        Node node = get(idx);
-        int val = node.value;
-        if(node.next !=null){
-            node.prev=node.next;
-        }
+        Node node = get(idx-1);
+        int val = node.next.value;
+        node.next=node.next.next;
         size--;
         System.out.println("Deleted value :"+val);
     }
     //get() - for idx return
     public Node get(int idx){
         Node node=head;
-        for(int i=0;i<=idx;i++){
+        for(int i=0;i<idx;i++){
             node=node.next;
         }
         return node;
@@ -133,12 +131,12 @@ public class DLL {
         }
         System.out.println("END");
 
-        System.out.print("Reverse List : ");
-        while(Last!=null){
-            System.out.print(Last.value+" -> ");
-            Last=Last.prev;
-        }
-        System.out.println("START");
+//        System.out.print("Reverse List : ");
+//        while(Last!=null){
+//            System.out.print(Last.value+" -> ");
+//            Last=Last.prev;
+//        }
+//        System.out.println("START");
     }
     private class Node{
         private int value;
