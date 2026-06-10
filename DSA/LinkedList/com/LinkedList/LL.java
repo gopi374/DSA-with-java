@@ -56,6 +56,11 @@ public class LL {
         size++;
     }
 
+    //insert() using recursion
+    public void insertRec(int value ,int idx){
+
+    }
+
     //deletefirst
     public void deletefirst(){
         int value = head.value;
