@@ -1,5 +1,3 @@
-package com.linklist;
-
 public class PracticeQA {
     /*
     Questions ->
@@ -8,11 +6,11 @@ public class PracticeQA {
     Try these first without looking at solutions:
 
     Count Nodes
-    Return the total number of nodes in a linked list.
-    Find Middle Node
-    Solve once using counting.
-    Solve again using slow and fast pointers.
-    Find Nth Node from End
+        done-Return the total number of nodes in a linked list.
+        done-Find Middle Node
+        done-Solve once using counting.
+        done-Solve again using slow and fast pointers.
+        done-Find Nth Node from End
     Using length.
     Using two pointers.
     Reverse a Linked List

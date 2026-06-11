@@ -47,6 +47,11 @@ class LL{
         temp.next=node;
         size++;
     }
+
+    //Q=5
+    public void countEnd(){
+        
+    }
     //display method
     public void display(){
         Node temp = head;
