@@ -50,7 +50,8 @@ class LL{
 
     //Q=5
     public void countEnd(){
-        
+        Node node= head;
+        int count 
     }
     //display method
     public void display(){

@@ -118,6 +118,12 @@ public class DLL {
         return slow;
     }
 
+    public void counttwoptr(){
+        Node t=head;
+        int c=0;
+        
+    }
+
     //get() - for idx return
     public Node get(int idx){
         Node node=head;

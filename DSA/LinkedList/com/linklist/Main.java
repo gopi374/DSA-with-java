@@ -1,4 +1,4 @@
-package com.linklist;
+// package com.linklist;
 
 import java.util.LinkedList;
 
@@ -14,6 +14,7 @@ public class Main {
         System.out.println(list.get(1));
         System.out.println(list.element());
         System.out.println(list);
+        System.out.println(list.reversed());
 
     }
 }
