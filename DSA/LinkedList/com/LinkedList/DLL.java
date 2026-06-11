@@ -106,6 +106,18 @@ public class DLL {
         node.value=NewVal;
         System.out.println("Value updated-> previous="+p+" New value="+NewVal);
     }
+
+    //Q slow and fast pointers
+    public Node pointer(){
+        Node fast = head;
+        Node slow = head;
+        while(fast != null && fast.next != null){
+            slow=slow.next;
+            fast=fast.next.next;
+        }
+        return slow;
+    }
+
     //get() - for idx return
     public Node get(int idx){
         Node node=head;

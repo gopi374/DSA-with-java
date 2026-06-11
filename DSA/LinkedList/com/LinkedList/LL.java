@@ -37,6 +37,7 @@ public class LL {
 
     }
 
+
     //insert in middle
     public void insertMiddle(int value,int idx){
         if(idx == 0){
@@ -108,6 +109,20 @@ public class LL {
         int p = node.value;
         node.value=NewVal;
         System.out.println("Value updated-> previous="+p+" New value="+NewVal);
+    }
+
+    //Q-1,2.count,return and middle node finding
+    public void countNode(){
+        Node temp=head;
+        int count=0;
+        while(temp!=null){
+            count++;
+            temp=temp.next;
+        }
+        int n=count/2;
+        Node node = get(n);
+        System.out.println("Middle node : "+node);
+        System.out.println("Total number of Nodes :"+count);
     }
 
     //getidx function

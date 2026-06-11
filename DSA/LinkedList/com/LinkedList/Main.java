@@ -4,12 +4,14 @@ public class Main {
     public static void main(String rags[]){
         LL list = new LL();
         list.insertFirst(1);
+        list.insertFirst(29);
         list.insertFirst(25);
         list.insertFirst(60);
         list.insertFirst(12);
         list.insertFirst(2);
-        list.insertLast(100);
-        list.insertMiddle(75,2);
+//        list.pointer();
+        list.countNode();
+
 //        list.displayHead();
 //        list.displayTail();
 //        list.display();
@@ -25,12 +27,13 @@ public class Main {
 
 
 //
-//        DLL dl = new DLL();
-//        dl.insertFirst(25);
-//        dl.insertFirst(24);
-//        dl.insertFirst(23);
-//        dl.insertFirst(22);
-//        dl.insertLast(26);
+        DLL dl = new DLL();
+        dl.insertFirst(25);
+        dl.insertFirst(24);
+        dl.insertFirst(23);
+        dl.insertFirst(22);
+        dl.insertLast(26);
+        dl.pointer();
 //        dl.insertAfter(26,27);
 //        System.out.println(dl.getNode(25));
 //        dl.display();
@@ -40,14 +43,14 @@ public class Main {
 //        dl.update(23,60);
 //        dl.display();
 
-        CLL cl = new CLL();
-        cl.insert(12);
-        cl.insert(36);
-        cl.insert(15);
-        cl.insert(13);
-        cl.insert(96);
-        cl.delete(15);
-        cl.display();
+//        CLL cl = new CLL();
+//        cl.insert(12);
+//        cl.insert(36);
+//        cl.insert(15);
+//        cl.insert(13);
+//        cl.insert(96);
+//        cl.delete(15);
+//        cl.display();
     }
 
 }
