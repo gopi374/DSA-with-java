@@ -48,10 +48,41 @@ class LL{
         size++;
     }
 
-    //Q=5
-    public void countEnd(){
-        Node node= head;
-        int count 
+    public void deletebyval(int idx ,int val){
+        Node a = get(2,50);
+        a.next=a.next.next;
+        System.out.println("deleted val"+a.value);
+
+    }
+
+    public Node get(int value){
+        Node temp= head;
+        for(int i=0;i<size;i++){
+            if(temp.value==value) return temp;
+            temp=temp.next;
+        }
+        return null;
+    }
+    public Node get(int idx,int value){
+        Node temp= head;
+        for(int i=0;i<idx;i++){
+            temp=temp.next;
+        }
+        return temp;
+    }
+
+    //Q=4  reverse a list
+    public void reverse(){
+        Node temp= head;
+        Node count = null;
+        while(temp !=null){
+            count=temp;
+            temp=temp.next;
+        }
+        while(count == null){
+            System.out.println(count);
+            count= count;
+        }
     }
     //display method
     public void display(){
@@ -87,6 +118,7 @@ public class linkedlist{
         list.insertLast(100);
         list.insertLast(101);
         list.insertMiddle(50, 2);
+        list.deletebyval(2, 50);
         list.display();
     }
 }

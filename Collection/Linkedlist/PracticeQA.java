@@ -11,14 +11,15 @@ public class PracticeQA {
         done-Solve once using counting.
         done-Solve again using slow and fast pointers.
         done-Find Nth Node from End
-    Using two pointers.
-    Reverse a Linked List
+        done-Using two pointers. slow and fast pointers
+        done-Reverse a Linked List
     Iterative approach.
     Recursive approach.
-    Delete a Node Given Its Value
-    Handle deletion of head, middle, and last node.
-    Remove Duplicates from a Sorted Linked List
+        done-Delete a Node Given Its Value
+        done-Handle deletion of head, middle, and last node.
+        done-Remove Duplicates from a Sorted Linked List
     Search Recursively
+
     Intermediate Level
 
     These are commonly asked in interviews.
