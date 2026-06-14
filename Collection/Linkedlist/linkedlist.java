@@ -84,6 +84,22 @@ class LL{
             count= count;
         }
     }
+
+    //removeduplicates
+
+    public void DeleteDuplicates(){
+        Node temp = head;
+        while(temp.next != null){
+            if(temp.value == temp.next.value){
+                temp.next=temp.next.next;
+                size--;
+            }else{
+                temp=temp.next;
+            }
+        }
+        tail=temp;
+        tail.next=null;
+    }
     //display method
     public void display(){
         Node temp = head;
@@ -114,11 +130,15 @@ public class linkedlist{
     public static void main(String args[]){
         LL list = new LL();
         list.insertfirst(14);
+        list.insertfirst(10);
         list.insertfirst(55);
+        list.insertfirst(12);
+        list.insertfirst(14);
+        list.insertLast(10);
         list.insertLast(100);
-        list.insertLast(101);
         list.insertMiddle(50, 2);
-        list.deletebyval(2, 50);
+        list.display();
+        list.DeleteDuplicates();
         list.display();
     }
 }
