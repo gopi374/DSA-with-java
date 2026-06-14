@@ -1,6 +1,6 @@
 
 public class insertusingrecursion {
-    private class Node{
+    static  class Node{
         int value;
         Node next;
 
@@ -14,12 +14,10 @@ public class insertusingrecursion {
         }
     }
     static Node insertAtEnd(Node head, int value) {
-        // Base case: empty list or end reached
         if (head == null) {
             return new Node(value);
         }
 
-        // Recursive call
         head.next = insertAtEnd(head.next, value);
 
         return head;
