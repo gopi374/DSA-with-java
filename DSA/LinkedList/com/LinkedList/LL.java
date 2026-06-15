@@ -139,6 +139,19 @@ public class LL {
         return false;
     }
 
+    public Node cyclebegins(){
+        Node fast = head;
+        Node slow = head;
+        while(fast != null && fast.next != null){
+            fast=fast.next.next;
+            slow=slow.next;
+            if(fast == slow){
+                return slow;
+            }
+        }
+        return null;
+    }
+
 
     //length of cycle
     public int cycleLength(){
@@ -149,11 +162,12 @@ public class LL {
             slow=slow.next;
             if(fast == slow){
                 Node temp =slow.next;
-                int n=1;
-                while(temp != slow){
-                    temp=temp.next;
+                int n=0;
+                do {
                     n++;
+                    temp=temp.next;
                 }
+                while(temp != slow);
                 return n;
             }
         }
@@ -172,9 +186,24 @@ public class LL {
         }
 
         // Connect last node to the 3rd node
-        tail.next = head.next.next;
+        tail.next = head.next.next.next;
     }
-
+    public int size(){
+        int s=0;
+        Node temp = head;
+        while(temp != null){
+            temp=temp.next;
+            s++;
+        }
+        return s;
+    }
+    public Node deleteMiddle() {
+        Node temp = head;
+        int mid = size();
+        Node pre = get((mid/2)-1);
+        pre.next=pre.next.next;
+        return head;
+    }
     //getidx function
     public Node get(int idx){
         Node node =head;

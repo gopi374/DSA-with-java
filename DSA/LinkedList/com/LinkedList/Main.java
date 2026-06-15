@@ -4,19 +4,23 @@ public class Main {
     public static void main(String rags[]){
         LL list = new LL();
 
-        list.insertFirst(1);
-        list.insertFirst(29);
-        list.insertFirst(25);
-        list.insertFirst(60);
-        list.insertFirst(12);
+//        list.insertFirst(8);
+        list.insertFirst(7);
+        list.insertFirst(6);
+        list.insertFirst(5);
+        list.insertFirst(4);
+        list.insertFirst(3);
         list.insertFirst(2);
-
+        list.insertFirst(1);
+        System.out.println(list.size()/2);
+        list.display();
+        list.deleteMiddle();
+        list.display();
 //        list.createCycle();
 
-        System.out.println(list.hascycle());
-        System.out.println(list.cycleLength());
-        list.display();
-
+//        System.out.println(list.hascycle());
+//        System.out.println(list.cycleLength());
+//        System.out.println(list.cyclebegins());
 //        list.displayHead();
 //        list.displayTail();
 //        list.display();
