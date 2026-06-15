@@ -3,15 +3,19 @@ package com.LinkedList;
 public class Main {
     public static void main(String rags[]){
         LL list = new LL();
+
         list.insertFirst(1);
         list.insertFirst(29);
         list.insertFirst(25);
         list.insertFirst(60);
         list.insertFirst(12);
         list.insertFirst(2);
-//        list.pointer();
-        list.countNode();
+
+//        list.createCycle();
+
         System.out.println(list.hascycle());
+        System.out.println(list.cycleLength());
+        list.display();
 
 //        list.displayHead();
 //        list.displayTail();

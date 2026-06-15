@@ -129,7 +129,7 @@ public class LL {
     public boolean hascycle(){
         Node fast = head;
         Node slow = head;
-        while(fast != null && slow != null){
+        while(fast != null && fast.next != null){
             fast=fast.next.next;
             slow=slow.next;
             if(fast == slow){
@@ -137,6 +137,42 @@ public class LL {
             }
         }
         return false;
+    }
+
+
+    //length of cycle
+    public int cycleLength(){
+        Node fast = head;
+        Node slow = head;
+        while(fast != null && slow != null){
+            fast=fast.next.next;
+            slow=slow.next;
+            if(fast == slow){
+                Node temp =slow.next;
+                int n=1;
+                while(temp != slow){
+                    temp=temp.next;
+                    n++;
+                }
+                return n;
+            }
+        }
+        return 0;
+    }
+
+    public void createCycle() {
+        if (head == null || head.next == null) {
+            return;
+        }
+
+        Node tail = head;
+
+        while (tail.next != null) {
+            tail = tail.next;
+        }
+
+        // Connect last node to the 3rd node
+        tail.next = head.next.next;
     }
 
     //getidx function
