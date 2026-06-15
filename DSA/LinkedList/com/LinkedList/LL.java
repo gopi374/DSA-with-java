@@ -125,6 +125,20 @@ public class LL {
         System.out.println("Total number of Nodes :"+count);
     }
 
+    //hascycle
+    public boolean hascycle(){
+        Node fast = head;
+        Node slow = head;
+        while(fast != null && slow != null){
+            fast=fast.next.next;
+            slow=slow.next;
+            if(fast == slow){
+                return true;
+            }
+        }
+        return false;
+    }
+
     //getidx function
     public Node get(int idx){
         Node node =head;
