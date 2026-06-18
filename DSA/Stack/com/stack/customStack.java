@@ -1,10 +1,9 @@
 package com.stack;
 
-import static javax.swing.GroupLayout.DEFAULT_SIZE;
 
 public class customStack {
     protected int[] data;
-    private static final int DEFAULT_SIZE = 0;
+    private static final int DEFAULT_SIZE = 10;
 
     int ptr = -1;
 
@@ -38,6 +37,13 @@ public class customStack {
             throw new Exception("cannot get peek element");
         }
         return data[ptr];
+    }
+    public void display() {
+        System.out.println("Top");
+        for (int i = ptr; i >= 0; i--) {
+            System.out.println(data[i] + " ");
+        }
+        System.out.println("END");
     }
     public boolean isFull(){
             return ptr == data.length-1;
