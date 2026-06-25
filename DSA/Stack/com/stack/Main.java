@@ -2,7 +2,7 @@ package com.stack;
 
 public class Main {
     public static void main(String[] args) throws Exception{
-        customStack stack = new customStack(5);
+        customStack s tack = new customStack();
         stack.push(126);
         stack.push(127);
         stack.push(128);
