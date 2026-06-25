@@ -3,7 +3,7 @@ package com.stack;
 
 public class customStack {
     protected int[] data;
-    private static final int DEFAULT_SIZE = 10;
+    private static final int DEFAULT_SIZE = 2;
 
     int ptr = -1;
 
@@ -14,7 +14,7 @@ public class customStack {
         this.data=new int[size];
     }
 
-    public  boolean push(int item){
+    public boolean push(int item){
         if (isFull()){
             System.out.println("Stack is full ");
             return false;
@@ -37,6 +37,17 @@ public class customStack {
             throw new Exception("cannot get peek element");
         }
         return data[ptr];
+    }
+    public int search(int val) throws Exception{
+        if(isEmpty()){
+            throw new Exception("Cannot search, Stack  is Empty !");
+        }
+        for(int i =0;i<data.length;i++){
+            if(data[i]==val){
+                return i;
+            }
+        }
+        return 0;
     }
     public void display() {
         System.out.println("Top");
