@@ -1,30 +1,31 @@
 package com.stack;
 
-
 public class customStack {
     protected int[] data;
     private static final int DEFAULT_SIZE = 2;
 
     int ptr = -1;
 
-    public  customStack(){
+    public customStack() {
         this(DEFAULT_SIZE);
     }
-    public customStack(int size){
-        this.data=new int[size];
+
+    public customStack(int size) {
+        this.data = new int[size];
     }
 
-    public boolean push(int item){
-        if (isFull()){
+    public boolean push(int item) {
+        if (isFull()) {
             System.out.println("Stack is full ");
             return false;
         }
         ptr++;
-        data[ptr]=item;
+        data[ptr] = item;
         return true;
     }
-    public int pop() throws Exception{
-        if (isEmpty()){
+
+    public int pop() throws Exception {
+        if (isEmpty()) {
             throw new Exception("cannot remove item");
         }
         int removed = data[ptr];
@@ -32,23 +33,26 @@ public class customStack {
         return removed;
 
     }
-    public int peek() throws Exception{
-        if(isEmpty()){
+
+    public int peek() throws Exception {
+        if (isEmpty()) {
             throw new Exception("cannot get peek element");
         }
         return data[ptr];
     }
-    public int search(int val) throws Exception{
-        if(isEmpty()){
+
+    public int search(int val) throws Exception {
+        if (isEmpty()) {
             throw new Exception("Cannot search, Stack  is Empty !");
         }
-        for(int i =0;i<data.length;i++){
-            if(data[i]==val){
+        for (int i = 0; i < data.length; i++) {
+            if (data[i] == val) {
                 return i;
             }
         }
         return 0;
     }
+
     public void display() {
         System.out.println("Top");
         for (int i = ptr; i >= 0; i--) {
@@ -56,10 +60,12 @@ public class customStack {
         }
         System.out.println("END");
     }
-    public boolean isFull(){
-            return ptr == data.length-1;
+
+    public boolean isFull() {
+        return ptr == data.length - 1;
     }
-    public boolean isEmpty(){
+
+    public boolean isEmpty() {
         return ptr == -1;
     }
 }
