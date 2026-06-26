@@ -11,10 +11,8 @@ public class QueueusingLinkedList{
 
     private Node front;
     private Node end;
-    private int size;
-   
+ 
     public QueueusingLinkedList(){
-        this.size=0;
         front=null;
         end=null;
     }
@@ -34,7 +32,6 @@ public class QueueusingLinkedList{
             end = node;
         }
 
-        size++;
     }
 
     //remove
@@ -47,7 +44,6 @@ public class QueueusingLinkedList{
         if(front == null){
             end=null;
         }
-        size--;
 
         return removed;
     }
