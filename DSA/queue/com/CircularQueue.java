@@ -50,11 +50,17 @@ public class CircularQueue {
     }
 
     public void display(){
-        System.out.print("FRONT ");
-        for(int i=front;i<end;i++){
-            System.out.print(data[i]+" <- ");
+        if(isEmpty()){
+            System.out.println("queue is empty");
         }
+        int i = front;
+        do { 
+            System.out.print(data[i]+" ->");
+            i++;
+            i%=data.length;
+        } while (i!=end);
         System.out.print("END");
+        System.out.println();
     }
 
 
@@ -64,10 +70,14 @@ public class CircularQueue {
         cq.add(15);
         cq.add(25);
         cq.add(14);
+        cq.add(85);
         cq.add(81);
-        System.out.println(cq.front());
+        // System.out.println(cq.front());
         cq.display();
         System.out.println(cq.remove());
+        cq.add(2000);
+        cq.add(12); 
+        cq.add(1200);
         cq.display();
 
     }

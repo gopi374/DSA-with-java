@@ -30,6 +30,7 @@ public class queue{
         for(int i=1;i<end;i++){
             data[i-1]=data[i];
         }
+        end--;
         return removed;
     }
     public int front(){
