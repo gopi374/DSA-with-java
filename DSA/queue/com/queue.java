@@ -1,5 +1,4 @@
 
-import java.time.temporal.IsoFields;
 
 public class queue{
     private int[] data;
@@ -40,7 +39,7 @@ public class queue{
     public void display(){
         System.out.print("FRONT ");
         for(int i=0;i<end;i++){
-            System.out.print(data[i]+" <-");
+            System.out.print(data[i]+" <- ");
         }
         System.out.print("END");
      }
