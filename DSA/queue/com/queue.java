@@ -1,5 +1,3 @@
-
-
 public class queue{
     private int[] data;
     private static final int Default_size = 5;
