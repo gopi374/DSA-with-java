@@ -12,11 +12,13 @@
       <sourceFolder url="file://$MODULE_DIR$/Recursion" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Sliding Window" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Sorting" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Stack" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/String" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Transpose" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Two pointers" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/math" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/vectors" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
