@@ -88,5 +88,17 @@ public class QueueusingLinkedList{
         System.out.println("Is queue Empty ? :"+ql.isEmpty());
         System.out.println("Front val :"+ql.getFront());
         ql.display();
+
+        //         it is looks like --
+        //
+        //          front
+        //            |
+        //            v
+        //          +---+     +---+     +---+
+        //          | 1 | --> | 2 | --> | 3 | --> null
+        //          +---+     +---+     +---+
+        //                                  ^
+        //                                  |
+        //                                 end
     }
 }
