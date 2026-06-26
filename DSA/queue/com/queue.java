@@ -1,3 +1,6 @@
+
+import java.time.temporal.IsoFields;
+
 public class queue{
     private int[] data;
     private static final int Default_size = 5;
@@ -58,10 +61,12 @@ public class queue{
         q.add(17);
         q.add(18);
         q.remove();
-        // q.remove();
+        q.remove();
         q.display();
         System.out.println();
         System.out.println("FRONT : "+q.front());
+        System.out.println(q.isEmpty());
+        System.out.println(q.isFull());
     }
 
 }
