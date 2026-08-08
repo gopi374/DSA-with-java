@@ -70,6 +70,15 @@ public class BST {
         return Math.abs(height(node.left)-height(node.right)) <= 1 && balanced(node.left) && balanced(node.right);
     }
 
+    void inorder(Node root) {
+        if (root == null)
+            return;
+
+        inorder(root.left);
+        System.out.print(root.val + " ");
+        inorder(root.right);
+    }
+
 
     public void display(){
         display(this.root, "Root Node :");

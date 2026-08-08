@@ -36,18 +36,6 @@ public class BinaryTree {
             populate(sc,node.right);
         }
     }
-
-    public void display(){
-        display(root,"");
-    }
-    public void display(Node node , String indent){
-        if(node == null){
-            return;
-        }
-        System.out.println(indent+node.val);
-        display(node.left,indent+"\t");
-        display(node.right,indent+"\t");
-    }
     public void prettyDisplay(){
         prettyDisplay(root,0);
     }
