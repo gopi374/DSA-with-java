@@ -24,7 +24,7 @@ abstract class Animal{
     public abstract void sound(); // those methods do have not body are known as abstract methods
 
     public void sayhello(){ //those methods have body are known as concrete methods
-        System.out.println(".....");
+        System.out.println(".. ...");
     }
 }
 
