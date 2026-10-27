@@ -48,5 +48,7 @@ public class MyThread extends Thread{
 //
 //            System.out.println("All thread complete");
 
+            //common methods -> setpriority() ,getpriority(), getName(), setName() ,currentThread()
+
         }
 }
