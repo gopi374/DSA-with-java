@@ -23,7 +23,7 @@ class Shared {
 
     synchronized void sendSignal() {
 
-//        notify();// when only one thread to notify
+//        notify();// when only one thread to notify.
         notifyAll(); // when more than 1 or 2 threads to notify
     }
 }
