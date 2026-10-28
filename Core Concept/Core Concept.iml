@@ -6,6 +6,7 @@
       <sourceFolder url="file://$MODULE_DIR$/MultiThreading" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/OOPS" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/File Handling and IO" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Java 8 features" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
