@@ -23,5 +23,22 @@ public class MethodRef {
 
         Runnable r=MethodRef::show; // MethodRef::show refers to the existing static method show().
         r.run();
+
+        TypesOfMethodRef objRef = new TypesOfMethodRef();
+        Runnable rr = objRef::greet;
+        rr.run();
+    }
+
+
+}
+class TypesOfMethodRef {
+
+    //Static Methodref
+    //object::MethodRef
+    //ClassName::instanceMethodName
+    //Reference to a Constructor
+
+    public void greet() {
+        System.out.println("Hello Java");
     }
 }
