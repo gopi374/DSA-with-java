@@ -12,7 +12,8 @@ public class Base64EncodingandDecoding {
     public static void main(String[] args) {
         String text = "Hello Java";
 
-        String encoded = Base64.getEncoder()
+        String encoded =
+                Base64.getEncoder()
                 .encodeToString(
                         text.getBytes());
 
