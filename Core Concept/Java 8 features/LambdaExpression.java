@@ -6,9 +6,12 @@ import java.util.Arrays;
 import java.util.List;
 
 @FunctionalInterface
+//A functional interface is an interface that contains exactly one abstract method.
 interface addition{
     int add(int a,int b);
 }
+
+
 public class LambdaExpression {
     static void main(String[] args) {
 
