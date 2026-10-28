@@ -7,6 +7,8 @@ public class File_handling {
     static void main(String[] args) throws IOException{
         try {
             File f = new File("Student.txt");
+            System.out.println(f.getPath());
+
             if (f.exists()){
                 System.out.println("Already exists !");
                 return;
@@ -19,9 +21,23 @@ public class File_handling {
         }catch (IOException e){
             System.out.println(e);
         }
-
+        try{
         FileWriter fw = new FileWriter("Student.txt");
         fw.write("hello");
-        System.out.println("data written complete");
+        System.out.println("data written complete");}
+        catch (Exception e){
+            System.out.println(e);
+        }
+
+//        Operation	Java Class or Method
+//        Create a file	File.createNewFile()
+//        Check file existence	File.exists()
+//        Write text	FileWriter.write()
+//        Read text	FileReader.read()
+//        Append text	new FileWriter(path, true)
+//        Delete a file	File.delete()
+//        Get file size	File.length()
+//        Create a directory	File.mkdir()
+//        Read a line	BufferedReader.readLine()
     }
 }
